@@ -1,0 +1,19 @@
+# build
+target/
+*.class
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# dados baixados e processados (não versionar base da CVM)
+data/raw/
+data/processed/
+scripts/_fixture/out/
+scripts/_fixture/out2/
+
+# sistema
+.DS_Store
+Thumbs.db
+*.log

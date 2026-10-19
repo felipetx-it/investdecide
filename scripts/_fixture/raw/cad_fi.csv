@@ -1,0 +1,9 @@
+CNPJ_FUNDO;DENOM_SOCIAL;TP_FUNDO;CLASSE_ANBIMA;TAXA_ADM;TAXA_PERFM;TRIB_LPRAZO;PUBLICO_ALVO;CONDOM;SIT;GESTOR;ADMIN;RENTAB_FUNDO;DT_REG
+11.111.111/0001-11;Atlas Renda Fixa FIRF;FI;Renda Fixa;0,60;0,00;S;Público Geral;Aberto;Em Funcionamento Normal;Gestora Exemplo;Administradora Exemplo;CDI;2015-03-10
+22.222.222/0001-22;Horizonte Multimercado;FI;Multimercados;1,80;0,00;S;Público Geral;Aberto;Em Funcionamento Normal;Gestora Exemplo;Administradora Exemplo;CDI;2015-03-10
+33.333.333/0001-33;Atlas Ações Brasil;FI;Ações;2,00;0,00;S;Público Geral;Aberto;Em Funcionamento Normal;Gestora Exemplo;Administradora Exemplo;CDI;2015-03-10
+44.444.444/0001-44;Vita Prev RF PGBL;FI;Previdência;0,90;0,00;N;Público Geral;Aberto;Em Funcionamento Normal;Gestora Exemplo;Administradora Exemplo;CDI;2015-03-10
+55.555.555/0001-55;Vita Prev RF VGBL;FI;Previdência;0,90;0,00;N;Público Geral;Aberto;Em Funcionamento Normal;Gestora Exemplo;Administradora Exemplo;CDI;2015-03-10
+66.666.666/0001-66;Fundo Exclusivo Private;FI;Multimercados;0,40;0,00;S;Qualificado;Fechado;Em Funcionamento Normal;Gestora Exemplo;Administradora Exemplo;CDI;2015-03-10
+77.777.777/0001-77;Small Cap FIA;FI;Ações;2,50;0,00;S;Público Geral;Aberto;Em Funcionamento Normal;Gestora Exemplo;Administradora Exemplo;CDI;2015-03-10
+88.888.888/0001-88;Fundo Curto Prazo;FI;Renda Fixa;0,30;0,00;S;Público Geral;Aberto;Em Funcionamento Normal;Gestora Exemplo;Administradora Exemplo;CDI;2015-03-10
