@@ -14,19 +14,183 @@
     <main class="main-content">
         <header th:replace="~{fragments/topbar :: topbar('Relatórios', 'Histórico de análises e documentos demonstrativos')}"></header>
         <div class="page-content">
-            <div class="page-heading-row"><div><div class="date-line"><a th:href="@{/dashboard}">Dashboard</a><i class="bi bi-chevron-right"></i> CENTRAL DE RELATÓRIOS</div><h1>Relatórios e análises</h1><p>Organize os comparativos e consulte os resultados das simulações demonstrativas.</p></div><button class="btn-primary-app" onclick="showDemoNotice('A geração de relatórios será implementada na próxima etapa.')"><i class="bi bi-plus-lg"></i> Novo relatório</button></div>
-            <div class="demo-banner"><div class="banner-icon"><i class="bi bi-info-lg"></i></div><div><strong>Conteúdo demonstrativo</strong><span>Os relatórios e datas abaixo são fictícios.</span></div><button onclick="this.parentElement.remove()" aria-label="Fechar aviso"><i class="bi bi-x-lg"></i></button></div>
 
-            <div class="report-summary-grid"><article class="report-summary-card"><span class="report-summary-icon icon-blue"><i class="bi bi-files"></i></span><div><span>Relatórios disponíveis</span><strong>12</strong><small>em todas as categorias</small></div></article><article class="report-summary-card"><span class="report-summary-icon icon-green"><i class="bi bi-calendar-check"></i></span><div><span>Última análise</span><strong>18 out.</strong><small>comparativo de alternativas</small></div></article><article class="report-summary-card"><span class="report-summary-icon icon-purple"><i class="bi bi-person-check"></i></span><div><span>Clientes analisados</span><strong>9</strong><small>no cenário demonstrativo</small></div></article></div>
+            <!-- Cabeçalho exclusivo para impressão / exportação em PDF -->
+            <div class="print-header d-none d-print-block mb-4 pb-3 border-bottom">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="h4 mb-1 fw-bold text-navy" style="font-family: var(--display);">invest<strong style="color:var(--mint);">decide</strong></div>
+                        <div class="text-muted small">Sistema de Apoio à Decisão · Relatório Consolidado de Simulações</div>
+                    </div>
+                    <div class="text-end text-muted small">
+                        <div><strong>Data de emissão:</strong> 18 de Outubro de 2026</div>
+                        <div><strong>Assessor responsável:</strong> Mariana Costa</div>
+                        <div><strong>Cliente em foco:</strong> Ricardo Almeida</div>
+                    </div>
+                </div>
+            </div>
 
-            <section class="surface-card reports-list-card"><div class="section-header report-list-heading"><div><h2>Biblioteca de relatórios</h2><p>Consulte os documentos de análise disponíveis</p></div><div class="report-controls"><div class="search-field"><i class="bi bi-search"></i><input id="reportSearch" type="search" placeholder="Buscar relatório..." aria-label="Buscar relatório"></div><select id="reportFilter" class="form-select" aria-label="Filtrar por categoria"><option value="all">Todas as categorias</option><option value="Simulação">Simulação</option><option value="Cenários">Cenários</option><option value="Tributação">Tributação</option><option value="Projeção">Projeção</option></select></div></div>
-                <div class="table-responsive"><table class="table app-table report-table align-middle"><thead><tr><th>RELATÓRIO</th><th>CATEGORIA</th><th>DATA</th><th>STATUS</th><th>AÇÕES</th></tr></thead><tbody id="reportRows"><tr th:each="report : ${relatorios}" th:attr="data-category=${report.type}, data-search=${report.title + ' ' + report.description}"><td><div class="report-title-cell"><span class="report-file-icon"><i class="bi bi-file-earmark-bar-graph"></i></span><span><strong th:text="${report.title}">Título</strong><small th:text="${report.description}">Descrição</small></span></div></td><td><span class="report-category" th:classappend="${report.typeClass}" th:text="${report.type}">Categoria</span></td><td th:text="${report.date}">Data</td><td><span class="status-pill"><i class="bi bi-check-circle-fill"></i> <span th:text="${report.status}">Disponível</span></span></td><td><div class="report-actions"><button type="button" aria-label="Visualizar relatório" onclick="showDemoNotice('Visualização de relatório: recurso demonstrativo ainda não implementado.')"><i class="bi bi-eye"></i></button><button type="button" aria-label="Baixar relatório" onclick="showDemoNotice('Exportação de arquivos ainda não implementada.')"><i class="bi bi-download"></i></button><button type="button" aria-label="Mais opções" onclick="showDemoNotice('Opções adicionais estarão disponíveis na versão funcional.')"><i class="bi bi-three-dots"></i></button></div></td></tr></tbody></table></div>
-                <div id="noReports" class="empty-state d-none"><i class="bi bi-search"></i><strong>Nenhum relatório encontrado</strong><span>Experimente alterar os termos da busca ou o filtro.</span></div>
-                <div class="table-bottom"><span>Exibindo <strong id="reportCount">4</strong> de 12 relatórios</span><div class="pagination-demo"><button disabled aria-label="Página anterior"><i class="bi bi-chevron-left"></i></button><button class="current-page" aria-label="Página 1">1</button><button onclick="showDemoNotice('A paginação será habilitada na versão funcional.'); return false;" aria-label="Página 2">2</button><button onclick="showDemoNotice('A paginação será habilitada na versão funcional.'); return false;" aria-label="Próxima página"><i class="bi bi-chevron-right"></i></button></div></div>
+            <div class="page-heading-row">
+                <div>
+                    <div class="date-line"><a th:href="@{/dashboard}">Dashboard</a><i class="bi bi-chevron-right"></i> CENTRAL DE RELATÓRIOS</div>
+                    <h1>Relatórios e análises</h1>
+                    <p>Organize os comparativos e consulte os resultados das simulações demonstrativas.</p>
+                </div>
+                <div class="heading-actions">
+                    <button class="btn-ghost-app" type="button" onclick="window.print()">
+                        <i class="bi bi-filetype-pdf"></i> Exportar PDF
+                    </button>
+                    <button class="btn-primary-app" type="button" onclick="showDemoNotice('A geração de relatórios será implementada na próxima etapa.')">
+                        <i class="bi bi-plus-lg"></i> Novo relatório
+                    </button>
+                </div>
+            </div>
+
+            <div class="demo-banner">
+                <div class="banner-icon"><i class="bi bi-info-lg"></i></div>
+                <div><strong>Conteúdo demonstrativo</strong><span>Os relatórios e datas abaixo são fictícios e demonstram a biblioteca de decisões do protótipo.</span></div>
+                <button onclick="this.parentElement.remove()" aria-label="Fechar aviso"><i class="bi bi-x-lg"></i></button>
+            </div>
+
+            <!-- Resumo de relatórios -->
+            <div class="report-summary-grid">
+                <article class="report-summary-card">
+                    <span class="report-summary-icon icon-blue"><i class="bi bi-files"></i></span>
+                    <div>
+                        <span>Relatórios disponíveis</span>
+                        <strong>12</strong>
+                        <small>em todas as categorias</small>
+                    </div>
+                </article>
+                <article class="report-summary-card">
+                    <span class="report-summary-icon icon-green"><i class="bi bi-calendar-check"></i></span>
+                    <div>
+                        <span>Última análise</span>
+                        <strong>18 out.</strong>
+                        <small>comparativo de alternativas</small>
+                    </div>
+                </article>
+                <article class="report-summary-card">
+                    <span class="report-summary-icon icon-purple"><i class="bi bi-person-check"></i></span>
+                    <div>
+                        <span>Clientes analisados</span>
+                        <strong>9</strong>
+                        <small>no cenário demonstrativo</small>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Biblioteca de relatórios com busca por relatório ou cliente -->
+            <section class="surface-card reports-list-card">
+                <div class="section-header report-list-heading">
+                    <div>
+                        <h2>Biblioteca de relatórios</h2>
+                        <p>Consulte os documentos de análise disponíveis</p>
+                    </div>
+                    <div class="report-controls">
+                        <div class="search-field">
+                            <i class="bi bi-search"></i>
+                            <input id="reportSearch" type="search" placeholder="Buscar por relatório ou cliente..." aria-label="Buscar relatório ou cliente">
+                        </div>
+                        <select id="reportFilter" class="form-select" aria-label="Filtrar por categoria">
+                            <option value="all">Todas as categorias</option>
+                            <option value="Simulação">Simulação</option>
+                            <option value="Cenários">Cenários</option>
+                            <option value="Tributação">Tributação</option>
+                            <option value="Projeção">Projeção</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table app-table report-table align-middle">
+                        <thead>
+                            <tr>
+                                <th>RELATÓRIO</th>
+                                <th>CLIENTE</th>
+                                <th>CATEGORIA</th>
+                                <th>DATA</th>
+                                <th>STATUS</th>
+                                <th>AÇÕES</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reportRows">
+                        <tr th:each="report : ${relatorios}"
+                            th:attr="data-category=${report.type}, data-search=${report.title + ' ' + report.description + ' ' + report.client}">
+                            <td>
+                                <div class="report-title-cell">
+                                    <span class="report-file-icon"><i class="bi bi-file-earmark-bar-graph"></i></span>
+                                    <span>
+                                        <strong th:text="${report.title}">Título</strong>
+                                        <small th:text="${report.description}">Descrição</small>
+                                    </span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="report-client-cell">
+                                    <i class="bi bi-person"></i>
+                                    <span th:text="${report.client}">Cliente</span>
+                                </div>
+                            </td>
+                            <td><span class="report-category" th:classappend="${report.typeClass}" th:text="${report.type}">Categoria</span></td>
+                            <td th:text="${report.date}">Data</td>
+                            <td>
+                                <span class="status-pill status-done">
+                                    <i class="bi bi-check-circle-fill"></i>
+                                    <span th:text="${report.status}">Disponível</span>
+                                </span>
+                            </td>
+                            <td>
+                                <div class="report-actions">
+                                    <button type="button" aria-label="Visualizar relatório" onclick="showDemoNotice('Visualização de relatório: recurso demonstrativo ainda não implementado.')"><i class="bi bi-eye"></i></button>
+                                    <button type="button" aria-label="Exportar relatório em PDF" onclick="window.print()"><i class="bi bi-download"></i></button>
+                                    <button type="button" aria-label="Mais opções" onclick="showDemoNotice('Opções adicionais estarão disponíveis na versão funcional.')"><i class="bi bi-three-dots"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="noReports" class="empty-state d-none">
+                    <i class="bi bi-search"></i>
+                    <strong>Nenhum relatório encontrado</strong>
+                    <span>Experimente alterar os termos da busca ou o filtro de categoria.</span>
+                </div>
+
+                <div class="table-bottom">
+                    <span>Exibindo <strong id="reportCount">4</strong> de 12 relatórios</span>
+                    <div class="pagination-demo">
+                        <button disabled aria-label="Página anterior"><i class="bi bi-chevron-left"></i></button>
+                        <button class="current-page" aria-label="Página 1">1</button>
+                        <button onclick="showDemoNotice('A paginação será habilitada na versão funcional.'); return false;" aria-label="Página 2">2</button>
+                        <button onclick="showDemoNotice('A paginação será habilitada na versão funcional.'); return false;" aria-label="Próxima página"><i class="bi bi-chevron-right"></i></button>
+                    </div>
+                </div>
             </section>
 
-            <div class="report-bottom-grid"><section class="surface-card report-template-card"><div class="template-icon"><i class="bi bi-file-earmark-plus"></i></div><div><h3>Precisa de uma nova análise?</h3><p>Comece uma simulação para comparar fundos tradicionais e alternativas de previdência no contexto de um cliente.</p><a th:href="@{/simulacao}" class="text-link">Iniciar simulação <i class="bi bi-arrow-right"></i></a></div></section><section class="report-note-card"><div class="note-icon"><i class="bi bi-shield-check"></i></div><div><strong>Transparência nas análises</strong><p>Relatórios devem apresentar premissas, custos, riscos e limitações para apoiar o julgamento profissional — sem substituir a avaliação individual do cliente.</p></div></section></div>
-            <footer class="page-footer"><span>InvestDecide <span>·</span></span><span></span></footer>
+            <div class="report-bottom-grid">
+                <section class="surface-card report-template-card">
+                    <div class="template-icon"><i class="bi bi-file-earmark-plus"></i></div>
+                    <div>
+                        <h3>Precisa de uma nova análise?</h3>
+                        <p>Comece uma simulação para comparar fundos tradicionais e alternativas de previdência no contexto de um cliente.</p>
+                        <a th:href="@{/simulacao}" class="text-link">Iniciar simulação <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </section>
+                <section class="report-note-card">
+                    <div class="note-icon"><i class="bi bi-shield-check"></i></div>
+                    <div>
+                        <strong>Transparência nas análises</strong>
+                        <p>Relatórios devem apresentar premissas, custos, riscos e limitações para apoiar o julgamento profissional — sem substituir a avaliação individual do cliente.</p>
+                    </div>
+                </section>
+            </div>
+
+            <footer class="page-footer">
+                <span>InvestDecide <span>·</span> Sistema de Apoio à Decisão</span>
+                <span>Protótipo acadêmico · Ambiente de demonstração</span>
+            </footer>
         </div>
     </main>
 </div>
