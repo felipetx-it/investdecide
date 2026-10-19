@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard · InvestDecide</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link th:href="@{/css/app.css}" rel="stylesheet">
+</head>
+<body class="app-page">
+<div class="app-shell">
+    <aside th:replace="~{fragments/sidebar :: sidebar('dashboard')}"></aside>
+    <main class="main-content">
+        <header th:replace="~{fragments/topbar :: topbar('Dashboard', 'Visão geral da sua área de trabalho')}"></header>
+        <div class="page-content">
+            <div class="page-heading-row"><div><div class="date-line"><i class="bi bi-calendar3"></i> DOMINGO, 18 DE OUTUBRO DE 2026</div><h1>Bom dia, Mariana <span class="wave">✳</span></h1><p>Acompanhe os indicadores e continue suas análises de investimento.</p></div><a class="btn-primary-app" th:href="@{/simulacao}"><i class="bi bi-plus-lg"></i> Nova simulação</a></div>
+
+            <div class="demo-banner"><div class="banner-icon"><i class="bi bi-info-lg"></i></div><div><strong>Visão demonstrativa</strong><span>Valores, produtos e cenários desta tela são fictícios e servem apenas para apresentação do protótipo.</span></div><button onclick="this.parentElement.remove()" aria-label="Fechar aviso"><i class="bi bi-x-lg"></i></button></div>
+
+            <div class="metric-grid">
+                <article class="metric-card"><div class="metric-top"><span>Simulações realizadas</span><span class="metric-icon icon-blue"><i class="bi bi-sliders2"></i></span></div><div class="metric-value">28</div><div class="metric-foot"><span class="trend-up"><i class="bi bi-arrow-up-right"></i> +12,5%</span><span>vs. mês anterior</span></div><div class="metric-spark spark-blue"><span style="height:36%"></span><span style="height:48%"></span><span style="height:40%"></span><span style="height:66%"></span><span style="height:53%"></span><span style="height:78%"></span><span style="height:100%"></span></div></article>
+                <article class="metric-card"><div class="metric-top"><span>Patrimônio simulado</span><span class="metric-icon icon-green"><i class="bi bi-wallet2"></i></span></div><div class="metric-value">R$ 2,84 <small>mi</small></div><div class="metric-foot"><span class="trend-up"><i class="bi bi-arrow-up-right"></i> +6,8%</span><span>projeção consolidada</span></div><div class="metric-spark spark-green"><span style="height:32%"></span><span style="height:41%"></span><span style="height:37%"></span><span style="height:63%"></span><span style="height:56%"></span><span style="height:79%"></span><span style="height:100%"></span></div></article>
+                <article class="metric-card"><div class="metric-top"><span>Alternativas analisadas</span><span class="metric-icon icon-purple"><i class="bi bi-layers"></i></span></div><div class="metric-value">64</div><div class="metric-foot"><span class="trend-neutral">12 produtos</span><span>em 28 simulações</span></div><div class="metric-spark spark-purple"><span style="height:45%"></span><span style="height:36%"></span><span style="height:62%"></span><span style="height:48%"></span><span style="height:73%"></span><span style="height:88%"></span><span style="height:100%"></span></div></article>
+                <article class="metric-card"><div class="metric-top"><span>Economia tributária estimada</span><span class="metric-icon icon-orange"><i class="bi bi-piggy-bank"></i></span></div><div class="metric-value">R$ 18,6 <small>mil</small></div><div class="metric-foot"><span class="trend-neutral">Cenários comparados</span><span>estimativa ilustrativa</span></div><div class="metric-spark spark-orange"><span style="height:25%"></span><span style="height:41%"></span><span style="height:38%"></span><span style="height:64%"></span><span style="height:58%"></span><span style="height:79%"></span><span style="height:100%"></span></div></article>
+            </div>
+
+            <div class="dashboard-main-grid">
+                <section class="surface-card performance-card">
+                    <div class="section-header"><div><h2>Panorama de cenários</h2><p>Comparativo de patrimônio projetado · exemplo ilustrativo</p></div><button class="select-pill" onclick="showDemoNotice('O filtro de período será implementado na próxima etapa.')">Últimos 12 meses <i class="bi bi-chevron-down"></i></button></div>
+                    <div class="chart-legend"><span><i class="legend-dot dot-navy"></i> Cenário base</span><span><i class="legend-dot dot-mint"></i> Cenário otimista</span><span><i class="legend-dot dot-orange"></i> Cenário conservador</span></div>
+                    <div class="chart-wrap"><canvas id="scenarioChart" aria-label="Gráfico de cenários ilustrativos"></canvas></div>
+                    <div class="chart-footnote"><i class="bi bi-info-circle"></i> Projeções hipotéticas, sem garantia de rentabilidade futura.</div>
+                </section>
+                <section class="surface-card quick-action-card">
+                    <div class="section-header"><div><h2>Comece por aqui</h2><p>Acesse as principais ferramentas</p></div></div>
+                    <a class="action-row" th:href="@{/simulacao}"><span class="action-icon action-blue"><i class="bi bi-calculator"></i></span><span><strong>Simular um aporte</strong><small>Compare alternativas para um cliente</small></span><i class="bi bi-arrow-up-right action-arrow"></i></a>
+                    <a class="action-row" th:href="@{/relatorios}"><span class="action-icon action-purple"><i class="bi bi-file-earmark-text"></i></span><span><strong>Consultar relatórios</strong><small>Revise análises e comparativos</small></span><i class="bi bi-arrow-up-right action-arrow"></i></a>
+                    <div class="insight-callout"><div class="insight-heading"><i class="bi bi-stars"></i><span>INSIGHT EM DESTAQUE</span></div><p>O resultado líquido pode mudar quando custos e tributação entram na comparação.</p><a th:href="@{/simulacao}">Explorar comparação <i class="bi bi-arrow-right"></i></a></div>
+                </section>
+            </div>
+
+            <section class="surface-card products-card">
+                <div class="section-header"><div><h2>Produtos em observação</h2><p>Exemplos de alternativas cadastradas no protótipo</p></div><a th:href="@{/simulacao}" class="text-link">Comparar alternativas <i class="bi bi-arrow-right"></i></a></div>
+                <div class="table-responsive"><table class="table app-table align-middle"><thead><tr><th>PRODUTO</th><th>CLASSE</th><th>RETORNO HIPOTÉTICO</th><th>RISCO</th><th>PERFIL</th><th></th></tr></thead><tbody><tr th:each="product : ${products}"><td><div class="product-cell"><span class="product-logo" th:classappend="${product.type.contains('Previdência') ? ' product-logo-green' : (product.type.contains('Multimercado') ? ' product-logo-purple' : '')}"><i class="bi bi-graph-up-arrow"></i></span><strong th:text="${product.name}">Nome do produto</strong></div></td><td th:text="${product.type}">Classe</td><td class="table-return" th:text="${product['return']}">0,0%</td><td><span class="risk-pill" th:classappend="${product.riskClass}" th:text="${product.risk}">Baixo</span></td><td><span class="light-tag" th:text="${product.tag}">Perfil</span></td><td><a th:href="@{/simulacao}" class="table-action" aria-label="Abrir comparação"><i class="bi bi-arrow-up-right"></i></a></td></tr></tbody></table></div>
+            </section>
+            <footer class="page-footer"><span>InvestDecide <span>·</span> </span><span></span></footer>
+        </div>
+    </main>
+</div>
+<div id="demo-toast" class="demo-toast" role="status"></div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+<script th:src="@{/js/app.js}"></script>
+<script th:src="@{/js/dashboard.js}"></script>
+</body>
+</html>

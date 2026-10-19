@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Nova simulação · InvestDecide</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link th:href="@{/css/app.css}" rel="stylesheet">
+</head>
+<body class="app-page">
+<div class="app-shell">
+    <aside th:replace="~{fragments/sidebar :: sidebar('simulacao')}"></aside>
+    <main class="main-content">
+        <header th:replace="~{fragments/topbar :: topbar('Nova simulação', 'Compare alternativas elegíveis para um aporte')}"></header>
+        <div class="page-content">
+            <div class="page-heading-row"><div><div class="date-line"><a th:href="@{/dashboard}">Dashboard</a><i class="bi bi-chevron-right"></i> SIMULAÇÃO</div><h1>Simule antes de decidir</h1><p>Informe o contexto do cliente e compare o resultado líquido estimado de diferentes aplicações.</p></div><span class="step-indicator"><span>1</span> Definição do cenário <i class="bi bi-arrow-right"></i> <span>2</span> Comparação</span></div>
+            <div class="demo-banner"><div class="banner-icon"><i class="bi bi-beaker"></i></div><div><strong>Simulação ilustrativa</strong><span>Os resultados já estão preenchidos com dados fictícios para demonstrar a experiência visual. O formulário não executa cálculos financeiros.</span></div><button onclick="this.parentElement.remove()" aria-label="Fechar aviso"><i class="bi bi-x-lg"></i></button></div>
+
+            <div class="simulation-layout">
+                <section class="surface-card scenario-form-card">
+                    <div class="section-header"><div class="section-title-with-icon"><span class="section-icon"><i class="bi bi-person-vcard"></i></span><div><h2>Contexto do cliente</h2><p>Dados necessários para orientar a comparação</p></div></div><span class="optional-tag">DADOS FICTÍCIOS</span></div>
+                    <form id="simulation-form" onsubmit="event.preventDefault(); showDemoNotice('Prévia demonstrativa: os resultados não foram recalculados.');">
+                        <div class="form-grid"><div class="form-field full"><label for="client">Cliente</label><div class="input-with-icon"><i class="bi bi-person"></i><input id="client" type="text" value="Ricardo Almeida" class="form-control"></div></div>
+                        <div class="form-field"><label for="amount">Valor do aporte</label><div class="input-group custom-input-group"><span class="input-group-text">R$</span><input id="amount" type="text" value="10.000,00" class="form-control"></div></div>
+                        <div class="form-field"><label for="horizon">Horizonte de investimento</label><select id="horizon" class="form-select"><option>1 ano</option><option selected>3 anos</option><option>5 anos</option><option>10 anos</option></select></div>
+                        <div class="form-field"><label for="profile">Perfil de risco</label><select id="profile" class="form-select"><option>Conservador</option><option selected>Moderado</option><option>Arrojado</option></select></div>
+                        <div class="form-field"><label for="liquidity">Necessidade de liquidez</label><select id="liquidity" class="form-select"><option selected>Até 30 dias</option><option>Até 90 dias</option><option>Longo prazo</option></select></div>
+                        <div class="form-field full"><label>Objetivo principal</label><div class="goal-options"><label class="goal-option"><input type="radio" name="goal" value="preservar"><span><i class="bi bi-shield-check"></i><strong>Preservar</strong><small>Priorizar estabilidade</small></span></label><label class="goal-option selected"><input type="radio" name="goal" value="crescer" checked><span><i class="bi bi-graph-up-arrow"></i><strong>Fazer crescer</strong><small>Equilibrar risco e retorno</small></span></label><label class="goal-option"><input type="radio" name="goal" value="previdencia"><span><i class="bi bi-calendar-heart"></i><strong>Previdência</strong><small>Planejar longo prazo</small></span></label></div></div></div>
+                        <div class="form-divider"></div>
+                        <div class="section-header tax-header"><div class="section-title-with-icon"><span class="section-icon section-icon-mint"><i class="bi bi-receipt"></i></span><div><h2>Contexto tributário</h2><p>Parâmetros para uma comparação mais completa</p></div></div></div>
+                        <div class="form-grid"><div class="form-field"><label for="taxableIncome">Renda tributável anual</label><select id="taxableIncome" class="form-select"><option>Até R$ 50 mil</option><option selected>R$ 50 mil a R$ 150 mil</option><option>Acima de R$ 150 mil</option></select></div><div class="form-field"><label for="taxModel">Declaração de IR</label><select id="taxModel" class="form-select"><option>Isenta</option><option>Simplificada</option><option selected>Completa</option></select></div><div class="form-field full"><label for="pensionType">Alternativa de previdência</label><select id="pensionType" class="form-select"><option selected>Comparar PGBL e VGBL quando elegíveis</option><option>PGBL</option><option>VGBL</option><option>Não incluir previdência</option></select></div></div>
+                        <button class="btn-primary-app w-100 mt-4" type="submit"><i class="bi bi-arrow-repeat"></i> Atualizar prévia <i class="bi bi-arrow-right ms-auto"></i></button>
+                    </form>
+                </section>
+
+                <div class="simulation-results">
+                    <section class="surface-card recommendation-card"><div class="recommendation-top"><div class="recommendation-badge"><i class="bi bi-stars"></i> DESTAQUE DA SIMULAÇÃO</div><span class="recommendation-check"><i class="bi bi-check2"></i></span></div><div class="recommendation-title"><h2>Vita Prev RF PGBL</h2><span class="light-tag tag-green">Previdência</span></div><p>Alternativa destacada no cenário ilustrativo considerando horizonte, custos e hipótese tributária.</p><div class="recommendation-value"><span>Patrimônio líquido projetado</span><strong>R$ 13.370,00</strong><small>após 3 anos · valores hipotéticos</small></div><div class="recommendation-details"><div><span>Retorno líquido estimado</span><strong>9,0% a.a.</strong></div><div><span>Risco ilustrativo</span><strong><i class="risk-dot"></i> Baixo</strong></div><div><span>Diferença para a opção 2</span><strong>+ R$ 270,00</strong></div></div><div class="recommendation-footnote"><i class="bi bi-info-circle"></i> A indicação é apenas ilustrativa, não constitui recomendação financeira real.</div></section>
+                    <section class="surface-card comparison-card"><div class="section-header"><div><h2>Comparativo de alternativas</h2><p>Resultados estimados para o cenário selecionado</p></div><button class="icon-button" type="button" aria-label="Mais informações" onclick="showDemoNotice('Os valores são fictícios e serão substituídos pelo motor de decisão em uma etapa futura.')"><i class="bi bi-info-circle"></i></button></div>
+                        <div class="table-responsive"><table class="table app-table comparison-table align-middle"><thead><tr><th>ALTERNATIVA</th><th>RETORNO</th><th>TRIBUTOS*</th><th>RESULTADO LÍQUIDO</th></tr></thead><tbody><tr th:each="item : ${alternativas}" th:classappend="${item.recommended} ? ' recommended-row' : ''"><td><div class="compare-product"><span class="compare-radio" th:classappend="${item.recommended} ? ' checked' : ''"><i class="bi bi-check2"></i></span><div><strong th:text="${item.name}">Produto</strong><small th:text="${item.type}">Tipo</small><span th:if="${item.recommended}" class="recommended-mini">DESTAQUE</span></div></div></td><td th:text="${item['return']}">0%</td><td th:text="${item.taxes}">R$ 0</td><td><strong class="net-value" th:text="${item.net}">R$ 0</strong></td></tr></tbody></table></div>
+                        <div class="comparison-bottom"><span><i class="bi bi-calculator"></i> Custos estimados já considerados</span><button class="text-link-button" onclick="showDemoNotice('A memória de cálculo será detalhada na versão funcional.')">Ver premissas <i class="bi bi-arrow-up-right"></i></button></div>
+                    </section>
+                    <section class="surface-card scenario-impact-card"><div class="section-header"><div><h2>Impacto dos cenários econômicos</h2><p>Variação ilustrativa do patrimônio líquido</p></div></div><div class="scenario-bars"><div class="scenario-bar-row"><span><i class="scenario-color base"></i>Base</span><div class="scenario-track"><span class="scenario-fill base-fill" style="width:74%"></span></div><strong>R$ 13,37 mil</strong></div><div class="scenario-bar-row"><span><i class="scenario-color good"></i>Otimista</span><div class="scenario-track"><span class="scenario-fill good-fill" style="width:91%"></span></div><strong>R$ 14,12 mil</strong></div><div class="scenario-bar-row"><span><i class="scenario-color caution"></i>Conservador</span><div class="scenario-track"><span class="scenario-fill caution-fill" style="width:58%"></span></div><strong>R$ 12,65 mil</strong></div></div><div class="small-disclaimer">*Tributos e valores são simplificados e hipotéticos; não representam regras tributárias oficiais nem uma simulação validada.</div></section>
+                </div>
+            </div>
+            <footer class="page-footer"><span>InvestDecide <span>·</span></span><span></span></footer>
+        </div>
+    </main>
+</div>
+<div id="demo-toast" class="demo-toast" role="status"></div>
+<script th:src="@{/js/app.js}"></script>
+<script>
+document.querySelectorAll('.goal-option input').forEach(input => input.addEventListener('change', () => {
+  document.querySelectorAll('.goal-option').forEach(option => option.classList.remove('selected'));
+  input.closest('.goal-option').classList.add('selected');
+}));
+</script>
+</body>
+</html>

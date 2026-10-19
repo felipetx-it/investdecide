@@ -1,0 +1,8 @@
+<header th:fragment="topbar(pageTitle, pageSubtitle)" class="topbar">
+    <div class="crumbs"><span>InvestDecide</span><i class="bi bi-chevron-right"></i><strong th:text="${pageTitle}">Página</strong></div>
+    <div class="topbar-right">
+        <span class="prototype-chip"><span></span> Protótipo demonstrativo</span>
+        <button class="icon-button" type="button" aria-label="Notificações" onclick="showDemoNotice('Central de notificações — funcionalidade demonstrativa.')"><i class="bi bi-bell"></i><span class="notification-dot"></span></button>
+        <div class="top-avatar">MC</div>
+    </div>
+</header>

@@ -1,0 +1,33 @@
+<aside th:fragment="sidebar(activePage)" class="sidebar">
+    <a class="brand" th:href="@{/dashboard}">
+        <span class="brand-mark"><i class="bi bi-graph-up-arrow"></i></span>
+        <span class="brand-copy"><strong>invest<span>decide</span></strong><small>INTELLIGENCE SUITE</small></span>
+    </a>
+
+    <div class="nav-caption">ESPAÇO DE TRABALHO</div>
+    <nav class="side-nav" aria-label="Navegação principal">
+        <a th:href="@{/dashboard}" th:classappend="${activePage == 'dashboard'} ? ' active' : ''">
+            <i class="bi bi-grid-1x2"></i><span>Dashboard</span>
+        </a>
+        <a th:href="@{/simulacao}" th:classappend="${activePage == 'simulacao'} ? ' active' : ''">
+            <i class="bi bi-sliders2"></i><span>Nova simulação</span><span class="nav-dot"></span>
+        </a>
+        <a th:href="@{/relatorios}" th:classappend="${activePage == 'relatorios'} ? ' active' : ''">
+            <i class="bi bi-file-earmark-bar-graph"></i><span>Relatórios</span>
+        </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+        <div class="help-card">
+            <span class="help-icon"><i class="bi bi-lightbulb"></i></span>
+            <strong>Decisões melhores começam com contexto.</strong>
+            <p>Compare alternativas antes de recomendar.</p>
+            <a th:href="@{/simulacao}">Criar simulação <i class="bi bi-arrow-up-right"></i></a>
+        </div>
+        <div class="sidebar-user">
+            <div class="avatar">MC</div>
+            <div class="user-meta"><strong>Mariana Costa</strong><small>Assessora de investimentos</small></div>
+            <i class="bi bi-three-dots"></i>
+        </div>
+    </div>
+</aside>
