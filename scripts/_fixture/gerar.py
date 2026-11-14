@@ -9,7 +9,7 @@ from pathlib import Path
 
 random.seed(7)
 
-RAW = Path(r"C:\Users\felip\OneDrive\Documentos\deepseek-harness\default-workspace\investdecide-prototipo\scripts\_fixture\raw")
+RAW = Path(__file__).resolve().parent / "raw"
 RAW.mkdir(parents=True, exist_ok=True)
 
 FUNDOS = [
