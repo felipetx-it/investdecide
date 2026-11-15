@@ -1,0 +1,154 @@
+[ {
+  "id" : "8465ae6f-d5ac-4cc5-bf8f-9af04bc28176",
+  "titulo" : "Comparativo de alternativas",
+  "descricao" : "Simulação (Otimista) com 135 alternativas elegíveis",
+  "cliente" : "Ricardo Almeida",
+  "categoria" : "Simulação",
+  "classe" : "tag-blue",
+  "geradoEm" : "15/11/2026 17:48",
+  "link" : "/relatorios/comparativo.pdf"
+}, {
+  "id" : "e31bb9f3-b9fe-458c-91ab-dbee84f72a17",
+  "titulo" : "Comparativo de alternativas",
+  "descricao" : "Simulação (Otimista) com 135 alternativas elegíveis",
+  "cliente" : "Ricardo Almeida",
+  "categoria" : "Simulação",
+  "classe" : "tag-blue",
+  "geradoEm" : "15/11/2026 17:49",
+  "link" : "/relatorios/comparativo.pdf"
+}, {
+  "id" : "4c5d560f-7d8c-45ce-a928-6121e920ac3c",
+  "titulo" : "Eficiência tributária",
+  "descricao" : "Comparativo de veículos com e sem reinvestimento da restituição",
+  "cliente" : "Ricardo Almeida",
+  "categoria" : "Tributação",
+  "classe" : "tag-green",
+  "geradoEm" : "15/11/2026 17:49",
+  "link" : "/relatorios/tributacao.pdf"
+}, {
+  "id" : "a0a2dbb9-d153-4420-8154-53d47f50b760",
+  "titulo" : "Comparativo de alternativas",
+  "descricao" : "Documento exportado em PDF",
+  "cliente" : "Ricardo Almeida",
+  "categoria" : "Simulação",
+  "classe" : "tag-blue",
+  "geradoEm" : "15/11/2026 17:49",
+  "link" : "/relatorios/comparativo.pdf"
+}, {
+  "id" : "a4016d4d-9388-483e-abb6-bf35c6534a9c",
+  "titulo" : "Eficiência tributária",
+  "descricao" : "Comparativo de veículos com e sem reinvestimento da restituição",
+  "cliente" : "Ricardo Almeida",
+  "categoria" : "Tributação",
+  "classe" : "tag-green",
+  "geradoEm" : "15/11/2026 17:49",
+  "link" : "/relatorios/tributacao.pdf"
+}, {
+  "id" : "962a3413-799b-4eb3-af14-2eb80d1bf3f2",
+  "titulo" : "Sensibilidade dos cenários",
+  "descricao" : "Liderança por cenário e perturbações de +20% nos pesos",
+  "cliente" : "Ricardo Almeida",
+  "categoria" : "Sensibilidade",
+  "classe" : "tag-purple",
+  "geradoEm" : "15/11/2026 17:49",
+  "link" : "/relatorios/sensibilidade.pdf"
+}, {
+  "id" : "3052741f-642a-4a0f-b135-79c0c66a4eaf",
+  "titulo" : "Comparativo de alternativas",
+  "descricao" : "Simulação (Otimista) com 135 alternativas elegíveis",
+  "cliente" : "Ricardo Almeida",
+  "categoria" : "Simulação",
+  "classe" : "tag-blue",
+  "geradoEm" : "15/11/2026 18:25",
+  "link" : "/relatorios/comparativo.pdf"
+}, {
+  "id" : "9234febf-8c7f-4572-981a-ee353e8d2d70",
+  "titulo" : "Eficiência tributária",
+  "descricao" : "Comparativo de veículos com e sem reinvestimento da restituição",
+  "cliente" : "Ricardo Almeida",
+  "categoria" : "Tributação",
+  "classe" : "tag-green",
+  "geradoEm" : "15/11/2026 18:25",
+  "link" : "/relatorios/tributacao.pdf"
+}, {
+  "id" : "8db8ea64-ce6d-4de3-8389-be636e43443b",
+  "titulo" : "Comparativo de alternativas",
+  "descricao" : "Documento exportado em PDF",
+  "cliente" : "Ricardo Almeida",
+  "categoria" : "Simulação",
+  "classe" : "tag-blue",
+  "geradoEm" : "15/11/2026 18:25",
+  "link" : "/relatorios/comparativo.pdf"
+}, {
+  "id" : "56411cdb-45ec-4156-9303-deba23daf1a9",
+  "titulo" : "Eficiência tributária",
+  "descricao" : "Comparativo de veículos com e sem reinvestimento da restituição",
+  "cliente" : "Ricardo Almeida",
+  "categoria" : "Tributação",
+  "classe" : "tag-green",
+  "geradoEm" : "15/11/2026 18:25",
+  "link" : "/relatorios/tributacao.pdf"
+}, {
+  "id" : "d8f087bd-a30c-4f29-b9cf-61a3c918a6e9",
+  "titulo" : "Sensibilidade dos cenários",
+  "descricao" : "Liderança por cenário e perturbações de +20% nos pesos",
+  "cliente" : "Ricardo Almeida",
+  "categoria" : "Sensibilidade",
+  "classe" : "tag-purple",
+  "geradoEm" : "15/11/2026 18:25",
+  "link" : "/relatorios/sensibilidade.pdf"
+}, {
+  "id" : "a9f0507f-8f1c-47e4-bfc9-19a583f417a9",
+  "titulo" : "Comparativo de alternativas",
+  "descricao" : "Simulação (Base) com 13 alternativas elegíveis",
+  "cliente" : "Ricardo Almeida",
+  "categoria" : "Simulação",
+  "classe" : "tag-blue",
+  "geradoEm" : "15/11/2026 18:35",
+  "link" : "/relatorios/comparativo.pdf"
+}, {
+  "id" : "802d3c8b-a062-4fe7-85cf-c049fde27aa3",
+  "titulo" : "Eficiência tributária",
+  "descricao" : "Comparativo de veículos com e sem reinvestimento da restituição",
+  "cliente" : "Ricardo Almeida",
+  "categoria" : "Tributação",
+  "classe" : "tag-green",
+  "geradoEm" : "15/11/2026 18:36",
+  "link" : "/relatorios/tributacao.pdf"
+}, {
+  "id" : "7c443921-88f4-4388-a24b-3dcad9b4a5b4",
+  "titulo" : "Eficiência tributária",
+  "descricao" : "Comparativo de veículos com e sem reinvestimento da restituição",
+  "cliente" : "Ricardo Almeida",
+  "categoria" : "Tributação",
+  "classe" : "tag-green",
+  "geradoEm" : "15/11/2026 18:36",
+  "link" : "/relatorios/tributacao.pdf"
+}, {
+  "id" : "4a845292-b2ff-4d5f-9c56-6d2f5d04fe50",
+  "titulo" : "Comparativo de alternativas",
+  "descricao" : "Simulação (Base) com 135 alternativas elegíveis",
+  "cliente" : "Ricardo Almeida",
+  "categoria" : "Simulação",
+  "classe" : "tag-blue",
+  "geradoEm" : "15/11/2026 18:36",
+  "link" : "/relatorios/comparativo.pdf"
+}, {
+  "id" : "adc71aea-0050-4b34-8a3b-93e0e6cb70d6",
+  "titulo" : "Comparativo de alternativas",
+  "descricao" : "Simulação (Base) com 136 alternativas elegíveis",
+  "cliente" : "Ricardo Almeida",
+  "categoria" : "Simulação",
+  "classe" : "tag-blue",
+  "geradoEm" : "15/11/2026 18:37",
+  "link" : "/relatorios/comparativo.pdf"
+}, {
+  "id" : "c3fdbaac-5657-483b-b608-fbf3b7495638",
+  "titulo" : "Sensibilidade dos cenários",
+  "descricao" : "Liderança por cenário e perturbações de +20% nos pesos",
+  "cliente" : "Ricardo Almeida",
+  "categoria" : "Sensibilidade",
+  "classe" : "tag-purple",
+  "geradoEm" : "15/11/2026 18:38",
+  "link" : "/relatorios/sensibilidade.pdf"
+} ]

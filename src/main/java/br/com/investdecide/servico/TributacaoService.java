@@ -43,18 +43,20 @@ public class TributacaoService {
         TipoProduto tipo = produto.getTipo();
 
         if (produto.isIsentoIr()) {
-            return new ResultadoTributario(valorBruto, 0, 0, valorBruto, 0,
-                    "Isento de IR", "LCI/LCA são isentas de imposto de renda para pessoa física.");
+            String obsIsento = (tipo != null && tipo.isRendaFixaBancaria())
+                    ? "LCI/LCA são isentas de imposto de renda para pessoa física."
+                    : "Fundo incentivado de infraestrutura isento de IR para pessoa física (Lei 12.431).";
+            return new ResultadoTributario(valorBruto, 0, 0, valorBruto, 0, "Isento de IR", obsIsento);
         }
 
         if (tipo != null && tipo.isPrevidencia()) {
-            double aliquota = aliquotaPrevidencia(cliente.getRegime(), meses);
+            double aliquota = aliquotaPrevidencia(cliente, meses);
             double beneficio = 0;
-            String observacao = "IR incidirá no resgate pela tabela " + rotuloRegime(cliente.getRegime()) + ".";
+            String observacao;
             double imposto;
 
             if (tipo == TipoProduto.PREVIDENCIA_PGBL) {
-                imposto = valorBruto * aliquota / 100;
+                imposto = Math.max(0, valorBruto) * aliquota / 100;
                 beneficio = beneficioPrevidencia(cliente, aporte);
                 observacao = "PGBL tributa principal + rendimento no resgate; "
                         + (beneficio > 0 ? "a dedução gera restituição estimada no ano do aporte." : "sem benefício fiscal para este perfil.");
@@ -64,14 +66,25 @@ public class TributacaoService {
             }
 
             double liquido = valorBruto - imposto + beneficio;
-            double carga = ganho > 0 ? (imposto - beneficio) / ganho * 100 : 0;
+            // Quando não há ganho positivo, preserva a alíquota efetiva/nominal para não premiar prejuízo como "isento"
+            double carga = ganho > 0 ? Math.max(0, (imposto - beneficio) / ganho * 100) : aliquota;
             return new ResultadoTributario(valorBruto, imposto, beneficio, liquido, carga,
-                    "Previdência · " + rotuloRegime(cliente.getRegime()), observacao);
+                    "Previdência · " + rotuloRegime(cliente.getRegime()) + String.format(" (%.1f%%)", aliquota),
+                    observacao);
+        }
+
+        if (tipo == TipoProduto.FUNDO_ACOES) {
+            double aliquota = 15.0;
+            double imposto = ganho * aliquota / 100;
+            double carga = ganho > 0 ? imposto / ganho * 100 : aliquota;
+            return new ResultadoTributario(valorBruto, imposto, 0, valorBruto - imposto, carga,
+                    "Renda variável · 15,0%",
+                    "Fundos de ações têm alíquota única de 15% sobre o ganho no resgate, sem come-cotas.");
         }
 
         double aliquota = aliquotaFundo(meses);
         double imposto = ganho * aliquota / 100;
-        double carga = ganho > 0 ? imposto / ganho * 100 : 0;
+        double carga = ganho > 0 ? imposto / ganho * 100 : aliquota;
         return new ResultadoTributario(valorBruto, imposto, 0, valorBruto - imposto, carga,
                 "Tabela regressiva · " + String.format("%.1f%%", aliquota),
                 "IR calculado sobre o ganho; come-cotas não modelado nesta versão.");
@@ -86,10 +99,19 @@ public class TributacaoService {
         return 15.0;
     }
 
-    /** Alíquota regressiva da previdência (tabela de 6 faixas). */
+    /** Alíquota efetiva da previdência considerando o regime (regressiva ou progressiva pela base do cliente). */
+    public double aliquotaPrevidencia(Cliente cliente, int meses) {
+        if (cliente.getRegime() == Cliente.RegimePrevidencia.PROGRESSIVA) {
+            // Retenção mínima de 15% na fonte, ajustada à alíquota marginal na declaração
+            return Math.max(15.0, aliquotaMarginal(cliente.getBaseCalculo()));
+        }
+        return aliquotaPrevidencia(cliente.getRegime(), meses);
+    }
+
+    /** Alíquota da previdência conforme o regime e o prazo em meses. */
     public double aliquotaPrevidencia(Cliente.RegimePrevidencia regime, int meses) {
         if (regime == Cliente.RegimePrevidencia.PROGRESSIVA) {
-            return 0; // tratada à parte com a alíquota marginal do cliente
+            return 15.0;
         }
         if (meses <= 24) return 35.0;
         if (meses <= 48) return 30.0;

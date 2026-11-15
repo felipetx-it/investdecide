@@ -9,10 +9,12 @@ import br.com.investdecide.servico.CenarioService;
 import br.com.investdecide.servico.DadosMercadoService;
 import br.com.investdecide.servico.RelatorioService;
 import br.com.investdecide.servico.DecisaoService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,10 +48,22 @@ public class PagesController {
     }
 
     @GetMapping("/dashboard")
-    public String dashboard(Model model) {
+    public String dashboard(Model model, HttpSession session) {
         Cliente cliente = clientePadrao();
+        Pesos pesos = new Pesos();
         Cenario cenario = cenarios.base();
-        ResultadoDecisao resultado = decisao.avaliar(cliente, catalogo.listar(), cenario, new Pesos());
+        ResultadoDecisao resultado = decisao.avaliar(cliente, catalogo.listar(), cenario, pesos);
+
+        if (session.getAttribute("resultado") == null) {
+            Map<String, ResultadoDecisao> porCenario = new LinkedHashMap<>();
+            for (Cenario c : cenarios.todos()) {
+                porCenario.put(c.getNome(), c.getNome().equals("Base")
+                        ? resultado
+                        : decisao.avaliar(cliente, catalogo.listar(), c, pesos));
+            }
+            session.setAttribute("resultadosPorCenario", porCenario);
+            session.setAttribute("resultado", resultado);
+        }
 
         model.addAttribute("cliente", cliente);
         model.addAttribute("resultado", resultado);

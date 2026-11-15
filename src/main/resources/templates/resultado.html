@@ -38,7 +38,7 @@
             <div class="summary-strip">
                 <div class="summary-item"><span>Alternativas avaliadas</span><strong th:text="${resultado.totalAlternativas}">0</strong><small>na prateleira</small></div>
                 <div class="summary-item"><span>Elegíveis após filtros</span><strong th:text="${resultado.totalElegiveis}">0</strong><small>restrições do cliente</small></div>
-                <div class="summary-item"><span>Grupos identificados</span><strong th:text="${#lists.size(resultado.grupos)}">0</strong><small>k-médias</small></div>
+                <div class="summary-item"><span>Grupos identificados</span><strong th:text="${#lists.size(resultado.grupos)}">0</strong><small th:text="|k-médias · silhueta ${#numbers.formatDecimal(resultado.silhueta,1,'POINT',2,'COMMA')}|">k-médias</small></div>
                 <div class="summary-item"><span>Cenário</span><strong th:text="${resultado.cenario.nome}">Base</strong><small th:text="|CDI ${#numbers.formatDecimal(resultado.cenario.cdi,1,'POINT',2,'COMMA')}%|">CDI</small></div>
             </div>
 

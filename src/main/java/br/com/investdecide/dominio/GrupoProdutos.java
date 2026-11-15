@@ -8,6 +8,7 @@ public class GrupoProdutos {
 
     private String nome;
     private String descricao;
+    private double silhuetaMedia;
     private final List<AvaliacaoProduto> itens = new ArrayList<>();
 
     public GrupoProdutos(String nome, String descricao) {
@@ -40,6 +41,9 @@ public class GrupoProdutos {
 
     public String getDescricao() { return descricao; }
     public void setDescricao(String descricao) { this.descricao = descricao; }
+
+    public double getSilhuetaMedia() { return silhuetaMedia; }
+    public void setSilhuetaMedia(double silhuetaMedia) { this.silhuetaMedia = silhuetaMedia; }
 
     public List<AvaliacaoProduto> getItens() { return itens; }
 }

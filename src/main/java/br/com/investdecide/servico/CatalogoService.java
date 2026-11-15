@@ -23,9 +23,9 @@ import java.util.UUID;
  * (ver {@code scripts/cvm_xp.py}).
  *
  * <p>Classificação de risco: derivada da volatilidade anualizada dos últimos meses
- * (≤3% → 1; ≤8% → 2; ≤15% → 3; ≤25% → 4; acima → 5). A CVM não informa liquidez nem taxa de
- * administração para todas as classes; o sistema assume liquidez D+30 e sinaliza a ausência
- * da taxa.</p>
+ * (≤3% → 1; ≤8% → 2; ≤15% → 3; ≤25% → 4; acima → 5). Como a CVM não informa diretamente a
+ * liquidez nem a taxa de administração no cadastro RCVM 175, a liquidez é inferida por
+ * classe ANBIMA e características do nome do fundo (D+1 a D+30).</p>
  */
 @Service
 public class CatalogoService {
@@ -58,9 +58,11 @@ public class CatalogoService {
         produto.setChaveSerie(fundo.cnpj());
         produto.setNome(nomeUnico(fundo, nomes));
         produto.setEmissor(fundo.gestor());
-        produto.setTipo(classificar(fundo));
+        TipoProduto tipo = classificar(fundo);
+        produto.setTipo(tipo);
         produto.setRisco(classificarRisco(fundo.volMedia()));
-        produto.setLiquidezDias(30);
+        produto.setLiquidezDias(inferirLiquidez(fundo, tipo));
+        produto.setIsentoIr(isFundoIncentivado(fundo, tipo));
         produto.setMinimo(1_000);
         produto.setVolMensal(fundo.volMedia() / Math.sqrt(12));
         produto.setAlphaMensal(fundo.retornoMedio());
@@ -79,10 +81,12 @@ public class CatalogoService {
     }
 
     private static TipoProduto classificar(DadosMercadoService.FundoReal fundo) {
-        if (fundo.tipo() != null && fundo.tipo().toLowerCase().startsWith("previd")) {
+        String tipo = fundo.tipo() == null ? "" : fundo.tipo().toLowerCase();
+        String classe = fundo.classeAnbima() == null ? "" : fundo.classeAnbima().toLowerCase();
+        String nome = fundo.nome() == null ? "" : fundo.nome().toLowerCase();
+        if (tipo.startsWith("previd") || classe.contains("previd") || nome.contains("previd")) {
             return TipoProduto.PREVIDENCIA_VGBL;
         }
-        String classe = fundo.classeAnbima() == null ? "" : fundo.classeAnbima().toLowerCase();
         if (classe.contains("ações") || classe.contains("acoes")) {
             return TipoProduto.FUNDO_ACOES;
         }
@@ -90,6 +94,40 @@ public class CatalogoService {
             return TipoProduto.FUNDO_MULTI;
         }
         return TipoProduto.FUNDO_RF;
+    }
+
+    private static int inferirLiquidez(DadosMercadoService.FundoReal fundo, TipoProduto tipo) {
+        if (tipo.isPrevidencia()) {
+            return 30;
+        }
+        String classe = fundo.classeAnbima() == null ? "" : fundo.classeAnbima().toLowerCase();
+        String nome = fundo.nome() == null ? "" : fundo.nome().toLowerCase();
+        if (classe.contains("simples") || classe.contains("soberano") || classe.contains("referenciado")
+                || nome.contains(" di ") || nome.contains("liquidez") || nome.contains("soberano")
+                || nome.contains("simples") || nome.contains("selic")) {
+            return 1;
+        }
+        if (classe.contains("duração baixa") || classe.contains("duracao baixa")
+                || classe.contains("curto prazo") || nome.contains("curto prazo")) {
+            return 5;
+        }
+        if (tipo == TipoProduto.FUNDO_RF) {
+            return 15;
+        }
+        if (tipo == TipoProduto.FUNDO_MULTI
+                && (classe.contains("juros e moedas") || classe.contains("baixo risco"))) {
+            return 15;
+        }
+        return 30;
+    }
+
+    private static boolean isFundoIncentivado(DadosMercadoService.FundoReal fundo, TipoProduto tipo) {
+        if (tipo != TipoProduto.FUNDO_RF) {
+            return false;
+        }
+        String texto = ((fundo.nome() == null ? "" : fundo.nome()) + " "
+                + (fundo.classeAnbima() == null ? "" : fundo.classeAnbima())).toLowerCase();
+        return texto.contains("infra") || texto.contains("incentivad");
     }
 
     private static int classificarRisco(double volatilidadeAnual) {

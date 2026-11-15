@@ -28,7 +28,7 @@ import java.util.Map;
 @Controller
 public class SimulacaoController {
 
-    private static final List<String> CENARIOS_DA_SIMULACAO = List.of("Base", "Otimista", "Pessimista");
+    private static final List<String> CENARIOS_DA_SIMULACAO = List.of("Base", "Otimista", "Pessimista", "Personalizado");
 
     private final CatalogoService catalogo;
     private final DecisaoService decisao;
@@ -69,20 +69,20 @@ public class SimulacaoController {
             return "simulacao";
         }
 
-        // Calcula os três cenários de uma vez, para permitir troca sem recalcular.
+        // Calcula todos os cenários disponíveis (Base, Otimista, Pessimista e Personalizado).
         Map<String, ResultadoDecisao> porCenario = new LinkedHashMap<>();
-        for (Cenario c : List.of(cenarios.base(), cenarios.otimista(), cenarios.pessimista())) {
+        for (Cenario c : cenarios.todos()) {
             porCenario.put(c.getNome(), decisao.avaliar(cliente, catalogo.listar(), c, pesos));
         }
         session.setAttribute("resultadosPorCenario", porCenario);
 
-        ResultadoDecisao base = porCenario.get("Base");
-        session.setAttribute("resultado", base);
+        ResultadoDecisao escolhido = porCenario.getOrDefault(cenario, porCenario.get("Base"));
+        session.setAttribute("resultado", escolhido);
         relatorios.registrar("Comparativo de alternativas",
-                "Simulação com " + base.getTotalElegiveis() + " alternativas elegíveis",
+                "Simulação (" + escolhido.getCenario().getNome() + ") com " + escolhido.getTotalElegiveis() + " alternativas elegíveis",
                 cliente.getNome(), "Simulação", "/relatorios/comparativo.pdf");
 
-        return montarResultado(model, cliente, pesos, "Base", base);
+        return montarResultado(model, cliente, pesos, escolhido.getCenario().getNome(), escolhido);
     }
 
     /** Reabre o resultado da última simulação (sem voltar ao formulário). */
@@ -95,6 +95,7 @@ public class SimulacaoController {
             return "redirect:/simulacao";
         }
         ResultadoDecisao escolhido = porCenario.getOrDefault(cenario, porCenario.get("Base"));
+        session.setAttribute("resultado", escolhido);
         return montarResultado(model, escolhido.getCliente(), escolhido.getPesos(),
                 escolhido.getCenario().getNome(), escolhido);
     }

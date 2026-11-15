@@ -53,14 +53,19 @@ public class DadosMercadoService {
         registros.sort((a, b) -> a.get("ano_mes").compareTo(b.get("ano_mes")));
         for (Map<String, String> registro : registros) {
             String mes = registro.get("ano_mes");
-            if (mes == null || mes.isBlank()) {
+            String cdiStr = registro.get("cdi_mes");
+            String ipcaStr = registro.get("ipca_mes");
+            if (mes == null || mes.isBlank()
+                    || cdiStr == null || cdiStr.isBlank()
+                    || ipcaStr == null || ipcaStr.isBlank()) {
                 continue;
             }
             meses.add(mes);
             fatores.add(new double[]{
-                    numero(registro.get("cdi_mes")),
-                    numero(registro.get("ipca_mes")),
-                    numero(registro.get("dolar_ret"))
+                    numero(cdiStr),
+                    numero(ipcaStr),
+                    numero(registro.get("dolar_ret")),
+                    numero(registro.get("ibov_ret"))
             });
         }
     }

@@ -17,6 +17,7 @@ public class ResultadoDecisao {
     private int totalElegiveis;
     private double cargaTributariaRecomendada;
     private double valorFinalRecomendado;
+    private double silhueta;
     private String sensibilidade = "";
     private String premissas = "";
 
@@ -78,6 +79,9 @@ public class ResultadoDecisao {
 
     public double getValorFinalRecomendado() { return valorFinalRecomendado; }
     public void setValorFinalRecomendado(double valorFinalRecomendado) { this.valorFinalRecomendado = valorFinalRecomendado; }
+
+    public double getSilhueta() { return silhueta; }
+    public void setSilhueta(double silhueta) { this.silhueta = silhueta; }
 
     public String getSensibilidade() { return sensibilidade; }
     public void setSensibilidade(String sensibilidade) { this.sensibilidade = sensibilidade; }

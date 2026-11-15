@@ -35,7 +35,7 @@
             <div class="summary-strip">
                 <div class="summary-item"><span>Alternativas</span><strong th:text="${resultado.totalAlternativas}">0</strong><small>na prateleira</small></div>
                 <div class="summary-item"><span>Elegíveis</span><strong th:text="${resultado.totalElegiveis}">0</strong><small>após restrições</small></div>
-                <div class="summary-item"><span>Grupos</span><strong th:text="${#lists.size(grupos)}">0</strong><small>identificados</small></div>
+                <div class="summary-item"><span>Grupos</span><strong th:text="${#lists.size(grupos)}">0</strong><small th:text="|k-médias · silhueta ${#numbers.formatDecimal(resultado.silhueta,1,'POINT',2,'COMMA')}|">identificados</small></div>
                 <div class="summary-item"><span>Cenário</span><strong th:text="${resultado.cenario.nome}">Base</strong><small th:text="|CDI ${#numbers.formatDecimal(resultado.cenario.cdi,1,'POINT',2,'COMMA')}%|">CDI</small></div>
             </div>
 

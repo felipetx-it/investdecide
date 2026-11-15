@@ -103,11 +103,14 @@ public class RelatorioPdfService {
                     String.valueOf(grupo.getQuantidade()),
                     numero(grupo.getRetornoMedio()) + "%",
                     numero(grupo.getRiscoMedio()),
-                    numero(grupo.getCargaMedia()) + "%"
+                    numero(grupo.getCargaMedia()) + "%",
+                    numero(grupo.getSilhuetaMedia())
             });
         }
-        doc.add(tabela(new String[]{"Grupo", "Alternativas", "Retorno médio", "Risco médio", "Carga média"},
-                grupos, new float[]{44, 14, 16, 13, 13}, true));
+        doc.add(tabela(new String[]{"Grupo", "Qtd.", "Retorno médio", "Risco médio", "Carga média", "Silhueta"},
+                grupos, new float[]{38, 10, 14, 13, 13, 12}, true));
+        doc.add(nota("Coeficiente de silhueta global do agrupamento k-médias++: "
+                + numero(resultado.getSilhueta()) + "."));
 
         doc.add(secao("Classificação completa das alternativas elegíveis"));
         List<String[]> linhas = new ArrayList<>();
@@ -208,13 +211,14 @@ public class RelatorioPdfService {
                     numero(resultado.getCenario().getCdi()) + "%",
                     numero(resultado.getCenario().getIpca()) + "%",
                     numero(resultado.getCenario().getDolar()) + "%",
+                    numero(resultado.getCenario().getIbovespa()) + "%",
                     lider == null ? "—" : lider.getNome(),
                     lider == null ? "—" : numero(lider.getScore()),
                     lider == null ? "—" : moeda(lider.getValorFinal())
             });
         }
-        doc.add(tabela(new String[]{"Cenário", "CDI", "IPCA", "Dólar", "Alternativa líder", "Índice", "Valor final"},
-                linhas, new float[]{12, 9, 9, 9, 30, 9, 16}, true));
+        doc.add(tabela(new String[]{"Cenário", "CDI", "IPCA", "Dólar", "Ibovespa", "Alternativa líder", "Índice", "Valor final"},
+                linhas, new float[]{12, 8, 8, 8, 9, 29, 9, 17}, true));
         doc.add(texto("O cenário base é montado a partir dos indicadores de mercado (curva DI, inflação "
                 + "implícita, dólar futuro e Ibovespa esperado). Os cenários otimista, pessimista e "
                 + "personalizado aplicam choques configuráveis sobre essa base."));

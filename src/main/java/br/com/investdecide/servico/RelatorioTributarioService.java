@@ -68,7 +68,7 @@ public class RelatorioTributarioService {
         var tribPgbl = tributacao.calcular(pgbl, cliente, aporte, bruto, meses);
         double brutoComReinvestimento = (aporte + tribPgbl.beneficioFiscal())
                 * Math.pow(1 + taxaAnual / 100, anos);
-        double aliquota = tributacao.aliquotaPrevidencia(cliente.getRegime(), meses);
+        double aliquota = tributacao.aliquotaPrevidencia(cliente, meses);
         double impostoCom = brutoComReinvestimento * aliquota / 100;
         double liquidoCom = brutoComReinvestimento - impostoCom;
         linhas.add(new LinhaTributaria(pgbl.getNome(), "Previdência · " + cliente.getRegime().name().toLowerCase(),
@@ -88,14 +88,19 @@ public class RelatorioTributarioService {
                 ganhoReinvestimento,
                 tribPgbl.valorLiquido() >= tribCdb.valorLiquido() ? "ainda é mais eficiente" : "perde eficiência");
 
-        String explicacao = ganhoReinvestimento >= 0
-                ? "A restituição reinvestida cresce dentro do plano e supera o valor mantido em caixa, "
-                + "porque a alíquota de resgate é menor que o benefício obtido no aporte."
-                : String.format(new java.util.Locale("pt", "BR"),
-                        "Neste horizonte a alíquota de resgate (%.0f%%) supera o benefício do aporte "
-                                + "(%.1f%% da renda), então reinvestir dentro do PGBL reduz o patrimônio líquido. "
-                                + "A vantagem aparece em horizontes maiores, quando a alíquota regressiva cai para 10%%.",
-                        aliquota, tributacao.aliquotaMarginal(cliente.getBaseCalculo()));
+        String explicacao;
+        if (tribPgbl.beneficioFiscal() <= 0) {
+            explicacao = "Sem declaração completa ou espaço tributável, não há restituição de IR no aporte para reinvestir no PGBL.";
+        } else if (ganhoReinvestimento >= 0) {
+            explicacao = "A restituição reinvestida cresce dentro do plano e supera o valor mantido em caixa, "
+                    + "porque a alíquota de resgate é igual ou inferior ao benefício obtido no aporte.";
+        } else {
+            explicacao = String.format(new java.util.Locale("pt", "BR"),
+                    "Neste horizonte a alíquota de resgate (%.1f%%) supera a economia obtida no aporte "
+                            + "(alíquota marginal de %.1f%%), então reinvestir dentro do PGBL reduz o patrimônio líquido frente a manter a restituição em caixa. "
+                            + "A vantagem aparece em horizontes maiores (acima de 10 anos na tabela regressiva, quando a alíquota cai para 10%%).",
+                    aliquota, tributacao.aliquotaMarginal(cliente.getBaseCalculo()));
+        }
 
         return new Relatorio(cliente, taxaAnual, meses, linhas, ganhoReinvestimento, conclusao, explicacao);
     }

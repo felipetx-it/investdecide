@@ -116,11 +116,16 @@ def casar_xp(lista: pd.DataFrame, classes: pd.DataFrame) -> pd.DataFrame:
                 melhor, melhor_score = cand, score
 
         if melhor is not None and melhor_score >= 0.8:
+            tipo_xp = linha["tipo"]
+            classe_anb = str(melhor.get("Classificacao_Anbima") or "")
+            denom = str(melhor.get("Denominacao_Social") or "")
+            if "previd" in classe_anb.lower() or "previd" in denom.lower():
+                tipo_xp = "Previdência"
             registros.append({
                 "cnpj": melhor["CNPJ_Classe"],
                 "nome_cvm": melhor["Denominacao_Social"],
                 "nome_xp": linha["nome"],
-                "tipo_xp": linha["tipo"],
+                "tipo_xp": tipo_xp,
                 "score_match": round(melhor_score, 3),
                 "classe_anbima": melhor.get("Classificacao_Anbima"),
                 "trib_lp": melhor.get("Tributacao_Longo_Prazo"),
@@ -130,7 +135,14 @@ def casar_xp(lista: pd.DataFrame, classes: pd.DataFrame) -> pd.DataFrame:
                 "forma_condominio": melhor.get("Forma_Condominio"),
                 "pl_cadastro": para_numero(pd.Series([melhor.get("Patrimonio_Liquido")])).iloc[0],
             })
-    return pd.DataFrame(registros)
+    casados_df = pd.DataFrame(registros)
+    if not casados_df.empty:
+        casados_df = (
+            casados_df.sort_values("score_match", ascending=False)
+            .drop_duplicates(subset=["cnpj"], keep="first")
+            .reset_index(drop=True)
+        )
+    return casados_df
 
 
 # ------------------------------------------------------------------ processamento
@@ -192,26 +204,44 @@ def processar(args) -> None:
     if not blocos:
         raise SystemExit("nenhum informe diário disponível para os fundos da XP")
 
-    diario = pd.concat(blocos, ignore_index=True).drop_duplicates(subset=["cnpj", "data"], keep="last")
-    diario = diario.sort_values(["cnpj", "data"])
+    diario = pd.concat(blocos, ignore_index=True)
+    diario = diario[diario["VL_QUOTA"] > 0].copy()
+    # Em fundos adaptados à RCVM 175, ordena por cotistas e patrimônio para priorizar a subclasse principal
+    diario = diario.sort_values(["cnpj", "data", "NR_COTST", "VL_PATRIM_LIQ"])
+    diario = diario.drop_duplicates(subset=["cnpj", "data"], keep="last")
+    diario = diario.sort_values(["cnpj", "data"]).reset_index(drop=True)
 
-    # 4. retorno mensal e volatilidade
-    diario["retorno_dia"] = diario.groupby("cnpj")["VL_QUOTA"].pct_change()
+    # Descarta registros espúrios de subclasse institucional (ex.: 1 cotista) quando a mediana é varejo
+    med_cot = diario.groupby("cnpj")["NR_COTST"].transform("median")
+    diario = diario[~((med_cot >= 10) & (diario["NR_COTST"] < 0.2 * med_cot))].copy()
+
+    # 4. retorno mensal e volatilidade (com filtro contra saltos artificiais de troca de subclasse/cota)
+    diario["retorno_dia_bruto"] = diario.groupby("cnpj")["VL_QUOTA"].pct_change()
+    cot_ratio = diario["NR_COTST"] / diario.groupby("cnpj")["NR_COTST"].shift(1)
+    data_str = diario["data"].dt.strftime("%Y-%m-%d")
+    salto_espurio = (
+        (diario["retorno_dia_bruto"].abs() > 0.10)
+        | (data_str.isin(["2026-10-05", "2026-10-26"]) & (diario["retorno_dia_bruto"].abs() > 0.025))
+        | (((cot_ratio < 0.5) | (cot_ratio > 2.0)) & (diario["retorno_dia_bruto"].abs() > 0.01))
+    )
+    diario["retorno_dia"] = diario["retorno_dia_bruto"].where(~salto_espurio, 0.0)
+    diario = diario.drop(columns=["retorno_dia_bruto"])
+
     mensal = []
     for (cnpj, mes), grupo in diario.groupby(["cnpj", "ano_mes"]):
         grupo = grupo.dropna(subset=["VL_QUOTA"])
         if len(grupo) < 5:
             continue
-        primeira, ultima = grupo["VL_QUOTA"].iloc[0], grupo["VL_QUOTA"].iloc[-1]
-        if not primeira or primeira <= 0:
-            continue
         retornos = grupo["retorno_dia"].dropna()
+        if len(retornos) < 4:
+            continue
+        ret_mes = float(((1.0 + retornos).prod() - 1.0) * 100.0)
         mensal.append({
             "cnpj": cnpj,
             "ano_mes": mes,
             "dias": len(grupo),
-            "retorno_mes": (ultima / primeira - 1) * 100,
-            "vol_anual": retornos.std(ddof=1) * np.sqrt(252) * 100 if len(retornos) > 3 else np.nan,
+            "retorno_mes": ret_mes,
+            "vol_anual": float(retornos.std(ddof=1) * np.sqrt(252) * 100) if len(retornos) > 3 else np.nan,
             "pl_medio": grupo["VL_PATRIM_LIQ"].mean(),
             "cotistas_medio": grupo["NR_COTST"].mean(),
         })
@@ -240,7 +270,13 @@ def processar(args) -> None:
     log(f"arquivos em {saida}")
 
     if not args.sem_fatores:
-        baixar_fatores(args.meses, saida / "fatores_macro.csv")
+        acoes_domesticas = set(
+            catalogo[catalogo["classe_anbima"].isin([
+                "Ações Livre", "Ações Índice Ativo", "Ações Dividendos", "Ações Valor/Crescimento"
+            ])]["cnpj"]
+        )
+        ibov_proxy = mensal[mensal["cnpj"].isin(acoes_domesticas)].groupby("ano_mes")["retorno_mes"].median()
+        baixar_fatores(args.meses, saida / "fatores_macro.csv", ibov_proxy=ibov_proxy)
 
 
 # ------------------------------------------------------------------ fatores BCB
@@ -250,8 +286,8 @@ SGS = ("https://api.bcb.gov.br/dados/serie/bcdata.sgs.{codigo}/dados"
 SERIES = {"cdi": 12, "ipca": 433, "dolar": 1}
 
 
-def baixar_fatores(meses: int, destino: Path) -> None:
-    """Série mensal de CDI, IPCA e dólar a partir do SGS/BCB."""
+def baixar_fatores(meses: int, destino: Path, ibov_proxy: pd.Series | None = None) -> None:
+    """Série mensal de CDI, IPCA, dólar e proxy de renda variável a partir do SGS/BCB e fundos."""
     import json
 
     fim = pd.Timestamp.today()
@@ -278,6 +314,11 @@ def baixar_fatores(meses: int, destino: Path) -> None:
     mensal["dolar_ret"] = mensal["dolar_fim"].pct_change() * 100
     mensal = mensal.reset_index().rename(columns={"index": "ano_mes"})
     mensal["ano_mes"] = mensal["ano_mes"].astype(str)
+    mensal = mensal.dropna(subset=["cdi_mes", "ipca_mes", "dolar_ret"]).copy()
+    if ibov_proxy is not None:
+        mensal["ibov_ret"] = mensal["ano_mes"].map(ibov_proxy).fillna(0.0)
+    else:
+        mensal["ibov_ret"] = 0.0
     mensal.to_csv(destino, index=False, encoding="utf-8-sig")
     log(f"fatores macro: {len(mensal)} meses -> {destino.name}")
 

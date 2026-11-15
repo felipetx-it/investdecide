@@ -104,13 +104,14 @@
                             <div class="section-header"><div><h2>Cenários resultantes</h2><p>Prévia calculada a partir do formulário atual</p></div></div>
                             <div class="table-responsive">
                                 <table class="table app-table table-compact mb-0">
-                                    <thead><tr><th>Cenário</th><th>CDI</th><th>IPCA</th><th>Dólar</th></tr></thead>
+                                    <thead><tr><th>Cenário</th><th>CDI</th><th>IPCA</th><th>Dólar</th><th>Ibovespa</th></tr></thead>
                                     <tbody>
                                     <tr th:each="c : ${lista}">
                                         <td><strong th:text="${c.nome}">Base</strong></td>
                                         <td th:text="|${#numbers.formatDecimal(c.cdi,1,'POINT',2,'COMMA')}%|">0%</td>
                                         <td th:text="|${#numbers.formatDecimal(c.ipca,1,'POINT',2,'COMMA')}%|">0%</td>
                                         <td th:text="|${#numbers.formatDecimal(c.dolar,1,'POINT',1,'COMMA')}%|">0%</td>
+                                        <td th:text="|${#numbers.formatDecimal(c.ibovespa,1,'POINT',1,'COMMA')}%|">0%</td>
                                     </tr>
                                     </tbody>
                                 </table>

@@ -14,14 +14,9 @@ import java.util.Map;
 import java.util.Random;
 
 /**
- * Funções analíticas do SAD: séries históricas reais da CVM, regressão fatorial (MQO),
- * agrupamento (k-médias) e sumarização dos grupos.
- *
- * <p>As séries são sintéticas e determinísticas: os fatores macro (CDI, IPCA e dólar) são
- * gerados uma única vez e cada produto tem retorno construído a partir de sensibilidades
- * conhecidas, acrescidas de ruído. Isso permite testar o método de regressão com uma
- * "verdade" conhecida — a validação do trabalho compara os betas estimados com os betas
- * usados na geração.</p>
+ * Funções analíticas do SAD: séries históricas reais da CVM, regressão fatorial multifatorial
+ * regularizada (CDI, IPCA, dólar e proxy de Ibovespa), agrupamento (k-médias++ com validação
+ * por coeficiente de silhueta) e sumarização dos grupos.
  */
 @Service
 public class AnaliticaService {
@@ -56,10 +51,12 @@ public class AnaliticaService {
 
     public double volatilidadeAnual(Produto produto) {
         double[] serie = serieProduto(produto);
+        int inicio = Math.max(0, serie.length - janela);
         double soma = 0;
         double somaQuadrados = 0;
         int n = 0;
-        for (double valor : serie) {
+        for (int i = inicio; i < serie.length; i++) {
+            double valor = serie[i];
             if (!Double.isNaN(valor)) {
                 soma += valor;
                 somaQuadrados += valor * valor;
@@ -70,42 +67,49 @@ public class AnaliticaService {
             return produto.getVolMensal() * Math.sqrt(12);
         }
         double media = soma / n;
-        double variancia = (somaQuadrados - n * media * media) / (n - 1);
-        return Math.sqrt(Math.max(0, variancia)) * Math.sqrt(12);
+        double variancia = Math.max(0, (somaQuadrados - n * media * media) / (n - 1));
+        return Math.sqrt(variancia) * Math.sqrt(12);
     }
 
     // -------------------------------------------------------------- regressão
 
-    /** Coeficientes estimados por MQO para retorno mensal ~ CDI + IPCA + dólar. */
-    public record Coeficientes(double alpha, double betaCdi, double betaIpca, double betaDolar, double r2) {
+    /** Coeficientes estimados por regressão fatorial regularizada para retorno mensal ~ CDI + IPCA + dólar + Ibovespa. */
+    public record Coeficientes(double alpha, double betaCdi, double betaIpca, double betaDolar, double betaIbov, double r2) {
     }
 
     public Coeficientes regredir(Produto produto) {
         double[] serie = serieProduto(produto);
-        int n = 0;
-        for (double valor : serie) {
-            if (!Double.isNaN(valor)) {
-                n++;
+        int inicio = Math.max(0, serie.length - janela);
+        int obs = 0;
+        for (int i = inicio; i < serie.length; i++) {
+            if (!Double.isNaN(serie[i])) {
+                obs++;
             }
         }
-        if (n < 6) {
+        if (obs < 6) {
             return fallback(produto, serie);
         }
 
-        int k = 4;
+        int k = 5;
         double[][] xtx = new double[k][k];
         double[] xty = new double[k];
-        double[] y = new double[n];
+        double[] y = new double[obs];
+        double[][] xLinhas = new double[obs][k];
         int posicao = 0;
+        double somaY = 0;
 
-        int inicio = Math.max(0, serie.length - janela);
         for (int i = inicio; i < serie.length; i++) {
             if (Double.isNaN(serie[i])) {
                 continue;
             }
             double[] fatores = dados.fatoresDoMes(i);
-            double[] linha = {1, fatores[0], fatores[1], fatores[2]};
-            y[posicao++] = serie[i];
+            double ibov = fatores.length > 3 ? fatores[3] : 0.0;
+            double[] linha = {1.0, fatores[0], fatores[1], fatores[2], ibov};
+            y[posicao] = serie[i];
+            xLinhas[posicao] = linha;
+            somaY += serie[i];
+            posicao++;
+
             for (int a = 0; a < k; a++) {
                 for (int b = 0; b < k; b++) {
                     xtx[a][b] += linha[a] * linha[b];
@@ -114,33 +118,34 @@ public class AnaliticaService {
             }
         }
 
+        // Regularização Ridge ancorada na classe para mitigar a colinearidade entre intercepto e CDI
+        boolean isAcoes = produto.getTipo() == br.com.investdecide.dominio.TipoProduto.FUNDO_ACOES;
+        double[] prior = {0.0, isAcoes ? 0.0 : 1.0, 0.0, 0.0, isAcoes ? 1.0 : 0.0};
+        double[] penalidade = {0.0, 1.5, 0.5, 1.0, 1.0};
+        for (int a = 0; a < k; a++) {
+            xtx[a][a] += penalidade[a];
+            xty[a] += penalidade[a] * prior[a];
+        }
+
         double[] beta = resolver(xtx, xty);
         if (beta == null) {
             return fallback(produto, serie);
         }
 
-        double mediaY = 0;
-        for (double v : y) {
-            mediaY += v;
-        }
-        mediaY /= n;
+        double mediaY = somaY / obs;
         double sse = 0;
         double sst = 0;
-        posicao = 0;
-        for (int i = inicio; i < serie.length; i++) {
-            if (Double.isNaN(serie[i])) {
-                continue;
-            }
-            double[] fatores = dados.fatoresDoMes(i);
-            double previsto = beta[0] + beta[1] * fatores[0] + beta[2] * fatores[1] + beta[3] * fatores[2];
-            sse += Math.pow(serie[i] - previsto, 2);
-            sst += Math.pow(serie[i] - mediaY, 2);
+        for (int i = 0; i < obs; i++) {
+            double[] l = xLinhas[i];
+            double previsto = beta[0] + beta[1] * l[1] + beta[2] * l[2] + beta[3] * l[3] + beta[4] * l[4];
+            sse += Math.pow(y[i] - previsto, 2);
+            sst += Math.pow(y[i] - mediaY, 2);
         }
-        double r2 = sst == 0 ? 0 : 1 - sse / sst;
-        return new Coeficientes(beta[0], beta[1], beta[2], beta[3], r2);
+        double r2 = sst == 0 ? 0 : Math.max(0, 1 - sse / sst);
+        return new Coeficientes(beta[0], beta[1], beta[2], beta[3], beta[4], r2);
     }
 
-    /** Sem histórico suficiente: usa o retorno médio como alfa e sensibilidade total ao CDI. */
+    /** Sem histórico suficiente: usa o retorno médio como alfa. */
     private static Coeficientes fallback(Produto produto, double[] serie) {
         double soma = 0;
         int n = 0;
@@ -151,7 +156,7 @@ public class AnaliticaService {
             }
         }
         double media = n == 0 ? produto.getAlphaMensal() : soma / n;
-        return new Coeficientes(media, 0, 0, 0, 0);
+        return new Coeficientes(media, 0, 0, 0, 0, 0);
     }
 
     /** Eliminação de Gauss com pivoteamento parcial. */
@@ -238,10 +243,12 @@ public class AnaliticaService {
         double cdiMensal = mensal(cenario.getCdi());
         double ipcaMensal = mensal(cenario.getIpca());
         double dolarMensal = mensal(cenario.getDolar());
+        double ibovMensal = mensal(cenario.getIbovespa());
         double mensalProjetado = coef.alpha()
                 + coef.betaCdi() * cdiMensal
                 + coef.betaIpca() * ipcaMensal
-                + coef.betaDolar() * dolarMensal;
+                + coef.betaDolar() * dolarMensal
+                + coef.betaIbov() * ibovMensal;
         return (Math.pow(1 + mensalProjetado / 100, 12) - 1) * 100;
     }
 
@@ -267,20 +274,12 @@ public class AnaliticaService {
         if (elegiveis.isEmpty()) {
             return List.of();
         }
-        double[][] dados = new double[elegiveis.size()][4];
-        for (int i = 0; i < elegiveis.size(); i++) {
-            AvaliacaoProduto avaliacao = elegiveis.get(i);
-            dados[i][0] = avaliacao.getRetornoLiquido();
-            dados[i][1] = avaliacao.getRisco();
-            dados[i][2] = Math.log1p(avaliacao.getLiquidezDias());
-            dados[i][3] = avaliacao.getCargaTributaria();
-        }
-        double[][] normalizado = padronizar(dados);
+        double[][] normalizado = padronizar(extrairAtributos(elegiveis));
 
-        // Número de grupos proporcional ao tamanho da carteira; grupos de um item são fundidos
-        // ao centróide mais próximo para não gerar "clusters" sem significado.
+        // Número de grupos proporcional ao tamanho da carteira, respeitando o teto k informado.
         int total = elegiveis.size();
-        int grupos = total >= 19 ? 4 : (total >= 9 ? 3 : 2);
+        int gruposAlvo = k > 0 ? k : 4;
+        int grupos = total >= 19 ? gruposAlvo : (total >= 9 ? Math.min(3, gruposAlvo) : 2);
         grupos = Math.min(grupos, total);
         int[] rotulos = null;
         for (long semente : new long[]{7L, 11L, 23L, 42L}) {
@@ -314,8 +313,81 @@ public class AnaliticaService {
             itens.forEach(grupo::adicionar);
             resultado.add(grupo);
         }
+        calcularSilhueta(elegiveis, resultado);
         resultado.sort(Comparator.comparing(GrupoProdutos::getNome));
         return resultado;
+    }
+
+    /**
+     * Calcula o coeficiente de silhueta (Rousseeuw, 1987) sobre os atributos padronizados,
+     * atualizando a silhueta média de cada grupo e retornando a silhueta global da partição.
+     */
+    public double calcularSilhueta(List<AvaliacaoProduto> elegiveis, List<GrupoProdutos> grupos) {
+        if (elegiveis.size() < 2 || grupos.size() < 2) {
+            return 0;
+        }
+        double[][] pontos = padronizar(extrairAtributos(elegiveis));
+        Map<AvaliacaoProduto, Integer> grupoPorItem = new java.util.IdentityHashMap<>();
+        for (int g = 0; g < grupos.size(); g++) {
+            for (AvaliacaoProduto item : grupos.get(g).getItens()) {
+                grupoPorItem.put(item, g);
+            }
+        }
+
+        int n = elegiveis.size();
+        int[] rotulo = new int[n];
+        for (int i = 0; i < n; i++) {
+            rotulo[i] = grupoPorItem.getOrDefault(elegiveis.get(i), 0);
+        }
+
+        double somaGlobal = 0;
+        double[] somaGrupo = new double[grupos.size()];
+        int[] tamGrupo = new int[grupos.size()];
+        for (int r : rotulo) {
+            tamGrupo[r]++;
+        }
+
+        for (int i = 0; i < n; i++) {
+            int g = rotulo[i];
+            if (tamGrupo[g] <= 1) {
+                continue;
+            }
+            double[] somaDist = new double[grupos.size()];
+            for (int j = 0; j < n; j++) {
+                if (i == j) {
+                    continue;
+                }
+                somaDist[rotulo[j]] += Math.sqrt(distancia2(pontos[i], pontos[j]));
+            }
+            double a = somaDist[g] / (tamGrupo[g] - 1);
+            double b = Double.MAX_VALUE;
+            for (int outro = 0; outro < grupos.size(); outro++) {
+                if (outro != g && tamGrupo[outro] > 0) {
+                    b = Math.min(b, somaDist[outro] / tamGrupo[outro]);
+                }
+            }
+            double denom = Math.max(a, b);
+            double s = denom > 1e-12 ? (b - a) / denom : 0.0;
+            somaGlobal += s;
+            somaGrupo[g] += s;
+        }
+
+        for (int g = 0; g < grupos.size(); g++) {
+            grupos.get(g).setSilhuetaMedia(tamGrupo[g] > 0 ? somaGrupo[g] / tamGrupo[g] : 0.0);
+        }
+        return somaGlobal / n;
+    }
+
+    private static double[][] extrairAtributos(List<AvaliacaoProduto> elegiveis) {
+        double[][] dados = new double[elegiveis.size()][4];
+        for (int i = 0; i < elegiveis.size(); i++) {
+            AvaliacaoProduto avaliacao = elegiveis.get(i);
+            dados[i][0] = avaliacao.getRetornoLiquido();
+            dados[i][1] = avaliacao.getRisco();
+            dados[i][2] = Math.log1p(avaliacao.getLiquidezDias());
+            dados[i][3] = avaliacao.getCargaTributaria();
+        }
+        return dados;
     }
 
     private static double[][] padronizar(double[][] dados) {
@@ -503,7 +575,11 @@ public class AnaliticaService {
 
     private static String nomearGrupo(List<AvaliacaoProduto> itens) {
         int total = itens.size();
-        double carga = itens.stream().mapToDouble(AvaliacaoProduto::getCargaTributaria).average().orElse(0);
+        double carga = itens.stream()
+                .filter(a -> a.getRetornoBruto() > 0)
+                .mapToDouble(AvaliacaoProduto::getCargaTributaria)
+                .average()
+                .orElseGet(() -> itens.stream().mapToDouble(AvaliacaoProduto::getCargaTributaria).average().orElse(0));
         double risco = itens.stream().mapToInt(AvaliacaoProduto::getRisco).average().orElse(0);
         double liquidez = itens.stream().mapToInt(AvaliacaoProduto::getLiquidezDias).average().orElse(0);
         long previdencia = itens.stream().filter(a -> a.getProduto().getTipo().isPrevidencia()).count();

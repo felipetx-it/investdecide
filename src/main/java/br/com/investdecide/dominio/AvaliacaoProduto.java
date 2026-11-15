@@ -7,10 +7,12 @@ public class AvaliacaoProduto {
     private boolean elegivel;
     private String motivo;
     private String grupo = "";
+    private String tipoRotuloEfetivo = "";
 
     private double retornoBruto;
     private double retornoLiquido;
     private double cargaTributaria;
+    private double beneficioFiscal;
     private double valorFinal;
     private double volatilidade;
     private double score;
@@ -23,7 +25,11 @@ public class AvaliacaoProduto {
     }
 
     public String getNome() { return produto.getNome(); }
-    public String getTipoRotulo() { return produto.getRotuloTipo(); }
+    public String getTipoRotulo() {
+        return tipoRotuloEfetivo != null && !tipoRotuloEfetivo.isBlank()
+                ? tipoRotuloEfetivo
+                : produto.getRotuloTipo();
+    }
     public String getRemuneracao() { return produto.getRemuneracao(); }
     public int getRisco() { return produto.getRisco(); }
     public int getLiquidezDias() { return produto.getLiquidezDias(); }
@@ -40,6 +46,9 @@ public class AvaliacaoProduto {
     public String getGrupo() { return grupo; }
     public void setGrupo(String grupo) { this.grupo = grupo; }
 
+    public String getTipoRotuloEfetivo() { return tipoRotuloEfetivo; }
+    public void setTipoRotuloEfetivo(String tipoRotuloEfetivo) { this.tipoRotuloEfetivo = tipoRotuloEfetivo; }
+
     public double getRetornoBruto() { return retornoBruto; }
     public void setRetornoBruto(double retornoBruto) { this.retornoBruto = retornoBruto; }
 
@@ -48,6 +57,9 @@ public class AvaliacaoProduto {
 
     public double getCargaTributaria() { return cargaTributaria; }
     public void setCargaTributaria(double cargaTributaria) { this.cargaTributaria = cargaTributaria; }
+
+    public double getBeneficioFiscal() { return beneficioFiscal; }
+    public void setBeneficioFiscal(double beneficioFiscal) { this.beneficioFiscal = beneficioFiscal; }
 
     public double getValorFinal() { return valorFinal; }
     public void setValorFinal(double valorFinal) { this.valorFinal = valorFinal; }

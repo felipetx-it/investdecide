@@ -7,13 +7,14 @@ import br.com.investdecide.dominio.GrupoProdutos;
 import br.com.investdecide.dominio.Pesos;
 import br.com.investdecide.dominio.Produto;
 import br.com.investdecide.dominio.ResultadoDecisao;
+import br.com.investdecide.dominio.TipoProduto;
 import br.com.investdecide.servico.TributacaoService.ResultadoTributario;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
+import java.util.Locale;
 
 /**
  * Modelo de decisão do SAD.
@@ -45,11 +46,12 @@ public class DecisaoService {
             AvaliacaoProduto avaliacao = new AvaliacaoProduto(produto);
             double retornoBruto = analitica.retornoProjetado(produto, cenario, meses);
             double valorBruto = cliente.getAporte() * Math.pow(1 + retornoBruto / 100, anos);
-            ResultadoTributario tributo = tributacao.calcular(produto, cliente, cliente.getAporte(), valorBruto, meses);
+            ResultadoTributario tributo = calcularTributoOtimo(produto, cliente, valorBruto, meses, avaliacao);
 
             avaliacao.setRetornoBruto(retornoBruto);
             avaliacao.setValorFinal(tributo.valorLiquido());
             avaliacao.setCargaTributaria(tributo.cargaSobreGanho());
+            avaliacao.setBeneficioFiscal(tributo.beneficioFiscal());
             avaliacao.setVolatilidade(analitica.volatilidadeAnual(produto));
             double liquido = tributo.valorLiquido() / cliente.getAporte();
             avaliacao.setRetornoLiquido(liquido <= 0 ? -100 : (Math.pow(liquido, 1 / anos) - 1) * 100);
@@ -143,8 +145,12 @@ public class DecisaoService {
 
         double maiorRetorno = ranking.stream().mapToDouble(AvaliacaoProduto::getRetornoLiquido).max().orElse(0);
         int menorRisco = ranking.stream().mapToInt(AvaliacaoProduto::getRisco).min().orElse(0);
-        double menorCarga = ranking.stream().mapToDouble(AvaliacaoProduto::getCargaTributaria).min().orElse(0);
+        double menorCarga = ranking.stream()
+                .filter(a -> a.getRetornoLiquido() > 0)
+                .mapToDouble(AvaliacaoProduto::getCargaTributaria)
+                .min().orElse(0);
         int menorLiquidez = ranking.stream().mapToInt(AvaliacaoProduto::getLiquidezDias).min().orElse(0);
+        String objetivo = cliente.getObjetivo() == null ? "" : cliente.getObjetivo();
 
         for (AvaliacaoProduto avaliacao : ranking) {
             StringBuilder justificativa = new StringBuilder();
@@ -155,6 +161,11 @@ public class DecisaoService {
             } else {
                 justificativa.append(String.format("; resgate em D+%d.", avaliacao.getLiquidezDias()));
             }
+            if (avaliacao.getBeneficioFiscal() > 0) {
+                justificativa.append(String.format(new Locale("pt", "BR"),
+                        " Modalidade PGBL indicada com restituição estimada de R$ %,.2f no aporte.",
+                        avaliacao.getBeneficioFiscal()));
+            }
 
             List<String> destaques = new ArrayList<>();
             if (avaliacao.getRetornoLiquido() >= maiorRetorno - 1e-9) {
@@ -163,7 +174,7 @@ public class DecisaoService {
             if (avaliacao.getRisco() == menorRisco) {
                 destaques.add("menor risco");
             }
-            if (Math.abs(avaliacao.getCargaTributaria() - menorCarga) < 1e-9) {
+            if (avaliacao.getRetornoLiquido() > 0 && Math.abs(avaliacao.getCargaTributaria() - menorCarga) < 1e-9) {
                 destaques.add("menor carga tributária");
             }
             if (avaliacao.getLiquidezDias() == menorLiquidez) {
@@ -172,11 +183,28 @@ public class DecisaoService {
             if (!destaques.isEmpty()) {
                 justificativa.append(" Destaca-se por: ").append(String.join(", ", destaques)).append(".");
             }
+            if ("Preservar".equals(objetivo) && avaliacao.getRisco() <= 2 && avaliacao.getRetornoLiquido() > 0) {
+                justificativa.append(" Alinhado ao objetivo de preservação.");
+            } else if ("Previdência".equals(objetivo) && avaliacao.getProduto().getTipo().isPrevidencia()) {
+                justificativa.append(" Alinhado ao objetivo previdenciário.");
+            } else if ("Fazer crescer".equals(objetivo) && avaliacao.getRetornoLiquido() >= cenario.getCdi() * 0.85) {
+                justificativa.append(" Alinhado ao objetivo de crescimento.");
+            }
             avaliacao.setJustificativa(justificativa.toString());
 
             StringBuilder ressalva = new StringBuilder();
+            if (avaliacao.getRetornoLiquido() < 0) {
+                ressalva.append("Projeção negativa no cenário avaliado. ");
+            }
             if (avaliacao.getProduto().getTipo().isPrevidencia()) {
-                ressalva.append("Benefício fiscal depende de declaração completa e do limite de 12% da renda. ");
+                if (TipoProduto.PREVIDENCIA_PGBL.getRotulo().equals(avaliacao.getTipoRotulo())) {
+                    ressalva.append("PGBL tributa principal + rendimento no resgate; vantajoso frente ao VGBL pelo benefício fiscal no aporte (limite de 12% da renda). ");
+                } else {
+                    ressalva.append("Avaliado como VGBL (IR apenas sobre o rendimento); benefício do PGBL exigiria declaração completa e prazo maior. ");
+                }
+            }
+            if ("Preservar".equals(objetivo) && avaliacao.getRisco() >= 3) {
+                ressalva.append("Objetivo é preservar capital: avalie alternativas de menor risco. ");
             }
             if (avaliacao.getRisco() == cliente.getPerfil().getRiscoMaximo()) {
                 ressalva.append("Risco no limite do perfil do cliente. ");
@@ -201,6 +229,34 @@ public class DecisaoService {
             }
             avaliacao.setRessalva(ressalva.toString().trim());
         }
+    }
+
+    private ResultadoTributario calcularTributoOtimo(Produto produto, Cliente cliente, double valorBruto,
+                                                     int meses, AvaliacaoProduto avaliacao) {
+        if (produto.getTipo() != null && produto.getTipo().isPrevidencia()) {
+            Produto vgbl = copiaComTipo(produto, TipoProduto.PREVIDENCIA_VGBL);
+            ResultadoTributario resVgbl = tributacao.calcular(vgbl, cliente, cliente.getAporte(), valorBruto, meses);
+            if (cliente.getModelo() == Cliente.ModeloDeclaracao.COMPLETA && cliente.getRendaBruta() > 0) {
+                Produto pgbl = copiaComTipo(produto, TipoProduto.PREVIDENCIA_PGBL);
+                ResultadoTributario resPgbl = tributacao.calcular(pgbl, cliente, cliente.getAporte(), valorBruto, meses);
+                if (resPgbl.valorLiquido() > resVgbl.valorLiquido()) {
+                    avaliacao.setTipoRotuloEfetivo(TipoProduto.PREVIDENCIA_PGBL.getRotulo());
+                    return resPgbl;
+                }
+            }
+            avaliacao.setTipoRotuloEfetivo(TipoProduto.PREVIDENCIA_VGBL.getRotulo());
+            return resVgbl;
+        }
+        return tributacao.calcular(produto, cliente, cliente.getAporte(), valorBruto, meses);
+    }
+
+    private static Produto copiaComTipo(Produto origem, TipoProduto tipo) {
+        Produto copia = new Produto();
+        copia.setId(origem.getId());
+        copia.setNome(origem.getNome());
+        copia.setTipo(tipo);
+        copia.setIsentoIr(origem.isIsentoIr());
+        return copia;
     }
 
     // ------------------------------------------------------------- sensibilidade
@@ -274,6 +330,7 @@ public class DecisaoService {
             resultado.setSensibilidade(testarSensibilidade(ranking, pesos));
             resultado.setCargaTributariaRecomendada(ranking.get(0).getCargaTributaria());
             resultado.setValorFinalRecomendado(ranking.get(0).getValorFinal());
+            resultado.setSilhueta(analitica.calcularSilhueta(ranking, grupos));
         }
 
         resultado.setPremissas(String.format(

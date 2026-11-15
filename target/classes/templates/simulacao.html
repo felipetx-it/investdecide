@@ -58,6 +58,7 @@
                                         <option th:selected="${cliente.objetivo == 'Fazer crescer'}">Fazer crescer</option>
                                         <option th:selected="${cliente.objetivo == 'Previdência'}">Previdência</option>
                                     </select>
+                                    <span class="field-hint">Sugere pesos iniciais (ajustáveis abaixo).</span>
                                 </div>
                                 <div class="form-field">
                                     <label for="aporte">Valor do aporte (R$)</label>
@@ -146,7 +147,7 @@
                                     <select id="cenario" name="cenario" class="form-select">
                                         <option th:each="c : ${cenarios}" th:value="${c.nome}"
                                                 th:selected="${c.nome == cenarioSelecionado}"
-                                                th:text="|${c.nome} — CDI ${#numbers.formatDecimal(c.cdi,1,'POINT',2,'COMMA')}% · IPCA ${#numbers.formatDecimal(c.ipca,1,'POINT',2,'COMMA')}% · dólar ${#numbers.formatDecimal(c.dolar,1,'POINT',1,'COMMA')}%|">Cenário</option>
+                                                th:text="|${c.nome} — CDI ${#numbers.formatDecimal(c.cdi,1,'POINT',2,'COMMA')}% · IPCA ${#numbers.formatDecimal(c.ipca,1,'POINT',2,'COMMA')}% · dólar ${#numbers.formatDecimal(c.dolar,1,'POINT',1,'COMMA')}% · Ibovespa ${#numbers.formatDecimal(c.ibovespa,1,'POINT',1,'COMMA')}%|">Cenário</option>
                                     </select>
                                     <span class="field-hint">Os cenários alternativos aplicam choques configuráveis sobre o base. <a th:href="@{/cenarios}">Configurar cenários</a>.</span>
                                 </div>
