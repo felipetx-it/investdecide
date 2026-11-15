@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Eficiência tributária · InvestDecide</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link th:href="@{/css/app.css}" rel="stylesheet">
+</head>
+<body class="app-page">
+<div class="app-shell">
+    <aside th:replace="~{fragments/sidebar :: sidebar('relatorios')}"></aside>
+    <main class="main-content">
+        <header th:replace="~{fragments/topbar :: topbar('Eficiência tributária', 'Comparativo entre veículos e efeito do reinvestimento')}"></header>
+        <div class="page-content">
+            <div class="page-heading-row">
+                <div>
+                    <div class="date-line"><a th:href="@{/relatorios}">Relatórios</a><i class="bi bi-chevron-right"></i> TRIBUTAÇÃO</div>
+                    <h1>Eficiência tributária</h1>
+                    <p th:text="|Cliente ${cliente.nome} · renda bruta de R$ ${#numbers.formatDecimal(cliente.rendaBruta,1,'POINT',2,'COMMA')} · deduções de R$ ${#numbers.formatDecimal(cliente.deducoes,1,'POINT',2,'COMMA')}|">Contexto</p>
+                </div>
+                <div class="heading-actions">
+                    <a class="btn-ghost-app" th:href="@{/relatorios/tributacao.pdf(taxa=${taxa},meses=${meses})}"><i class="bi bi-filetype-pdf"></i> Exportar PDF</a>
+                    <a class="btn-ghost-app" th:href="@{/relatorios}"><i class="bi bi-arrow-left"></i> Voltar</a>
+                </div>
+            </div>
+
+            <div class="surface-card" style="padding:16px 20px;margin-bottom:16px">
+                <form class="filtro-form" method="get" th:action="@{/relatorios/tributacao}">
+                    <strong style="font-size:10px;color:#4a5a70">Rentabilidade bruta</strong>
+                    <input name="taxa" type="number" step="0.1" th:value="${taxa}" style="height:34px;width:110px;border:1px solid #e4e9f0;border-radius:7px;padding:0 10px;font-size:10px">
+                    <span class="premise">% a.a.</span>
+                    <strong style="font-size:10px;color:#4a5a70;margin-left:10px">Horizonte</strong>
+                    <input name="meses" type="number" step="6" min="12" th:value="${meses}" style="height:34px;width:90px;border:1px solid #e4e9f0;border-radius:7px;padding:0 10px;font-size:10px">
+                    <span class="premise">meses</span>
+                    <button class="sort-btn" type="submit" style="margin-left:auto">Recalcular</button>
+                </form>
+            </div>
+
+            <section class="surface-card" style="padding:18px;margin-bottom:16px">
+                <div class="section-header">
+                    <div><h2>Mesmo retorno bruto, veículos diferentes</h2>
+                        <p th:text="|Aporte de R$ ${#numbers.formatDecimal(relatorio.cliente.aporte,1,'POINT',2,'COMMA')} · regime ${relatorio.cliente.regime.name().toLowerCase()} · rentabilidade de ${#numbers.formatDecimal(relatorio.taxaAnual,1,'POINT',2,'COMMA')}% a.a.|">Premissas</p>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table app-table table-compact align-middle mb-0">
+                        <thead>
+                        <tr><th>Veículo</th><th>Regime</th><th>Valor bruto</th><th>IR</th><th>Benefício PGBL</th><th>Sem reinvestir</th><th>Com reinvestimento</th></tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="linha : ${relatorio.linhas}">
+                            <td><strong th:text="${linha.nome}">Veículo</strong><div class="premise" th:text="${linha.observacao}">obs</div></td>
+                            <td th:text="${linha.regime}">Regime</td>
+                            <td th:text="|R$ ${#numbers.formatDecimal(linha.valorBruto,1,'POINT',2,'COMMA')}|">R$ 0</td>
+                            <td th:text="|R$ ${#numbers.formatDecimal(linha.imposto,1,'POINT',2,'COMMA')}|">R$ 0</td>
+                            <td th:text="|R$ ${#numbers.formatDecimal(linha.beneficio,1,'POINT',2,'COMMA')}|">R$ 0</td>
+                            <td class="num" th:text="|R$ ${#numbers.formatDecimal(linha.liquidoSem,1,'POINT',2,'COMMA')}|">R$ 0</td>
+                            <td class="num" th:text="|R$ ${#numbers.formatDecimal(linha.liquidoCom,1,'POINT',2,'COMMA')}|">R$ 0</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tax-highlight">
+                    <div>
+                        <span>Efeito de reinvestir a restituição</span>
+                        <strong th:text="|R$ ${#numbers.formatDecimal(relatorio.ganhoReinvestimento,1,'POINT',2,'COMMA')}|">R$ 0</strong>
+                        <div class="premise" th:text="${relatorio.explicacaoReinvestimento}">Explicação</div>
+                    </div>
+                    <div>
+                        <span>Benefício fiscal estimado no aporte</span>
+                        <strong th:text="|R$ ${#numbers.formatDecimal(relatorio.linhas[2].beneficio,1,'POINT',2,'COMMA')}|">R$ 0</strong>
+                        <div class="premise">Restituição estimada considerando a alíquota marginal e o limite de 12% da renda bruta.</div>
+                    </div>
+                </div>
+                <div class="premise" th:text="${relatorio.conclusao}">Conclusão</div>
+            </section>
+
+            <section class="surface-card" style="padding:18px">
+                <div class="section-header"><div><h2>Premissas e limitações</h2><p>O que precisa estar explícito no relatório</p></div></div>
+                <div class="premise">
+                    <p><strong>PGBL:</strong> dedução limitada a 12% da renda bruta tributável e restrita a quem declara no modelo completo. No resgate, o IR incide sobre principal + rendimento.</p>
+                    <p><strong>VGBL:</strong> o IR incide apenas sobre o rendimento — vantagem para quem usa a declaração simplificada ou não tem espaço de dedução.</p>
+                    <p><strong>Reinvestimento:</strong> a restituição é tratada como recurso adicional aplicado no mesmo veículo e no mesmo horizonte.</p>
+                    <p><strong>Limitações desta versão:</strong> come-cotas não modelado, IOF ignorado (horizonte mínimo de 12 meses) e tabela de IRPF parametrizada, sujeita a atualização anual.</p>
+                </div>
+            </section>
+
+            <footer class="page-footer"><span>InvestDecide <span>·</span></span><span></span></footer>
+        </div>
+    </main>
+</div>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

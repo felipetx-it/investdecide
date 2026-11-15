@@ -33,13 +33,21 @@
                 <span class="brand-mark"><i class="bi bi-graph-up-arrow"></i></span><span class="brand-copy"><strong>invest<span>decide</span></strong></span>
             </div>
             <div class="login-heading"><div class="login-mini-icon"><i class="bi bi-person-lock"></i></div><h2>Bem-vindo de volta</h2><p>Acesse seu espaço de análise e decisão.</p></div>
-            <form th:action="@{/entrar}" method="post" class="login-form">
-                <label for="email">E-mail profissional</label>
-                <div class="field-wrap"><i class="bi bi-envelope"></i><input type="email" id="email" name="email" placeholder="nome@empresa.com.br" value="mariana@investdecide.com" required></div>
-                <div class="password-label"><label for="password">Senha</label><a href="#" onclick="showDemoNotice('Recuperação de senha não implementada neste protótipo.'); return false;">Esqueceu a senha?</a></div>
-                <div class="field-wrap"><i class="bi bi-lock"></i><input type="password" id="password" name="password" placeholder="Digite sua senha" value="investdecide" required><button type="button" class="password-toggle" onclick="togglePassword()" aria-label="Mostrar ou ocultar senha"><i class="bi bi-eye"></i></button></div>
-                <div class="remember-row"><label><input type="checkbox" checked> <span>Manter conectado</span></label><span class="secure-note"><i class="bi bi-shield-check"></i> Ambiente de demonstração</span></div>
-                <button class="btn-primary-app login-submit" type="submit">Entrar na plataforma <i class="bi bi-arrow-right"></i></button>
+
+            <div th:if="${param.erro}" class="inline-alert erro" style="margin-bottom:14px">
+                <i class="bi bi-exclamation-triangle"></i><span>E-mail ou senha inválidos.</span>
+            </div>
+            <div th:if="${param.saida}" class="inline-alert ok" style="margin-bottom:14px">
+                <i class="bi bi-check-circle"></i><span>Sessão encerrada com sucesso.</span>
+            </div>
+
+            <form th:action="@{/login}" method="post" class="login-form">
+                <label for="email">E-mail</label>
+                <div class="field-wrap"><i class="bi bi-envelope"></i><input type="email" id="email" name="email" placeholder="nome@empresa.com.br" autocomplete="username" required autofocus></div>
+                <div class="password-label"><label for="senha">Senha</label><a href="#" onclick="showDemoNotice('A recuperação de senha será feita pelo administrador.'); return false;">Esqueceu a senha?</a></div>
+                <div class="field-wrap"><i class="bi bi-lock"></i><input type="password" id="senha" name="senha" placeholder="Digite sua senha" autocomplete="current-password" required><button type="button" class="password-toggle" onclick="togglePassword()" aria-label="Mostrar ou ocultar senha"><i class="bi bi-eye"></i></button></div>
+                <div class="remember-row"><label><input type="checkbox" checked> <span>Manter conectado</span></label><span class="secure-note"><i class="bi bi-shield-check"></i> Acesso restrito</span></div>
+                <button class="btn-primary-app login-submit" type="submit">Entrar <i class="bi bi-arrow-right"></i></button>
             </form>
 
         </div>

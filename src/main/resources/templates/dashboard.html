@@ -12,184 +12,88 @@
 <div class="app-shell">
     <aside th:replace="~{fragments/sidebar :: sidebar('dashboard')}"></aside>
     <main class="main-content">
-        <header th:replace="~{fragments/topbar :: topbar('Dashboard', 'Cockpit do cliente e alternativas de investimento')}"></header>
+        <header th:replace="~{fragments/topbar :: topbar('Dashboard', 'Panorama da carteira de decisões')}"></header>
         <div class="page-content">
             <div class="page-heading-row">
                 <div>
-                    <div class="date-line"><i class="bi bi-calendar3"></i> DOMINGO, 18 DE OUTUBRO DE 2026</div>
-                    <h1>Cockpit do cliente: <span th:text="${client.name}">Ricardo Almeida</span></h1>
-                    <p>Contexto do cliente, pontos de atenção e alternativas elegíveis para a próxima recomendação.</p>
+                    <div class="date-line"><i class="bi bi-calendar3"></i> ATUALIZADO COM OS INDICADORES DE <span th:text="${indicadores.dataReferencia}">DATA</span></div>
+                    <h1>Cliente em foco: <span th:text="${cliente.nome}">Cliente</span></h1>
+                    <p>Recomendação calculada com o motor de decisão — perfil, tributação e cenário base.</p>
                 </div>
                 <div class="heading-actions">
-                    <button class="btn-ghost-app" type="button" onclick="showDemoNotice('A seleção de clientes será implementada na versão funcional.')">
-                        <i class="bi bi-people"></i> Trocar cliente
-                    </button>
+                    <a class="btn-ghost-app" th:href="@{/cenarios}"><i class="bi bi-sliders2"></i> Cenários</a>
                     <a class="btn-primary-app" th:href="@{/simulacao}"><i class="bi bi-plus-lg"></i> Nova simulação</a>
                 </div>
             </div>
 
             <div class="demo-banner">
                 <div class="banner-icon"><i class="bi bi-info-lg"></i></div>
-                <div><strong>Visão demonstrativa</strong><span>Cliente, valores, alertas e alternativas são fictícios e servem para apresentar o fluxo de apoio à decisão do protótipo.</span></div>
+                <div><strong>Base real da CVM</strong><span>Fundos distribuídos pela XP, retornos mensais, CDI, IPCA e dólar vindos das bases públicas; o índice, o agrupamento e o imposto são calculados pelo sistema.</span></div>
                 <button onclick="this.parentElement.remove()" aria-label="Fechar aviso"><i class="bi bi-x-lg"></i></button>
             </div>
 
-            <!-- Cartão do cliente em foco -->
-            <section class="surface-card client-card">
-                <div class="client-identity">
-                    <span class="client-avatar" th:text="${client.initials}">RA</span>
-                    <div>
-                        <span class="client-name" th:text="${client.name}">Ricardo Almeida</span>
-                        <small><i class="bi bi-patch-check-fill"></i> <span th:text="${client.since}">cliente desde 2021</span></small>
+            <div class="summary-strip">
+                <div class="summary-item"><span>Alternativas</span><strong th:text="${resultado.totalAlternativas}">0</strong><small>na prateleira</small></div>
+                <div class="summary-item"><span>Elegíveis</span><strong th:text="${resultado.totalElegiveis}">0</strong><small>após restrições</small></div>
+                <div class="summary-item"><span>Grupos</span><strong th:text="${#lists.size(grupos)}">0</strong><small>identificados</small></div>
+                <div class="summary-item"><span>Cenário</span><strong th:text="${resultado.cenario.nome}">Base</strong><small th:text="|CDI ${#numbers.formatDecimal(resultado.cenario.cdi,1,'POINT',2,'COMMA')}%|">CDI</small></div>
+            </div>
+
+
+            <div class="simulation-layout">
+                <section class="surface-card" style="padding:18px">
+                    <div class="section-header"><div><h2>Top 3 pelo índice</h2><p>Ordenação calculada pelo SAW</p></div>
+                        <a class="text-link" th:href="@{/simulacao/ranking}">Ranking completo <i class="bi bi-arrow-right"></i></a></div>
+                    <div class="rank-list">
+                        <article class="rank-item" th:each="item : ${destaques}">
+                            <span class="rank-position" th:text="${item.posicao}">1</span>
+                            <div class="rank-body">
+                                <div class="rank-head"><strong th:text="${item.nome}">Produto</strong>
+                                    <span class="rank-score" th:text="|${#numbers.formatDecimal(item.score,1,'POINT',1,'COMMA')}/100|">0</span></div>
+                                <small th:text="|${item.tipoRotulo} · ${item.grupo}|">Tipo</small>
+                                <p class="rank-why" th:text="${item.justificativa}">Justificativa</p>
+                            </div>
+                            <span class="rank-net" th:text="|R$ ${#numbers.formatDecimal(item.valorFinal,1,'POINT',2,'COMMA')}|">R$ 0</span>
+                        </article>
                     </div>
+                </section>
+
+                <section class="surface-card" style="padding:18px">
+                    <div class="section-header"><div><h2>Pontos de atenção</h2><p>O que o motor encontrou nesta análise</p></div></div>
+                    <div class="alert-list">
+                        <article class="alert-item" th:each="alerta : ${alertas}" th:classappend="${alerta.tipo}">
+                            <span class="alert-icon"><i class="bi" th:classappend="${alerta.icone}"></i></span>
+                            <div><strong th:text="${alerta.titulo}">Título</strong><p th:text="${alerta.texto}">Texto</p></div>
+                        </article>
+                    </div>
+                </section>
+            </div>
+
+            <section class="cluster-block" style="margin-top:16px">
+                <div class="cluster-head">
+                    <div><h3>Grupos de alternativas</h3><p>Agrupamento por similaridade de retorno, risco, liquidez e tributação</p></div>
+                    <a class="text-link" th:href="@{/simulacao}">Simular outro cliente <i class="bi bi-arrow-right"></i></a>
                 </div>
-                <div class="client-meta">
-                    <span class="meta-chip"><i class="bi bi-shield-check"></i> Perfil: <strong th:text="${client.profile}">Moderado</strong></span>
-                    <span class="meta-chip"><i class="bi bi-calendar3"></i> Horizonte: <strong th:text="${client.horizon}">3 anos</strong></span>
-                    <span class="meta-chip"><i class="bi bi-droplet"></i> Liquidez: <strong th:text="${client.liquidity}">Até 30 dias</strong></span>
-                    <span class="meta-chip"><i class="bi bi-bullseye"></i> Objetivo: <strong th:text="${client.objective}">Fazer crescer</strong></span>
-                </div>
-                <div class="client-side">
-                    <span class="client-patrimony-label">Patrimônio declarado</span>
-                    <span class="client-patrimony" th:text="${client.patrimony}">R$ 480 mil</span>
-                    <small><i class="bi bi-shield-check text-success"></i> <span th:text="${client.lastReview}">suitability revisado em 02/09/2026</span></small>
+                <div class="table-responsive">
+                    <table class="table app-table table-compact align-middle mb-0">
+                        <thead><tr><th>Grupo</th><th>Alternativas</th><th>Retorno líquido médio</th><th>Risco médio</th><th>Carga média</th></tr></thead>
+                        <tbody>
+                        <tr th:each="grupo : ${grupos}">
+                            <td><strong th:text="${grupo.nome}">Grupo</strong><div class="premise" th:text="${grupo.descricao}">Descrição</div></td>
+                            <td th:text="${grupo.quantidade}">0</td>
+                            <td th:text="|${#numbers.formatDecimal(grupo.retornoMedio,1,'POINT',2,'COMMA')}%|">0%</td>
+                            <td th:text="${#numbers.formatDecimal(grupo.riscoMedio,1,'POINT',1,'COMMA')}">0</td>
+                            <td th:text="|${#numbers.formatDecimal(grupo.cargaMedia,1,'POINT',1,'COMMA')}%|">0%</td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </section>
 
-            <!-- KPIs de decisão -->
-            <div class="metric-grid">
-                <article class="metric-card">
-                    <div class="metric-top"><span>Alternativas elegíveis</span><span class="metric-icon icon-blue"><i class="bi bi-funnel"></i></span></div>
-                    <div class="metric-value">12 <small>de 18</small></div>
-                    <div class="metric-foot"><span class="trend-neutral">6 descartadas</span><span>por restrição de perfil</span></div>
-                    <div class="metric-spark spark-blue"><span style="height:36%"></span><span style="height:48%"></span><span style="height:40%"></span><span style="height:66%"></span><span style="height:53%"></span><span style="height:78%"></span><span style="height:100%"></span></div>
-                </article>
-                <article class="metric-card">
-                    <div class="metric-top"><span>Simulações do cliente</span><span class="metric-icon icon-green"><i class="bi bi-sliders2"></i></span></div>
-                    <div class="metric-value">5</div>
-                    <div class="metric-foot"><span class="trend-up"><i class="bi bi-arrow-up-right"></i> 2</span><span>nesta semana</span></div>
-                    <div class="metric-spark spark-green"><span style="height:32%"></span><span style="height:41%"></span><span style="height:37%"></span><span style="height:63%"></span><span style="height:56%"></span><span style="height:79%"></span><span style="height:100%"></span></div>
-                </article>
-                <article class="metric-card">
-                    <div class="metric-top"><span>Recomendação atual</span><span class="metric-icon icon-purple"><i class="bi bi-award"></i></span></div>
-                    <div class="metric-value">R$ 13,3 <small>mil</small></div>
-                    <div class="metric-foot"><span class="trend-neutral">Vita Prev PGBL</span><span>líquido em 3 anos</span></div>
-                    <div class="metric-spark spark-purple"><span style="height:45%"></span><span style="height:36%"></span><span style="height:62%"></span><span style="height:48%"></span><span style="height:73%"></span><span style="height:88%"></span><span style="height:100%"></span></div>
-                </article>
-                <article class="metric-card">
-                    <div class="metric-top"><span>Diferença para a 2ª opção</span><span class="metric-icon icon-orange"><i class="bi bi-graph-up-arrow"></i></span></div>
-                    <div class="metric-value">+ R$ 270</div>
-                    <div class="metric-foot"><span class="trend-neutral">margem pequena</span><span>checar sensibilidade</span></div>
-                    <div class="metric-spark spark-orange"><span style="height:25%"></span><span style="height:41%"></span><span style="height:38%"></span><span style="height:64%"></span><span style="height:58%"></span><span style="height:79%"></span><span style="height:100%"></span></div>
-                </article>
-            </div>
-
-            <!-- Gráfico de projeção do cliente & Alertas -->
-            <div class="dashboard-main-grid">
-                <section class="surface-card performance-card">
-                    <div class="section-header">
-                        <div><h2>Projeção do aporte do cliente</h2><p>R$ 10.000 · 3 anos · valores hipotéticos por cenário</p></div>
-                        <button class="select-pill" onclick="showDemoNotice('O filtro de período será implementado na próxima etapa.')">Cenário base <i class="bi bi-chevron-down"></i></button>
-                    </div>
-                    <div class="chart-legend"><span><i class="legend-dot dot-navy"></i> Cenário base</span><span><i class="legend-dot dot-mint"></i> Cenário otimista</span><span><i class="legend-dot dot-orange"></i> Cenário conservador</span></div>
-                    <div class="chart-wrap"><canvas id="scenarioChart" aria-label="Gráfico de projeção do aporte do cliente"></canvas></div>
-                    <div class="chart-footnote"><i class="bi bi-info-circle"></i> Projeções hipotéticas, sem garantia de rentabilidade futura.</div>
-                </section>
-
-                <section class="surface-card alerts-card">
-                    <div class="section-header"><div><h2>Pontos de atenção</h2><p>O que mudou desde a última análise</p></div><span class="optional-tag">3 EVENTOS</span></div>
-                    <div class="alert-list">
-                        <article class="alert-item" th:each="alert : ${alerts}" th:classappend="${alert.kind}">
-                            <span class="alert-icon"><i class="bi" th:classappend="${alert.icon}"></i></span>
-                            <div class="alert-content">
-                                <strong th:text="${alert.title}">Título</strong>
-                                <p th:text="${alert.text}">Descrição</p>
-                            </div>
-                        </article>
-                    </div>
-                    <a class="alert-link" th:href="@{/simulacao}">Revalidar premissas na simulação <i class="bi bi-arrow-right"></i></a>
-                </section>
-            </div>
-
-            <!-- Tabela com elegibilidade & Lista de últimas simulações -->
-            <div class="dashboard-bottom-grid">
-                <section class="surface-card products-card">
-                    <div class="section-header">
-                        <div><h2>Alternativas para este cliente</h2><p>Elegibilidade calculada a partir do perfil, da liquidez e do horizonte</p></div>
-                        <a th:href="@{/simulacao}" class="text-link">Comparar alternativas <i class="bi bi-arrow-right"></i></a>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table app-table align-middle">
-                            <thead>
-                                <tr>
-                                    <th>PRODUTO</th>
-                                    <th>CLASSE</th>
-                                    <th>RETORNO HIPOTÉTICO</th>
-                                    <th>RISCO</th>
-                                    <th>ELEGIBILIDADE</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="product : ${products}" th:classappend="${!product.eligible} ? ' row-ineligible' : ''">
-                                <td>
-                                    <div class="product-cell">
-                                        <span class="product-logo" th:classappend="${product.type.contains('Previdência') ? ' product-logo-green' : (product.type.contains('Multimercado') ? ' product-logo-purple' : '')}">
-                                            <i class="bi bi-graph-up-arrow"></i>
-                                        </span>
-                                        <strong th:text="${product.name}">Nome do produto</strong>
-                                    </div>
-                                </td>
-                                <td th:text="${product.type}">Classe</td>
-                                <td class="table-return" th:text="${product['return']}">0,0%</td>
-                                <td><span class="risk-pill" th:classappend="${product.riskClass}" th:text="${product.risk}">Baixo</span></td>
-                                <td>
-                                    <span class="elig-pill" th:classappend="${product.eligible} ? 'elig-yes' : 'elig-no'">
-                                        <i class="bi" th:classappend="${product.eligible} ? 'bi-check2-circle' : 'bi-slash-circle'"></i>
-                                        <span th:text="${product.eligibleLabel}">Elegível</span>
-                                    </span>
-                                </td>
-                                <td><a th:href="@{/simulacao}" class="table-action" aria-label="Abrir comparação"><i class="bi bi-arrow-up-right"></i></a></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
-
-                <section class="surface-card recent-card">
-                    <div class="section-header">
-                        <div><h2>Últimas simulações</h2><p>Histórico recente da equipe</p></div>
-                        <a th:href="@{/relatorios}" class="text-link">Ver relatórios <i class="bi bi-arrow-right"></i></a>
-                    </div>
-                    <div class="recent-list">
-                        <article class="recent-item" th:each="sim : ${simulations}">
-                            <div class="recent-main">
-                                <strong th:text="${sim.client}">Cliente</strong>
-                                <small th:text="|${sim.date} · aporte ${sim.amount}|">Data</small>
-                            </div>
-                            <div class="recent-value">
-                                <span th:text="${sim.highlight}">Alternativa</span>
-                                <strong th:text="${sim.net}">R$ 0</strong>
-                            </div>
-                            <span class="status-pill" th:classappend="${sim.statusClass}">
-                                <i class="bi" th:classappend="${sim.statusClass == 'status-done' ? 'bi-check-circle-fill' : 'bi-clock-history'}"></i>
-                                <span th:text="${sim.status}">Status</span>
-                            </span>
-                        </article>
-                    </div>
-                </section>
-            </div>
-
-            <footer class="page-footer">
-                <span>InvestDecide <span>·</span> Sistema de Apoio à Decisão</span>
-                <span>Protótipo acadêmico · Ambiente de demonstração</span>
-            </footer>
+            <footer class="page-footer"><span>InvestDecide <span>·</span></span><span></span></footer>
         </div>
     </main>
 </div>
-<div id="demo-toast" class="demo-toast" role="status"></div>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
 <script th:src="@{/js/app.js}"></script>
-<script th:src="@{/js/dashboard.js}"></script>
 </body>
 </html>

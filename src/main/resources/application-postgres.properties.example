@@ -1,5 +1,5 @@
 # Copie as propriedades necessárias para application-postgres.properties quando iniciar
-# a integração real. Esta configuração não é carregada pelo protótipo atual.
+# a integração real. Esta configuração não é carregada pela versão atual.
 #
 # spring.datasource.url=jdbc:postgresql://localhost:5432/investdecide
 # spring.datasource.username=postgres

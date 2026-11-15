@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Resultado · InvestDecide</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link th:href="@{/css/app.css}" rel="stylesheet">
+</head>
+<body class="app-page">
+<div class="app-shell">
+    <aside th:replace="~{fragments/sidebar :: sidebar('simulacao')}"></aside>
+    <main class="main-content">
+        <header th:replace="~{fragments/topbar :: topbar('Resultado da simulação', 'Índice multicritério, grupos e justificativas')}"></header>
+        <div class="page-content">
+            <div class="page-heading-row">
+                <div>
+                    <div class="date-line"><a th:href="@{/dashboard}">Dashboard</a><i class="bi bi-chevron-right"></i>
+                        <a th:href="@{/simulacao}">Simulação</a><i class="bi bi-chevron-right"></i> RESULTADO</div>
+                    <h1 th:text="|Recomendação para ${cliente.nome}|">Recomendação</h1>
+                    <p th:text="|Aporte de R$ ${#numbers.formatDecimal(cliente.aporte,1,'POINT',2,'COMMA')} · horizonte de ${cliente.horizonteMeses} meses · cenário ${resultado.cenario.nome}|">Resumo</p>
+                </div>
+                <div class="heading-actions">
+                    <a class="btn-ghost-app" th:href="@{/relatorios/comparativo.pdf}"><i class="bi bi-filetype-pdf"></i> Exportar PDF</a>
+                    <a class="btn-ghost-app" th:href="@{/relatorios/sensibilidade.pdf}"><i class="bi bi-bar-chart-line"></i> Sensibilidade</a>
+                    <a class="btn-ghost-app" th:href="@{/simulacao}"><i class="bi bi-arrow-repeat"></i> Nova simulação</a>
+                    <a class="btn-primary-app" th:href="@{/simulacao/ranking}"><i class="bi bi-list-ol"></i> Ranking completo</a>
+                </div>
+            </div>
+
+            <div class="scenario-tabs">
+                <span class="scenario-tabs-label"><i class="bi bi-graph-up"></i> Cenário</span>
+                <a th:each="c : ${cenariosDisponiveis}" th:href="@{/simulacao/resultado(cenario=${c})}"
+                   th:classappend="${c == cenarioSelecionado} ? ' active' : ''" th:text="${c}">Base</a>
+            </div>
+
+            <div class="summary-strip">
+                <div class="summary-item"><span>Alternativas avaliadas</span><strong th:text="${resultado.totalAlternativas}">0</strong><small>na prateleira</small></div>
+                <div class="summary-item"><span>Elegíveis após filtros</span><strong th:text="${resultado.totalElegiveis}">0</strong><small>restrições do cliente</small></div>
+                <div class="summary-item"><span>Grupos identificados</span><strong th:text="${#lists.size(resultado.grupos)}">0</strong><small>k-médias</small></div>
+                <div class="summary-item"><span>Cenário</span><strong th:text="${resultado.cenario.nome}">Base</strong><small th:text="|CDI ${#numbers.formatDecimal(resultado.cenario.cdi,1,'POINT',2,'COMMA')}%|">CDI</small></div>
+            </div>
+
+            <div th:if="${#lists.isEmpty(resultado.ranking)}" class="inline-alert erro">
+                <i class="bi bi-slash-circle"></i><span>Nenhuma alternativa atende aos filtros de elegibilidade. Revise perfil, liquidez ou aporte.</span>
+            </div>
+
+            <div th:if="${not #lists.isEmpty(resultado.ranking)}">
+                <section class="surface-card shortlist-card">
+                    <div class="section-header">
+                        <div>
+                            <h2>Alternativas recomendadas</h2>
+                            <p>As três melhores combinações para este cliente — a escolha final é do profissional</p>
+                        </div>
+                        <span class="badge-soft badge-navy" th:text="|3 de ${resultado.totalElegiveis} elegíveis|">3 de 3</span>
+                    </div>
+                    <div class="top3-grid">
+                        <article class="top3-card" th:each="item, iter : ${destaques}">
+                            <div class="pos"><span th:text="|${iter.index + 1}º|">1º</span>
+                                <span class="badge-soft" th:text="|${#numbers.formatDecimal(item.score,1,'POINT',1,'COMMA')} pts|">0</span></div>
+                            <h3 th:text="${item.nome}">Produto</h3>
+                            <p class="shortlist-type" th:text="|${item.tipoRotulo} · ${item.remuneracao}|">Tipo</p>
+                            <span class="val" th:text="|R$ ${#numbers.formatDecimal(item.valorFinal,1,'POINT',2,'COMMA')}|">R$ 0</span>
+                            <p class="shortlist-metrics" th:text="|Retorno líquido ${#numbers.formatDecimal(item.retornoLiquido,1,'POINT',2,'COMMA')}% a.a. · risco ${item.risco} · ${item.liquidezDias == 0 ? 'liquidez imediata' : 'resgate em D+' + item.liquidezDias}|">Métricas</p>
+                            <p class="shortlist-why" th:text="${item.justificativa}">Justificativa</p>
+                            <p class="shortlist-caveat" th:text="${item.ressalva}">Ressalva</p>
+                        </article>
+                    </div>
+                    <div class="shortlist-note">
+                        <i class="bi bi-info-circle"></i>
+                        <span>O sistema apresenta um conjunto curto de alternativas em vez de apontar uma única escolha: a recomendação é construída com o profissional, que responde pela decisão final.</span>
+                    </div>
+                    <div class="shortlist-robustez">
+                        <span><strong>Sensibilidade:</strong> <span th:text="${resultado.sensibilidade}">…</span></span>
+                        <span th:if="${not #strings.isEmpty(resultado.notaDiferenca)}" th:text="${resultado.notaDiferenca}">Nota</span>
+                    </div>
+                </section>
+
+                <section class="surface-card" style="padding:18px 20px;margin-bottom:16px">
+                    <div class="section-header">
+                        <div><h2>Alternativas por grupo</h2><p>Ordenação inicial alfabética dentro de cada grupo — use os botões para reordenar</p></div>
+                        <a class="text-link" th:href="@{/simulacao/ranking}">Ver todas as posições <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                    <div class="premise" th:text="${resultado.premissas}">Premissas</div>
+                </section>
+
+                <section class="cluster-block" th:each="grupo : ${resultado.grupos}">
+                    <div class="cluster-head">
+                        <div>
+                            <h3 th:text="${grupo.nome}">Grupo</h3>
+                            <p th:text="${grupo.descricao}">Descrição</p>
+                        </div>
+                        <div class="sort-bar">
+                            <button type="button" class="sort-btn ativo" data-criterio="nome" onclick="ordenarTabela(this)">Nome</button>
+                            <button type="button" class="sort-btn" data-criterio="retorno" onclick="ordenarTabela(this)">Retorno</button>
+                            <button type="button" class="sort-btn" data-criterio="risco" onclick="ordenarTabela(this)">Risco</button>
+                            <button type="button" class="sort-btn" data-criterio="liquidez" onclick="ordenarTabela(this)">Liquidez</button>
+                            <button type="button" class="sort-btn" data-criterio="score" onclick="ordenarTabela(this)">Índice</button>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table app-table table-compact align-middle mb-0">
+                            <thead>
+                            <tr>
+                                <th>Alternativa</th><th>Retorno líq.</th><th>Risco</th><th>Liquidez</th>
+                                <th>Carga trib.</th><th>Índice</th><th>Valor final</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="item : ${grupo.itens}"
+                                th:attr="data-nome=${item.nome},data-retorno=${item.retornoLiquido},data-risco=${item.risco},data-liquidez=${item.liquidezDias},data-score=${item.score}">
+                                <td>
+                                    <strong th:text="${item.nome}">Produto</strong>
+                                    <div class="premise" th:text="${item.remuneracao}">Remuneração</div>
+                                </td>
+                                <td class="num" th:text="|${#numbers.formatDecimal(item.retornoLiquido,1,'POINT',2,'COMMA')}%|">0%</td>
+                                <td><span class="badge-soft" th:classappend="${item.risco >= 4 ? 'badge-red' : (item.risco >= 3 ? 'badge-amber' : 'badge-green')}" th:text="${item.risco}">2</span></td>
+                                <td th:text="${item.liquidezDias == 0 ? 'D+0' : 'D+' + item.liquidezDias}">D+0</td>
+                                <td th:text="|${#numbers.formatDecimal(item.cargaTributaria,1,'POINT',1,'COMMA')}%|">0%</td>
+                                <td class="num" th:text="${#numbers.formatDecimal(item.score,1,'POINT',1,'COMMA')}">0</td>
+                                <td class="num" th:text="|R$ ${#numbers.formatDecimal(item.valorFinal,1,'POINT',2,'COMMA')}|">R$ 0</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <div class="heading-actions" style="justify-content:flex-end">
+                    <a class="btn-ghost-app" th:href="@{/relatorios/tributacao}"><i class="bi bi-receipt"></i> Relatório tributário</a>
+                    <a class="btn-primary-app" th:href="@{/simulacao/ranking}"><i class="bi bi-list-ol"></i> Ranking completo por grupo</a>
+                </div>
+            </div>
+
+            <footer class="page-footer"><span>InvestDecide <span>·</span></span><span></span></footer>
+        </div>
+    </main>
+</div>
+<script th:src="@{/js/app.js}"></script>
+<script th:src="@{/js/resultado.js}"></script>
+</body>
+</html>

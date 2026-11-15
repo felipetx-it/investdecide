@@ -1,80 +1,113 @@
-# InvestDecide — Protótipo
+# InvestDecide — Sistema de Apoio à Decisão para seleção de fundos
 
-Protótipo acadêmico de um Sistema de Apoio à Decisão (SAD) para comparar alternativas de investimento para um aporte específico de um cliente.
+Sistema web que apoia a escolha de **onde aplicar um aporte** de um cliente, comparando os
+fundos de investimento e de previdência **distribuídos pela XP Investimentos**.
 
-## O que está incluído
-
-- **Login:** tela demonstrativa; qualquer e-mail/senha preenchidos levam ao dashboard.
-- **Dashboard — cockpit do cliente:** cliente em foco (perfil, horizonte, liquidez, objetivo), alertas do que mudou desde a última análise, indicadores de decisão, projeção do aporte e alternativas com a **elegibilidade** de cada produto.
-- **Nova simulação:** contexto do cliente, critérios de elegibilidade aplicados, **ranking com justificativa** (posição, escore, motivo e ressalva), comparativo com coluna de situação e filtro "mostrar apenas elegíveis".
-- **Relatórios:** biblioteca com busca, filtro por categoria, cliente e **exportação em PDF** pela impressão do navegador.
-- Navegação entre as três áreas e ligações entre dashboard, simulação e relatórios.
-- Interface com Thymeleaf, Bootstrap e estilos próprios.
-
-## Tecnologias
-
-- Java 17+
-- Spring Boot 3.5.16
-- Spring Web MVC
-- Thymeleaf
-- Bootstrap 5 (CDN)
-- Chart.js (CDN)
-- Driver PostgreSQL incluído para a etapa de integração
-- Python 3.10+ para o script de ingestão de dados (`scripts/cvm_fundos.py`)
-
-O projeto usa Spring Boot 3.5.16, que requer Java 17 ou superior conforme a documentação oficial: https://docs.spring.io/spring-boot/3.5/system-requirements.html.
-
-
+O sistema não é um painel: ele **elimina alternativas por restrição** (perfil, liquidez,
+horizonte, aporte mínimo), **projeta o resultado líquido** de cada uma com imposto, **agrupa as
+semelhantes**, **ordena por um índice multicritério** e devolve um **conjunto curto de
+alternativas** com justificativa, ressalvas e teste de robustez.
 
 ## Como executar
 
-1. Instale um JDK 17 ou superior e Maven 3.6.3+.
-2. Abra um terminal na pasta que contém este README.
-3. Execute:
+Pré-requisitos: JDK 17+, Maven 3.6+ e Python 3.10+ (apenas para atualizar a base).
 
-   ```bash
-   mvn spring-boot:run
-   ```
+```bash
+# 1. base de dados (CVM + BCB). Rode uma vez; os arquivos ficam em data/processed
+python scripts/cvm_xp.py --lista caminho/para/fundos-xp.txt --meses 12
 
-4. Acesse `http://localhost:8080`.
-5. Clique em **Entrar na plataforma** (os dados já aparecem preenchidos). O sistema abre o dashboard.
+# 2. sistema
+mvn spring-boot:run
+```
 
-Também é possível importar a pasta como projeto Maven no IntelliJ IDEA, Eclipse ou VS Code com extensão Java.
+Acesse `http://localhost:8080` 
 
-## Telas e rotas
+## Autenticação
 
-| Tela | Endereço |
+- Login por e-mail e senha em `/login` (Spring Security, sessão + CSRF).
+- Todas as rotas exigem autenticação, exceto `/login` e os arquivos estáticos.
+- Logout em `POST /logout`.
+
+## Base de dados
+
+`scripts/cvm_xp.py` monta a base a partir de fontes públicas:
+
+1. **Cadastro da CVM** (`registro_fundo_classe.zip`): nome, classe ANBIMA, tributação de longo
+   prazo, situação, patrimônio.
+2. **Lista de fundos distribuídos pela XP** (arquivo TSV com nome comercial): o casamento é
+   aproximado por tokens do nome, com limiar de similaridade — o resultado fica no campo
+   `score_match`.
+3. **Informe diário da CVM** (últimos N meses): cotas, patrimônio e cotistas → retorno mensal
+   e volatilidade.
+4. **BCB/SGS**: CDI, IPCA e dólar mensais.
+
+Saídas em `data/processed/`: `catalogo_fundos.csv`, `fundos_mensal.csv`, `fundos_diario.csv`
+e `fatores_macro.csv`. O sistema carrega esses arquivos na inicialização
+(`DadosMercadoService`) e usa o universo dos **150 maiores fundos por patrimônio**
+(`investdecide.universo`) para manter a análise utilizável.
+
+## Modelo de decisão
+
+1. **Projeção.** Regressão MQO dos retornos mensais do fundo contra CDI, IPCA e dólar
+   (12 meses de histórico), aplicada aos fatores do cenário escolhido para estimar o retorno
+   anual.
+2. **Resultado líquido.** IR pela tabela regressiva de fundos; previdência tratada como VGBL
+   (IR sobre o rendimento). O comparativo PGBL × VGBL × CDB × LCI/LCA fica no relatório
+   tributário.
+3. **Elegibilidade (restrições duras).** Risco acima do perfil, liquidez insuficiente,
+   carência maior que o horizonte e aporte abaixo do mínimo eliminam a alternativa antes do
+   índice.
+4. **Agrupamento.** k-médias (retorno líquido, risco, liquidez e carga tributária padronizados),
+   com fusão de grupos de um item.
+5. **Índice multicritério.** Critérios normalizados (min-max) e somados com os pesos
+   informados; teste de sensibilidade com perturbação de +20% em cada peso.
+6. **Saída em shortlist.** As três melhores alternativas, com o mesmo destaque visual, mais o
+   ranking completo por grupo.
+
+## Rotas
+
+| Rota | Tela |
 |---|---|
-| Login | `/login` |
-| Dashboard (cockpit do cliente) | `/dashboard` |
-| Nova simulação | `/simulacao` |
-| Relatórios | `/relatorios` |
+| `/login` | Autenticação |
+| `/dashboard` | Panorama do cliente padrão: top 3, grupos e alertas |
+| `/simulacao` | Formulário: cliente, tributação, pesos e cenário |
+| `POST /simulacao` | Calcula e exibe o resultado |
+| `/simulacao/ranking` | Ranking completo, com ordenação e grupos |
+| `/cenarios` | Indicadores de mercado e choques dos cenários |
+| `/relatorios` | Central de relatórios |
+| `/relatorios/tributacao` | Comparativo tributário (CDB, LCI/LCA, PGBL, VGBL) |
+| `/relatorios/comparativo.pdf` | Relatório do comparativo de alternativas |
+| `/relatorios/tributacao.pdf` | Relatório de eficiência tributária |
+| `/relatorios/sensibilidade.pdf` | Relatório de sensibilidade |
+| `/api/diagnostico` | JSON da última simulação (validação) |
 
-## Estrutura do projeto
+## Relatórios em PDF
+
+Gerados no servidor com **OpenPDF** (`com.github.librepdf:openpdf:1.3.30`): tabelas, cabeçalho
+repetido na quebra de página, rodapé numerado e data de emissão.
+
+## Estrutura
 
 ```text
 src/main/java/br/com/investdecide/
-  InvestDecideApplication.java
-  PagesController.java
-src/main/resources/
-  application.properties
-  application-postgres.properties.example
-  templates/
-    login.html
-    dashboard.html
-    simulacao.html
-    relatorios.html
-    fragments/
-      sidebar.html
-      topbar.html
-  static/
-    css/app.css
-    js/app.js
-    js/dashboard.js
-    js/simulacao.js
-    js/reports.js
-scripts/
-  cvm_fundos.py        # ingestão CVM + BCB
-db/
-  schema.sql           # tabelas e view para o PostgreSQL
+  config/      SecurityConfig (autenticação)
+  dominio/     Produto, Cliente, Cenario, Pesos, AvaliacaoProduto, ResultadoDecisao...
+  servico/     DadosMercadoService, CatalogoService, AnaliticaService (regressão + k-médias),
+               TributacaoService, DecisaoService (índice + elegibilidade), CenarioService,
+               RelatorioPdfService, RelatorioTributarioService
+  web/         PagesController, SimulacaoController, CenarioController, RelatorioController
+scripts/cvm_xp.py    ingestão CVM + BCB filtrada pela lista da XP
 ```
+
+## Limitações conhecidas
+
+- **Liquidez:** a CVM não informa o prazo de resgate; o sistema assume D+30 para todos os
+  fundos e sinaliza essa premissa na tela.
+- **Taxa de administração:** o cadastro novo (RCVM 175) não traz a taxa; o campo aparece como
+  não informado para parte dos fundos.
+- **Previdência:** os fundos de previdência são tratados como VGBL; a comparação com PGBL e o
+  efeito de reinvestir a restituição ficam no relatório tributário.
+- **Histórico:** 12 meses permitem regressão, mas com pouca potência estatística; ampliar para
+  24–36 meses melhora os betas.
+- **Casamento de nomes:** a lista da XP usa nome comercial truncado; fundos sem correspondência
+  ficam fora do universo (o campo `score_match` documenta a qualidade do casamento).

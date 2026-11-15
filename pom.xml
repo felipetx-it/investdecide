@@ -5,10 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>br.com.investdecide</groupId>
-    <artifactId>investdecide-prototipo</artifactId>
+    <artifactId>investdecide</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>InvestDecide - Protótipo</name>
-    <description>Protótipo visual de um Sistema de Apoio à Decisão para investimentos.</description>
+    <name>InvestDecide</name>
+    <description>Sistema de Apoio à Decisão para seleção de fundos de investimento e previdência.</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -30,8 +30,18 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
-        <!-- Driver reservado para a futura integração com PostgreSQL.
-             O protótipo atual usa dados fictícios em memória e não abre conexão com o banco. -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <!-- Geração dos relatórios em PDF (API no estilo iText 2.x, licença LGPL/MPL). -->
+        <dependency>
+            <groupId>com.github.librepdf</groupId>
+            <artifactId>openpdf</artifactId>
+            <version>1.3.30</version>
+        </dependency>
+        <!-- Driver reservado para a futura persistência em PostgreSQL;
+             a versão atual lê a base de arquivos gerados por scripts/cvm_xp.py. -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>

@@ -12,325 +12,187 @@
 <div class="app-shell">
     <aside th:replace="~{fragments/sidebar :: sidebar('simulacao')}"></aside>
     <main class="main-content">
-        <header th:replace="~{fragments/topbar :: topbar('Nova simulação', 'Compare alternativas elegíveis para um aporte')}"></header>
+        <header th:replace="~{fragments/topbar :: topbar('Nova simulação', 'Contexto, tributação e critérios da decisão')}"></header>
         <div class="page-content">
             <div class="page-heading-row">
                 <div>
                     <div class="date-line"><a th:href="@{/dashboard}">Dashboard</a><i class="bi bi-chevron-right"></i> SIMULAÇÃO</div>
-                    <h1>Simule antes de decidir</h1>
-                    <p>Informe o contexto do cliente, veja quais alternativas passam pelos filtros e compare o resultado líquido.</p>
+                    <h1>Monte o cenário da decisão</h1>
+                    <p>O motor elimina alternativas inelegíveis, agrupa as semelhantes e calcula o índice multicritério.</p>
                 </div>
-                <span class="step-indicator">
-                    <span>1</span> Filtro de elegibilidade <i class="bi bi-arrow-right"></i> <span>2</span> Ranking e explicação
-                </span>
+                <span class="step-indicator"><span>1</span> Contexto <i class="bi bi-arrow-right"></i> <span>2</span> Índice e ranking</span>
             </div>
 
             <div class="demo-banner">
                 <div class="banner-icon"><i class="bi bi-beaker"></i></div>
-                <div><strong>Simulação ilustrativa</strong><span>Os resultados estão preenchidos com dados fictícios. O formulário demonstra o fluxo de apoio à decisão do motor analítico.</span></div>
+                <div><strong>Base real da CVM</strong><span>Retornos mensais, volatilidade e tributação vêm do cadastro e dos informes diários; o motor calcula retorno líquido, índice e agrupamento.</span></div>
                 <button onclick="this.parentElement.remove()" aria-label="Fechar aviso"><i class="bi bi-x-lg"></i></button>
             </div>
 
-            <!-- Faixa de elegibilidade e critérios aplicados -->
-            <section class="surface-card eligibility-strip">
-                <div class="eligibility-summary">
-                    <span class="eligibility-icon"><i class="bi bi-funnel"></i></span>
-                    <div>
-                        <strong>3 de 5 alternativas elegíveis</strong>
-                        <small>2 descartadas por restrição antes de qualquer cálculo de retorno</small>
-                    </div>
-                </div>
-                <div class="eligibility-chips">
-                    <span class="elig-chip" th:each="c : ${criteria}">
-                        <i class="bi" th:classappend="${c.icon}"></i>
-                        <span th:text="${c.label}">Critério</span>:
-                        <strong th:text="${c.value}">valor</strong>
-                    </span>
-                </div>
-                <button class="btn-ghost-app" type="button" onclick="showDemoNotice('O ajuste de critérios será editável na versão funcional.')">
-                    <i class="bi bi-sliders2"></i> Ajustar critérios
-                </button>
-            </section>
+            <div th:if="${erro}" class="inline-alert erro"><i class="bi bi-exclamation-triangle"></i><span th:text="${erro}">Erro</span></div>
 
-            <!-- Layout da simulação: Formulário + Miolo Decisório -->
-            <div class="simulation-layout">
-                <section class="surface-card scenario-form-card">
-                    <div class="section-header">
-                        <div class="section-title-with-icon">
-                            <span class="section-icon"><i class="bi bi-person-vcard"></i></span>
-                            <div><h2>Contexto do cliente</h2><p>Dados necessários para orientar a comparação</p></div>
-                        </div>
-                        <span class="optional-tag">DADOS FICTÍCIOS</span>
-                    </div>
-
-                    <form id="simulation-form" onsubmit="event.preventDefault(); showDemoNotice('Prévia demonstrativa: os resultados não foram recalculados.');">
-                        <div class="form-grid">
-                            <div class="form-field full">
-                                <label for="client">Cliente</label>
-                                <div class="input-with-icon"><i class="bi bi-person"></i><input id="client" type="text" th:value="${client.name}" class="form-control"></div>
+            <form th:action="@{/simulacao}" method="post">
+                <div class="simulation-layout">
+                    <div class="surface-card" style="padding:0">
+                        <div class="form-section">
+                            <div class="form-section-head">
+                                <span class="icone"><i class="bi bi-person-vcard"></i></span>
+                                <div><h2>Contexto do cliente</h2><p>Dados que definem elegibilidade e horizonte</p></div>
                             </div>
-                            <div class="form-field">
-                                <label for="amount">Valor do aporte</label>
-                                <div class="input-group custom-input-group"><span class="input-group-text">R$</span><input id="amount" type="text" value="10.000,00" class="form-control"></div>
-                            </div>
-                            <div class="form-field">
-                                <label for="horizon">Horizonte de investimento</label>
-                                <select id="horizon" class="form-select">
-                                    <option>1 ano</option>
-                                    <option selected>3 anos</option>
-                                    <option>5 anos</option>
-                                    <option>10 anos</option>
-                                </select>
-                            </div>
-                            <div class="form-field">
-                                <label for="profile">Perfil de risco</label>
-                                <select id="profile" class="form-select">
-                                    <option>Conservador</option>
-                                    <option selected>Moderado</option>
-                                    <option>Arrojado</option>
-                                </select>
-                            </div>
-                            <div class="form-field">
-                                <label for="liquidity">Necessidade de liquidez</label>
-                                <select id="liquidity" class="form-select">
-                                    <option selected>Até 30 dias</option>
-                                    <option>Até 90 dias</option>
-                                    <option>Longo prazo</option>
-                                </select>
-                            </div>
-                            <div class="form-field full">
-                                <label>Objetivo principal</label>
-                                <div class="goal-options">
-                                    <label class="goal-option">
-                                        <input type="radio" name="goal" value="preservar">
-                                        <span><i class="bi bi-shield-check"></i><strong>Preservar</strong><small>Priorizar estabilidade</small></span>
-                                    </label>
-                                    <label class="goal-option selected">
-                                        <input type="radio" name="goal" value="crescer" checked>
-                                        <span><i class="bi bi-graph-up-arrow"></i><strong>Fazer crescer</strong><small>Equilibrar risco e retorno</small></span>
-                                    </label>
-                                    <label class="goal-option">
-                                        <input type="radio" name="goal" value="previdencia">
-                                        <span><i class="bi bi-calendar-heart"></i><strong>Previdência</strong><small>Planejar longo prazo</small></span>
-                                    </label>
+                            <div class="form-grid">
+                                <div class="form-field full">
+                                    <label for="nome">Cliente</label>
+                                    <input id="nome" name="nome" type="text" class="form-control" th:value="${cliente.nome}">
+                                </div>
+                                <div class="form-field">
+                                    <label for="perfil">Perfil de risco</label>
+                                    <select id="perfil" name="perfil" class="form-select">
+                                        <option th:each="p : ${T(br.com.investdecide.dominio.PerfilRisco).values()}"
+                                                th:value="${p}" th:text="${p.rotulo}" th:selected="${p == cliente.perfil}">Perfil</option>
+                                    </select>
+                                </div>
+                                <div class="form-field">
+                                    <label for="objetivo">Objetivo</label>
+                                    <select id="objetivo" name="objetivo" class="form-select">
+                                        <option th:selected="${cliente.objetivo == 'Preservar'}">Preservar</option>
+                                        <option th:selected="${cliente.objetivo == 'Fazer crescer'}">Fazer crescer</option>
+                                        <option th:selected="${cliente.objetivo == 'Previdência'}">Previdência</option>
+                                    </select>
+                                </div>
+                                <div class="form-field">
+                                    <label for="aporte">Valor do aporte (R$)</label>
+                                    <input id="aporte" name="aporte" type="number" step="100" min="100" class="form-control" th:value="${cliente.aporteInput}">
+                                </div>
+                                <div class="form-field">
+                                    <label for="horizonteMeses">Horizonte (meses)</label>
+                                    <input id="horizonteMeses" name="horizonteMeses" type="number" step="6" min="12" class="form-control" th:value="${cliente.horizonteMeses}">
+                                    <span class="field-hint">Mínimo de 12 meses.</span>
+                                </div>
+                                <div class="form-field">
+                                    <label for="liquidezDias">Necessidade de liquidez (dias)</label>
+                                    <input id="liquidezDias" name="liquidezDias" type="number" step="1" min="0" class="form-control" th:value="${cliente.liquidezDias}">
+                                    <span class="field-hint">0 = pode precisar do dinheiro a qualquer momento.</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="form-divider"></div>
-
-                        <div class="section-header tax-header">
-                            <div class="section-title-with-icon">
-                                <span class="section-icon section-icon-mint"><i class="bi bi-receipt"></i></span>
-                                <div><h2>Contexto tributário</h2><p>Parâmetros para uma comparação mais completa</p></div>
+                        <div class="form-section">
+                            <div class="form-section-head">
+                                <span class="icone"><i class="bi bi-receipt"></i></span>
+                                <div><h2>Contexto tributário</h2><p>Personaliza o imposto e o benefício do PGBL</p></div>
+                            </div>
+                            <div class="form-grid">
+                                <div class="form-field">
+                                    <label for="rendaBruta">Renda bruta tributável (R$)</label>
+                                    <input id="rendaBruta" name="rendaBruta" type="number" step="1000" min="0" class="form-control" th:value="${cliente.rendaBrutaInput}">
+                                </div>
+                                <div class="form-field">
+                                    <label for="deducoes">Deduções da última declaração (R$)</label>
+                                    <input id="deducoes" name="deducoes" type="number" step="1000" min="0" class="form-control" th:value="${cliente.deducoesInput}">
+                                    <span class="field-hint">Base de cálculo = renda bruta − deduções.</span>
+                                </div>
+                                <div class="form-field">
+                                    <label for="modelo">Modelo de declaração</label>
+                                    <select id="modelo" name="modelo" class="form-select">
+                                        <option th:each="m : ${T(br.com.investdecide.dominio.Cliente.ModeloDeclaracao).values()}"
+                                                th:value="${m}" th:text="${m.name()}" th:selected="${m == cliente.modelo}">Modelo</option>
+                                    </select>
+                                </div>
+                                <div class="form-field">
+                                    <label for="regime">Regime da previdência</label>
+                                    <select id="regime" name="regime" class="form-select">
+                                        <option th:each="r : ${T(br.com.investdecide.dominio.Cliente.RegimePrevidencia).values()}"
+                                                th:value="${r}" th:text="${r.name()}" th:selected="${r == cliente.regime}">Regime</option>
+                                    </select>
+                                    <span class="field-hint">Regressiva costuma vencer em horizontes longos.</span>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="form-grid">
-                            <div class="form-field">
-                                <label for="taxableIncome">Renda tributável anual</label>
-                                <select id="taxableIncome" class="form-select">
-                                    <option>Até R$ 50 mil</option>
-                                    <option selected>R$ 50 mil a R$ 150 mil</option>
-                                    <option>Acima de R$ 150 mil</option>
-                                </select>
+                        <div class="form-section">
+                            <div class="form-section-head">
+                                <span class="icone"><i class="bi bi-sliders"></i></span>
+                                <div><h2>Pesos do índice</h2><p>Serão normalizados para somar 100%</p></div>
                             </div>
-                            <div class="form-field">
-                                <label for="taxModel">Declaração de IR</label>
-                                <select id="taxModel" class="form-select">
-                                    <option>Isenta</option>
-                                    <option>Simplificada</option>
-                                    <option selected>Completa</option>
-                                </select>
-                            </div>
-                            <div class="form-field full">
-                                <label for="pensionType">Alternativa de previdência</label>
-                                <select id="pensionType" class="form-select">
-                                    <option selected>Comparar PGBL e VGBL quando elegíveis</option>
-                                    <option>PGBL</option>
-                                    <option>VGBL</option>
-                                    <option>Não incluir previdência</option>
-                                </select>
+                            <div class="form-grid">
+                                <div class="form-field">
+                                    <label for="retorno">Retorno líquido</label>
+                                    <input id="retorno" name="retorno" type="number" step="5" min="0" class="form-control" th:value="${pesos.retornoInput}">
+                                </div>
+                                <div class="form-field">
+                                    <label for="risco">Risco</label>
+                                    <input id="risco" name="risco" type="number" step="5" min="0" class="form-control" th:value="${pesos.riscoInput}">
+                                </div>
+                                <div class="form-field">
+                                    <label for="tributacao">Eficiência tributária</label>
+                                    <input id="tributacao" name="tributacao" type="number" step="5" min="0" class="form-control" th:value="${pesos.tributacaoInput}">
+                                </div>
+                                <div class="form-field">
+                                    <label for="liquidez">Liquidez</label>
+                                    <input id="liquidez" name="liquidez" type="number" step="5" min="0" class="form-control" th:value="${pesos.liquidezInput}">
+                                    <span class="field-hint">Padrão: 40 / 25 / 20 / 15.</span>
+                                </div>
                             </div>
                         </div>
 
-                        <button class="btn-primary-app w-100 mt-4" type="submit">
-                            <i class="bi bi-arrow-repeat"></i> Atualizar prévia <i class="bi bi-arrow-right ms-auto"></i>
-                        </button>
-                    </form>
-
-                    <!-- Cartão de critérios e pesos do escore -->
-                    <div class="weights-block">
-                        <div class="weights-heading">
-                            <span><i class="bi bi-sliders"></i> Critérios do escore</span>
-                            <small>pesos calibráveis</small>
-                        </div>
-                        <div class="weight-row" th:each="w, iterStat : ${weights}">
-                            <span th:text="${w.label}">Critério</span>
-                            <div class="weight-track">
-                                <span class="weight-fill"
-                                      th:classappend="${iterStat.index == 0 ? ' good-fill' : (iterStat.index == 1 ? ' base-fill' : (iterStat.index == 2 ? ' purple-fill' : ' caution-fill'))}"
-                                      th:style="|width:${w.bar}%|"></span>
+                        <div class="form-section">
+                            <div class="form-section-head">
+                                <span class="icone"><i class="bi bi-graph-up"></i></span>
+                                <div><h2>Cenário econômico</h2><p>Base montado com os indicadores de mercado</p></div>
                             </div>
-                            <strong th:text="${w.pct}">0%</strong>
+                            <div class="form-grid">
+                                <div class="form-field full">
+                                    <label for="cenario">Cenário</label>
+                                    <select id="cenario" name="cenario" class="form-select">
+                                        <option th:each="c : ${cenarios}" th:value="${c.nome}"
+                                                th:selected="${c.nome == cenarioSelecionado}"
+                                                th:text="|${c.nome} — CDI ${#numbers.formatDecimal(c.cdi,1,'POINT',2,'COMMA')}% · IPCA ${#numbers.formatDecimal(c.ipca,1,'POINT',2,'COMMA')}% · dólar ${#numbers.formatDecimal(c.dolar,1,'POINT',1,'COMMA')}%|">Cenário</option>
+                                    </select>
+                                    <span class="field-hint">Os cenários alternativos aplicam choques configuráveis sobre o base. <a th:href="@{/cenarios}">Configurar cenários</a>.</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="weights-note">
-                            <i class="bi bi-info-circle"></i>
-                            <span>O escore final combina os critérios ponderados após normalização dentro do grupo de pares.</span>
+
+                        <div class="form-section">
+                            <button class="btn-primary-app w-100" type="submit">
+                                <i class="bi bi-calculator"></i> Calcular índice e ranking <i class="bi bi-arrow-right ms-auto"></i>
+                            </button>
                         </div>
                     </div>
-                </section>
 
-                <!-- Coluna de resultados: Recomendação + Ranking Justificado + Cenários -->
-                <div class="simulation-results">
-                    <!-- Recomendação destacada com escore 87/100, motivo e ressalva -->
-                    <section class="surface-card recommendation-card">
-                        <div class="recommendation-top">
-                            <div class="recommendation-badge"><i class="bi bi-stars"></i> 1º LUGAR NO RANKING</div>
-                            <span class="score-badge">87<span>/100</span></span>
-                        </div>
-                        <div class="recommendation-title">
-                            <h2>Vita Prev RF PGBL</h2>
-                            <span class="light-tag tag-green">Previdência</span>
-                        </div>
-                        <p>Maior patrimônio líquido no cenário base e melhor eficiência tributária para renda tributável acima de R$ 50 mil.</p>
-                        <div class="recommendation-value">
-                            <span>Patrimônio líquido projetado</span>
-                            <strong>R$ 13.370,00</strong>
-                            <small>após 3 anos · valores hipotéticos</small>
-                        </div>
-                        <div class="recommendation-details">
-                            <div><span>Retorno líquido estimado</span><strong>9,0% a.a.</strong></div>
-                            <div><span>Risco ilustrativo</span><strong><i class="risk-dot"></i> Baixo</strong></div>
-                            <div><span>Diferença para a 2ª opção</span><strong>+ R$ 270,00</strong></div>
-                        </div>
-                        <div class="recommendation-caveat">
-                            <i class="bi bi-exclamation-triangle"></i>
-                            <span>Exige declaração completa e não deve ser resgatada antes do horizonte previsto. A margem para a 2ª opção é pequena: vale testar a sensibilidade dos pesos.</span>
-                        </div>
-                        <div class="recommendation-footnote">
-                            <i class="bi bi-info-circle"></i> A indicação é apenas ilustrativa, não constitui recomendação financeira real.
-                        </div>
-                    </section>
+                    <aside>
+                        <section class="surface-card" style="padding:18px">
+                            <div class="section-header"><div><h2>Como o índice é calculado</h2><p>Quatro etapas</p></div></div>
+                            <ol class="premise" style="padding-left:16px;margin:0;color:#6b7a8d">
+                                <li>Projeção do resultado líquido de cada alternativa no cenário escolhido.</li>
+                                <li>Eliminação das que violam perfil, liquidez, carência ou aporte mínimo.</li>
+                                <li>Agrupamento das elegíveis por similaridade (k-médias).</li>
+                                <li>Normalização dos critérios e soma ponderada: <strong>índice = Σ (peso × critério normalizado)</strong>.</li>
+                            </ol>
+                            <div class="legend-index">
+                                <span><i class="bi bi-arrow-up-right"></i>Retorno: maior é melhor</span>
+                                <span><i class="bi bi-arrow-down-right"></i>Risco, tributo e liquidez (dias): menor é melhor</span>
+                            </div>
+                        </section>
 
-                    <!-- Ranking com justificativa de cada posição -->
-                    <section class="surface-card ranking-card">
-                        <div class="section-header">
-                            <div><h2>Por que estas alternativas</h2><p>Justificativa resumida de cada posição no ranking</p></div>
-                            <button class="icon-button" type="button" aria-label="Mais informações" onclick="showDemoNotice('A memória de cálculo será detalhada na versão funcional.')"><i class="bi bi-info-circle"></i></button>
-                        </div>
-                        <div class="rank-list">
-                            <article class="rank-item" th:each="r : ${ranking}">
-                                <span class="rank-position" th:classappend="${r.position == 1 ? ' rank-lead' : ''}" th:text="${r.position}">1</span>
-                                <div class="rank-body">
-                                    <div class="rank-head">
-                                        <strong th:text="${r.name}">Produto</strong>
-                                        <span class="rank-score" th:classappend="${r.position == 1 ? ' score-lead' : ''}" th:text="|${r.score}/100|">87/100</span>
-                                    </div>
-                                    <small th:text="${r.type}">Tipo</small>
-                                    <p class="rank-why" th:text="${r.why}">Justificativa</p>
-                                    <p class="rank-caveat"><i class="bi bi-exclamation-circle"></i> <span th:text="${r.caveat}">Ressalva</span></p>
-                                </div>
-                                <div class="rank-side">
-                                    <small>Líquido</small>
-                                    <strong class="rank-net" th:text="${r.net}">R$ 0</strong>
-                                </div>
-                            </article>
-                        </div>
-                    </section>
-
-                    <!-- Sensibilidade por cenários -->
-                    <section class="surface-card scenario-impact-card">
-                        <div class="section-header">
-                            <div><h2>Impacto dos cenários econômicos</h2><p>Variação ilustrativa do patrimônio líquido</p></div>
-                        </div>
-                        <div class="scenario-bars">
-                            <div class="scenario-bar-row"><span><i class="scenario-color base"></i>Base</span><div class="scenario-track"><span class="scenario-fill base-fill" style="width:74%"></span></div><strong>R$ 13,37 mil</strong></div>
-                            <div class="scenario-bar-row"><span><i class="scenario-color good"></i>Otimista</span><div class="scenario-track"><span class="scenario-fill good-fill" style="width:91%"></span></div><strong>R$ 14,12 mil</strong></div>
-                            <div class="scenario-bar-row"><span><i class="scenario-color caution"></i>Conservador</span><div class="scenario-track"><span class="scenario-fill caution-fill" style="width:58%"></span></div><strong>R$ 12,65 mil</strong></div>
-                        </div>
-                        <div class="small-disclaimer">*Tributos e valores são simplificados e hipotéticos; não representam regras tributárias oficiais nem uma simulação validada.</div>
-                    </section>
+                        <section class="surface-card" style="padding:18px;margin-top:14px">
+                            <div class="section-header"><div><h2>Premissas do cenário base</h2><p th:text="|Referência: ${indicadores.dataReferencia}|">Referência</p></div></div>
+                            <div class="premise">
+                                <div>Curva DI: <strong th:text="|${#numbers.formatDecimal(indicadores.curvaDi,1,'POINT',2,'COMMA')}%|">0%</strong></div>
+                                <div>Inflação implícita: <strong th:text="|${#numbers.formatDecimal(indicadores.inflacaoImplicita,1,'POINT',2,'COMMA')}%|">0%</strong></div>
+                                <div>Dólar futuro: <strong th:text="|${#numbers.formatDecimal(indicadores.dolarFuturo,1,'POINT',1,'COMMA')}%|">0%</strong></div>
+                                <div>Ibovespa esperado: <strong th:text="|${#numbers.formatDecimal(indicadores.ibovespaEsperado,1,'POINT',1,'COMMA')}%|">0%</strong></div>
+                            </div>
+                            <div class="premise" style="margin-top:10px">Produtos de previdência têm o benefício fiscal calculado sobre a renda informada, limitado a 12% da renda bruta.</div>
+                        </section>
+                    </aside>
                 </div>
-            </div>
+            </form>
 
-            <!-- Tabela comparativa com escore, situação e filtro de elegíveis -->
-            <section class="surface-card comparison-card">
-                <div class="section-header">
-                    <div>
-                        <h2>Comparativo de alternativas</h2>
-                        <p>Resultados estimados para o cenário selecionado</p>
-                    </div>
-                    <label class="filter-toggle" for="onlyEligible">
-                        <input type="checkbox" id="onlyEligible">
-                        <span>Mostrar apenas elegíveis</span>
-                    </label>
-                </div>
-                <div class="table-responsive">
-                    <table class="table app-table comparison-table align-middle">
-                        <thead>
-                            <tr>
-                                <th>ALTERNATIVA</th>
-                                <th>RETORNO</th>
-                                <th>TRIBUTOS*</th>
-                                <th>RESULTADO LÍQUIDO</th>
-                                <th>ESCORE</th>
-                                <th>SITUAÇÃO</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="item : ${alternativas}"
-                            th:classappend="${item.recommended} ? ' recommended-row' : (${!item.eligible} ? ' row-ineligible' : '')"
-                            th:attr="data-eligible=${item.eligible}">
-                            <td>
-                                <div class="compare-product">
-                                    <span class="compare-radio" th:classappend="${item.recommended} ? ' checked' : ''">
-                                        <i class="bi" th:classappend="${item.recommended} ? 'bi-check2' : (!item.eligible ? 'bi-dash' : '')"></i>
-                                    </span>
-                                    <div>
-                                        <strong th:text="${item.name}">Produto</strong>
-                                        <small th:text="${item.type}">Tipo</small>
-                                        <span th:if="${item.recommended}" class="recommended-mini">DESTAQUE</span>
-                                    </div>
-                                </div>
-                            </td>
-                            <td th:text="${item['return']}">0%</td>
-                            <td th:text="${item.taxes}">R$ 0</td>
-                            <td><strong class="net-value" th:text="${item.net}">R$ 0</strong></td>
-                            <td><span class="rank-score" th:classappend="${item.recommended ? ' score-lead' : ''}" th:text="${item.score}">0</span></td>
-                            <td>
-                                <span class="elig-pill" th:classappend="${item.eligible} ? 'elig-yes' : 'elig-no'">
-                                    <i class="bi" th:classappend="${item.eligible} ? 'bi-check2-circle' : 'bi-slash-circle'"></i>
-                                    <span th:text="${item.eligibleLabel}">Elegível</span>
-                                </span>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="comparison-bottom">
-                    <span><i class="bi bi-calculator"></i> Custos estimados já considerados</span>
-                    <button class="text-link-button" onclick="showDemoNotice('A memória de cálculo será detalhada na versão funcional.')">
-                        Ver premissas <i class="bi bi-arrow-up-right"></i>
-                    </button>
-                </div>
-            </section>
-
-            <footer class="page-footer">
-                <span>InvestDecide <span>·</span> Sistema de Apoio à Decisão</span>
-                <span>Protótipo acadêmico · Ambiente de demonstração</span>
-            </footer>
+            <footer class="page-footer"><span>InvestDecide <span>·</span></span><span></span></footer>
         </div>
     </main>
 </div>
-<div id="demo-toast" class="demo-toast" role="status"></div>
 <script th:src="@{/js/app.js}"></script>
-<script th:src="@{/js/simulacao.js}"></script>
-<script>
-document.querySelectorAll('.goal-option input').forEach(input => input.addEventListener('change', () => {
-  document.querySelectorAll('.goal-option').forEach(option => option.classList.remove('selected'));
-  input.closest('.goal-option').classList.add('selected');
-}));
-</script>
 </body>
 </html>

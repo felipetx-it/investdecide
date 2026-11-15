@@ -1,0 +1,27 @@
+{
+  "indicadores" : {
+    "curvaDi" : 10.75,
+    "inflacaoImplicita" : 4.5,
+    "dolarFuturo" : 2.0,
+    "ibovespaEsperado" : 8.0,
+    "dataReferencia" : "15/11/2026"
+  },
+  "otimista" : {
+    "cdi" : 1.0,
+    "ipca" : -0.5,
+    "dolar" : 3.0,
+    "ibovespa" : 12.0
+  },
+  "pessimista" : {
+    "cdi" : -1.5,
+    "ipca" : 1.5,
+    "dolar" : 6.0,
+    "ibovespa" : -15.0
+  },
+  "personalizado" : {
+    "cdi" : 0.5,
+    "ipca" : 0.5,
+    "dolar" : 0.0,
+    "ibovespa" : 0.0
+  }
+}
