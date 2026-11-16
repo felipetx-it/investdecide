@@ -126,11 +126,18 @@ public class UsuarioService implements UserDetailsService {
 
     public void excluirPorEmail(String email) {
         if (email != null && !BancoDadosService.USUARIO_PADRAO.equalsIgnoreCase(email)) {
+            limparDadosPorEmail(email);
+            jdbc.update("DELETE FROM usuarios WHERE LOWER(email) = LOWER(?)", email);
+        }
+    }
+
+    /** Remove simulações, produtos manuais, cenários e relatórios de uma conta mantendo o login. */
+    public void limparDadosPorEmail(String email) {
+        if (email != null && !email.isBlank()) {
             jdbc.update("DELETE FROM simulacoes_salvas WHERE LOWER(usuario_email) = LOWER(?)", email);
             jdbc.update("DELETE FROM produtos_manuais WHERE LOWER(usuario_email) = LOWER(?)", email);
             jdbc.update("DELETE FROM cenarios_usuario WHERE LOWER(usuario_email) = LOWER(?)", email);
             jdbc.update("DELETE FROM relatorios_gerados WHERE LOWER(usuario_email) = LOWER(?)", email);
-            jdbc.update("DELETE FROM usuarios WHERE LOWER(email) = LOWER(?)", email);
         }
     }
 

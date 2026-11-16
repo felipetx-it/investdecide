@@ -3,6 +3,7 @@ package br.com.investdecide.web;
 import br.com.investdecide.dominio.Cliente;
 import br.com.investdecide.dominio.Pesos;
 import br.com.investdecide.dominio.ResultadoDecisao;
+import br.com.investdecide.servico.BancoDadosService;
 import br.com.investdecide.servico.CatalogoService;
 import br.com.investdecide.servico.CenarioService;
 import br.com.investdecide.servico.DecisaoService;
@@ -37,10 +38,12 @@ public class RelatorioController {
     private final DecisaoService decisao;
     private final ObjectMapper mapper;
     private final RelatorioService historico;
+    private final BancoDadosService banco;
 
     public RelatorioController(RelatorioTributarioService tributario, RelatorioPdfService pdf,
                                CenarioService cenarios, CatalogoService catalogo,
-                               DecisaoService decisao, ObjectMapper mapper, RelatorioService historico) {
+                               DecisaoService decisao, ObjectMapper mapper,
+                               RelatorioService historico, BancoDadosService banco) {
         this.tributario = tributario;
         this.pdf = pdf;
         this.cenarios = cenarios;
@@ -48,12 +51,14 @@ public class RelatorioController {
         this.decisao = decisao;
         this.mapper = mapper;
         this.historico = historico;
+        this.banco = banco;
     }
 
     @GetMapping("/relatorios/tributacao")
     public String tributacao(@RequestParam(name = "taxa", required = false) Double taxa,
                              @RequestParam(name = "meses", required = false) Integer meses,
                              Model model, HttpSession session) {
+        PagesController.validarSessaoUsuario(session, banco.usuarioAtual());
         Cliente cliente = clienteDaSessao(session);
         double taxaAnual = taxa != null ? taxa : Math.round(cenarios.base().getCdi() * 98) / 100.0;
         int horizonte = meses != null ? meses : cliente.getHorizonteMeses();
@@ -74,6 +79,7 @@ public class RelatorioController {
     /** Comparativo de alternativas da última simulação (também disponível na rota antiga). */
     @GetMapping({"/relatorios/comparativo.pdf", "/relatorios/simulacao.pdf"})
     public ResponseEntity<?> comparativoPdf(HttpSession session) {
+        PagesController.validarSessaoUsuario(session, banco.usuarioAtual());
         ResultadoDecisao resultado = (ResultadoDecisao) session.getAttribute("resultado");
         if (resultado == null) {
             return ResponseEntity.status(HttpStatus.SEE_OTHER).location(URI.create("/simulacao")).build();
@@ -92,6 +98,7 @@ public class RelatorioController {
     public ResponseEntity<?> tributacaoPdf(@RequestParam(name = "taxa", required = false) Double taxa,
                                            @RequestParam(name = "meses", required = false) Integer meses,
                                            HttpSession session) {
+        PagesController.validarSessaoUsuario(session, banco.usuarioAtual());
         Cliente cliente = clienteDaSessao(session);
         double taxaAnual = taxa != null ? taxa : Math.round(cenarios.base().getCdi() * 98) / 100.0;
         int horizonte = meses != null ? meses : cliente.getHorizonteMeses();
@@ -106,8 +113,9 @@ public class RelatorioController {
     /** Relatório de sensibilidade: cenários econômicos e perturbações de pesos. */
     @GetMapping("/relatorios/sensibilidade.pdf")
     public ResponseEntity<?> sensibilidadePdf(HttpSession session) {
+        PagesController.validarSessaoUsuario(session, banco.usuarioAtual());
         ResultadoDecisao base = (ResultadoDecisao) session.getAttribute("resultado");
-        Cliente cliente = base != null ? base.getCliente() : PagesController.clientePadrao();
+        Cliente cliente = clienteDaSessao(session);
         Pesos pesos = base != null ? base.getPesos() : new Pesos();
 
         List<ResultadoDecisao> porCenario = new ArrayList<>();
@@ -142,6 +150,7 @@ public class RelatorioController {
     @GetMapping("/api/diagnostico")
     @ResponseBody
     public Object diagnostico(HttpSession session) {
+        PagesController.validarSessaoUsuario(session, banco.usuarioAtual());
         ResultadoDecisao resultado = (ResultadoDecisao) session.getAttribute("resultado");
         if (resultado == null) {
             return java.util.Map.of("erro", "Nenhuma simulação na sessão.");
@@ -161,8 +170,15 @@ public class RelatorioController {
         return new ResponseEntity<>(conteudo, headers, HttpStatus.OK);
     }
 
-    private static Cliente clienteDaSessao(HttpSession session) {
+    private Cliente clienteDaSessao(HttpSession session) {
         ResultadoDecisao resultado = (ResultadoDecisao) session.getAttribute("resultado");
-        return resultado != null ? resultado.getCliente() : PagesController.clientePadrao();
+        if (resultado != null && resultado.getCliente() != null) {
+            return resultado.getCliente();
+        }
+        Cliente cliente = PagesController.clienteInicialParaUsuario(banco.usuarioAtual());
+        if (cliente.getNome() == null || cliente.getNome().isBlank()) {
+            cliente.setNome("Simulação avulsa");
+        }
+        return cliente;
     }
 }

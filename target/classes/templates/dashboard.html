@@ -17,8 +17,10 @@
             <div class="page-heading-row">
                 <div>
                     <div class="date-line"><i class="bi bi-calendar3"></i> ATUALIZADO COM OS INDICADORES DE <span th:text="${indicadores.dataReferencia}">DATA</span></div>
-                    <h1>Cliente em foco: <span th:text="${cliente.nome}">Cliente</span></h1>
-                    <p>Recomendação calculada com o motor de decisão — perfil, tributação e cenário base.</p>
+                    <h1 th:if="${cliente != null}">Cliente em foco: <span th:text="${cliente.nome}">Cliente</span></h1>
+                    <h1 th:if="${cliente == null}">Painel de apoio à decisão</h1>
+                    <p th:if="${cliente != null}">Recomendação calculada com o motor de decisão — perfil, tributação e cenário <span th:text="${resultado.cenario.nome.toLowerCase()}">base</span>.</p>
+                    <p th:if="${cliente == null}">Nenhum cliente em foco no momento. Inicie uma nova simulação para filtrar alternativas, formar os grupos e calcular o índice multicritério.</p>
                 </div>
                 <div class="heading-actions">
                     <a class="btn-ghost-app" th:href="@{/cenarios}"><i class="bi bi-sliders2"></i> Cenários</a>
@@ -26,7 +28,16 @@
                 </div>
             </div>
 
-            <div class="summary-strip">
+            <section class="surface-card" th:if="${resultado == null}" style="padding:28px 20px;margin-bottom:16px">
+                <div class="empty-state">
+                    <i class="bi bi-person-plus"></i>
+                    <strong>Nenhum cliente em análise</strong>
+                    <span>Configure o perfil, aporte, horizonte e contexto tributário de um investidor para gerar o ranking, os agrupamentos e os gráficos da carteira.</span>
+                    <a class="btn-primary-app" th:href="@{/simulacao}" style="margin-top:14px"><i class="bi bi-calculator"></i> Iniciar nova simulação</a>
+                </div>
+            </section>
+
+            <div class="summary-strip" th:if="${resultado != null}">
                 <div class="summary-item"><span>Alternativas</span><strong th:text="${resultado.totalAlternativas}">0</strong><small>na prateleira</small></div>
                 <div class="summary-item"><span>Elegíveis</span><strong th:text="${resultado.totalElegiveis}">0</strong><small>após restrições</small></div>
                 <div class="summary-item"><span>Grupos</span><strong th:text="${#lists.size(grupos)}">0</strong><small th:text="|k-médias · silhueta ${#numbers.formatDecimal(resultado.silhueta,1,'POINT',2,'COMMA')}|">identificados</small></div>
@@ -34,7 +45,7 @@
             </div>
 
 
-            <div class="simulation-layout">
+            <div class="simulation-layout" th:if="${resultado != null}">
                 <section class="surface-card" style="padding:18px">
                     <div class="section-header"><div><h2>Top 3 pelo índice</h2><p>Ordenação calculada pelo SAW</p></div>
                         <a class="text-link" th:href="@{/simulacao/ranking}">Ranking completo <i class="bi bi-arrow-right"></i></a></div>
@@ -63,7 +74,7 @@
                 </section>
             </div>
 
-            <section class="charts-grid" style="margin-top:16px">
+            <section class="charts-grid" th:if="${resultado != null}" style="margin-top:16px">
                 <div class="chart-card">
                     <div class="section-header">
                         <div><h2>Mapa Risco × Retorno Líquido</h2><p>Alternativas elegíveis coloridas por grupo K-Means++</p></div>
@@ -78,7 +89,7 @@
                 </div>
             </section>
 
-            <section class="cluster-block" style="margin-top:16px">
+            <section class="cluster-block" th:if="${resultado != null}" style="margin-top:16px">
                 <div class="cluster-head">
                     <div><h3>Grupos de alternativas</h3><p>Agrupamento por similaridade de retorno, risco, liquidez e tributação</p></div>
                     <a class="text-link" th:href="@{/simulacao}">Simular outro cliente <i class="bi bi-arrow-right"></i></a>

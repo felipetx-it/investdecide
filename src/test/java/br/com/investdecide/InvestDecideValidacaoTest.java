@@ -240,9 +240,14 @@ class InvestDecideValidacaoTest {
             .andExpect(status().isOk())
             .andReturn();
         String dashHtml = dashGet.getResponse().getContentAsString(StandardCharsets.UTF_8);
+        assertTrue(dashHtml.contains("Ricardo Almeida"), "Dashboard inicial do consultor deve abrir com Ricardo Almeida");
         assertFalse(dashHtml.contains("Base real da CVM"), "Caixa Base real da CVM deve ser removida do dashboard");
         assertFalse(dashHtml.contains("Banco H2 SQL"), "Chip Banco H2 SQL deve ser removido da topbar");
         assertFalse(dashHtml.contains("bi-bell"), "Icone de notificacao da topbar deve ser removido");
+        assertFalse(dashHtml.contains("Liquidez XP + CVM e banco H2"),
+            "Caixa de alerta de liquidez/banco deve ser removida do dashboard");
+        assertFalse(dashHtml.contains("come-cotas semestral ativo"),
+            "Texto de alerta come-cotas/simulacoes deve ser removido do dashboard");
 
         MvcResult simGet = mockMvc.perform(get("/simulacao").session(session))
             .andExpect(status().isOk())
@@ -323,6 +328,59 @@ class InvestDecideValidacaoTest {
             String nomeArquivo = rotaPdf.substring(rotaPdf.lastIndexOf('/') + 1);
             Files.write(Path.of("target", "preview_" + nomeArquivo), pdf);
         }
+
+        // Dashboard deve passar a refletir a ultima simulacao executada na sessao do consultor
+        MvcResult simNovaGet = mockMvc.perform(get("/simulacao").session(session))
+            .andExpect(status().isOk())
+            .andReturn();
+        String csrfNova = extrairCsrf(simNovaGet.getResponse().getContentAsString());
+        MockHttpServletRequestBuilder novaPost = post("/simulacao")
+            .session(session)
+            .param("nome", "Carlos Eduardo")
+            .param("perfil", "MODERADO")
+            .param("aporte", "95000")
+            .param("horizonteMeses", "36")
+            .param("liquidezDias", "30")
+            .param("objetivo", "Fazer crescer")
+            .param("rendaBruta", "180000")
+            .param("deducoes", "15000")
+            .param("modelo", "COMPLETA")
+            .param("regime", "REGRESSIVA")
+            .param("retorno", "40")
+            .param("risco", "25")
+            .param("tributacao", "20")
+            .param("liquidez", "15")
+            .param("cenario", "Otimista");
+        if (csrfNova != null) {
+            novaPost.param("_csrf", csrfNova);
+        }
+        MvcResult novaPostRes = mockMvc.perform(novaPost).andExpect(status().isOk()).andReturn();
+        ResultadoDecisao resCarlos = (ResultadoDecisao) novaPostRes.getRequest().getSession(false).getAttribute("resultado");
+        String simCarlosId = (String) novaPostRes.getRequest().getSession(false).getAttribute("simulacaoSalvaId");
+
+        MvcResult dashAtualizado = mockMvc.perform(get("/dashboard").session(session))
+            .andExpect(status().isOk())
+            .andReturn();
+        Cliente cliDash = (Cliente) dashAtualizado.getModelAndView().getModel().get("cliente");
+        assertNotNull(cliDash);
+        assertEquals("Carlos Eduardo", cliDash.getNome(), "Dashboard deve refletir o cliente da ultima simulacao");
+        @SuppressWarnings("unchecked")
+        List<AvaliacaoProduto> top3Dash = (List<AvaliacaoProduto>) dashAtualizado.getModelAndView().getModel().get("destaques");
+        assertNotNull(top3Dash);
+        assertFalse(top3Dash.isEmpty());
+        assertEquals(resCarlos.getRanking().get(0).getNome(), top3Dash.get(0).getNome(),
+            "Top 3 do dashboard deve acompanhar o ranking da ultima simulacao");
+
+        // Remove a simulacao temporaria da sessao de validacao
+        if (simCarlosId != null) {
+            MvcResult dashComForm = mockMvc.perform(get("/dashboard").session(session)).andExpect(status().isOk()).andReturn();
+            String csrfDel = extrairCsrf(dashComForm.getResponse().getContentAsString());
+            MockHttpServletRequestBuilder delReq = post("/simulacao/salva/" + simCarlosId + "/excluir").session(session);
+            if (csrfDel != null) {
+                delReq.param("_csrf", csrfDel);
+            }
+            mockMvc.perform(delReq).andExpect(status().is3xxRedirection());
+        }
     }
 
     @Test
@@ -368,7 +426,9 @@ class InvestDecideValidacaoTest {
 
         // 3) Persistencia relacional multiusuario em banco H2 e isolamento entre contas
         String emailTeste = "teste.auditoria@investdecide.com.br";
+        String emailVirgem = "teste@investdecide.com.br";
         usuarioService.excluirPorEmail(emailTeste);
+        usuarioService.limparDadosPorEmail(emailVirgem);
         try {
             MvcResult cadGet = mockMvc.perform(get("/cadastro"))
                 .andExpect(status().isOk())
@@ -479,20 +539,67 @@ class InvestDecideValidacaoTest {
             assertFalse(Arrays.equals(pdfTrib1, pdfTrib2),
                 "Nova simulacao nao pode sobrescrever o PDF tributario historico anterior");
 
-            // Verifica autenticacao da conta de teste criada
-            autenticarComo("teste@investdecide.com.br", "3u@Ygz9wmqwr8NYCmnPuG@d%h");
+            // Verifica conta virgem teste@investdecide.com.br (sem simulacoes, relatorios, produtos nem cliente em foco)
+            MockHttpSession sessionVirgem = autenticarComo(emailVirgem, "3u@Ygz9wmqwr8NYCmnPuG@d%h");
+            MvcResult dashVirgem = mockMvc.perform(get("/dashboard").session(sessionVirgem))
+                .andExpect(status().isOk())
+                .andReturn();
+            assertNull(dashVirgem.getModelAndView().getModel().get("cliente"),
+                "Conta virgem nao deve contextualizar cliente no dashboard");
+            assertNull(dashVirgem.getModelAndView().getModel().get("resultado"),
+                "Conta virgem nao deve possuir resultado pre-calculado no dashboard");
+            @SuppressWarnings("unchecked")
+            List<ResumoSimulacao> salvasVirgem = (List<ResumoSimulacao>) dashVirgem.getModelAndView().getModel().get("simulacoesSalvas");
+            assertTrue(salvasVirgem == null || salvasVirgem.isEmpty(), "Conta virgem nao deve possuir simulacoes salvas");
+            String htmlVirgem = dashVirgem.getResponse().getContentAsString(StandardCharsets.UTF_8);
+            assertTrue(htmlVirgem.contains("Nenhum cliente em análise"), "Dashboard virgem deve exibir estado vazio");
+            assertFalse(htmlVirgem.contains("Ricardo Almeida"), "Dashboard virgem nao deve mencionar Ricardo Almeida");
+
+            MvcResult simFormVirgem = mockMvc.perform(get("/simulacao").session(sessionVirgem))
+                .andExpect(status().isOk())
+                .andReturn();
+            Cliente cliFormVirgem = (Cliente) simFormVirgem.getModelAndView().getModel().get("cliente");
+            assertNotNull(cliFormVirgem);
+            assertTrue(cliFormVirgem.getNome() == null || cliFormVirgem.getNome().isBlank(),
+                "Formulario inicial da conta virgem nao deve preencher nome de exemplo");
+
+            MvcResult relVirgem = mockMvc.perform(get("/relatorios").session(sessionVirgem))
+                .andExpect(status().isOk())
+                .andReturn();
+            @SuppressWarnings("unchecked")
+            List<Registro> listaRelVirgem = (List<Registro>) relVirgem.getModelAndView().getModel().get("relatorios");
+            assertTrue(listaRelVirgem == null || listaRelVirgem.isEmpty(), "Conta virgem nao deve possuir relatorios salvos");
+
+            MvcResult prodVirgem = mockMvc.perform(get("/produtos").session(sessionVirgem))
+                .andExpect(status().isOk())
+                .andReturn();
+            @SuppressWarnings("unchecked")
+            List<Produto> manuaisVirgem = (List<Produto>) prodVirgem.getModelAndView().getModel().get("manuais");
+            assertTrue(manuaisVirgem == null || manuaisVirgem.isEmpty(), "Conta virgem nao deve possuir produtos manuais salvos");
 
             MvcResult dashTeste = mockMvc.perform(get("/dashboard").session(sessionTeste))
                 .andExpect(status().isOk())
                 .andReturn();
+            Cliente cliDashTeste = (Cliente) dashTeste.getModelAndView().getModel().get("cliente");
+            assertNotNull(cliDashTeste);
+            assertEquals("Segundo Cliente Snapshots", cliDashTeste.getNome(),
+                "Dashboard deve refletir a ultima simulacao executada nesta conta");
             @SuppressWarnings("unchecked")
             List<ResumoSimulacao> salvasTeste = (List<ResumoSimulacao>) dashTeste.getModelAndView().getModel().get("simulacoesSalvas");
             assertNotNull(salvasTeste);
             assertFalse(salvasTeste.isEmpty(), "Usuario recem-cadastrado deve ter sua simulacao persistida no banco H2");
 
-            String simId = salvasTeste.get(0).id();
+            // Reabrir uma simulacao salva mais antiga tambem deve atualizar o dashboard para ela
+            String simId = salvasTeste.get(salvasTeste.size() - 1).id();
             mockMvc.perform(get("/simulacao/salva/" + simId).session(sessionTeste))
                 .andExpect(status().isOk());
+            MvcResult dashReaberta = mockMvc.perform(get("/dashboard").session(sessionTeste))
+                .andExpect(status().isOk())
+                .andReturn();
+            Cliente cliReaberta = (Cliente) dashReaberta.getModelAndView().getModel().get("cliente");
+            assertNotNull(cliReaberta);
+            assertEquals("Cliente Isolamento Teste", cliReaberta.getNome(),
+                "Dashboard deve refletir a simulacao reaberta pelo usuario");
 
             MvcResult prodGet = mockMvc.perform(get("/produtos").session(sessionTeste))
                 .andExpect(status().isOk())
@@ -532,6 +639,7 @@ class InvestDecideValidacaoTest {
                 "Produto manual de um usuario nao pode aparecer para outro usuario");
         } finally {
             usuarioService.excluirPorEmail(emailTeste);
+            usuarioService.limparDadosPorEmail(emailVirgem);
         }
     }
 

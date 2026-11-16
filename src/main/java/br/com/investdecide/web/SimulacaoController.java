@@ -6,6 +6,7 @@ import br.com.investdecide.dominio.Cliente;
 import br.com.investdecide.dominio.GrupoProdutos;
 import br.com.investdecide.dominio.Pesos;
 import br.com.investdecide.dominio.ResultadoDecisao;
+import br.com.investdecide.servico.BancoDadosService;
 import br.com.investdecide.servico.CatalogoService;
 import br.com.investdecide.servico.CenarioService;
 import br.com.investdecide.servico.DecisaoService;
@@ -39,24 +40,35 @@ public class SimulacaoController {
     private final RelatorioService relatorios;
     private final RelatorioPdfService pdf;
     private final SimulacaoSalvaService simulacoesSalvas;
+    private final BancoDadosService banco;
 
     public SimulacaoController(CatalogoService catalogo, DecisaoService decisao, CenarioService cenarios,
                                 RelatorioService relatorios, RelatorioPdfService pdf,
-                                SimulacaoSalvaService simulacoesSalvas) {
+                                SimulacaoSalvaService simulacoesSalvas, BancoDadosService banco) {
         this.catalogo = catalogo;
         this.decisao = decisao;
         this.cenarios = cenarios;
         this.relatorios = relatorios;
         this.pdf = pdf;
         this.simulacoesSalvas = simulacoesSalvas;
+        this.banco = banco;
     }
 
     @GetMapping("/simulacao")
-    public String formulario(Model model) {
-        model.addAttribute("cliente", PagesController.clientePadrao());
-        model.addAttribute("pesos", new Pesos());
+    public String formulario(Model model, HttpSession session) {
+        String usuarioAtual = banco.usuarioAtual();
+        PagesController.validarSessaoUsuario(session, usuarioAtual);
+        ResultadoDecisao atual = (ResultadoDecisao) session.getAttribute("resultado");
+        if (atual != null) {
+            model.addAttribute("cliente", atual.getCliente());
+            model.addAttribute("pesos", atual.getPesos());
+            model.addAttribute("cenarioSelecionado", atual.getCenario().getNome());
+        } else {
+            model.addAttribute("cliente", PagesController.clienteInicialParaUsuario(usuarioAtual));
+            model.addAttribute("pesos", new Pesos());
+            model.addAttribute("cenarioSelecionado", "Base");
+        }
         model.addAttribute("cenarios", cenarios.todos());
-        model.addAttribute("cenarioSelecionado", "Base");
         model.addAttribute("indicadores", cenarios.getIndicadores());
         model.addAttribute("simulacoesSalvas", simulacoesSalvas.listar(8));
         return "simulacao";
@@ -79,16 +91,16 @@ public class SimulacaoController {
             return "simulacao";
         }
 
-        // Calcula todos os cenários disponíveis (Base, Otimista, Pessimista e Personalizado).
-        Map<String, ResultadoDecisao> porCenario = new LinkedHashMap<>();
-        for (Cenario c : cenarios.todos()) {
-            porCenario.put(c.getNome(), decisao.avaliar(cliente, catalogo.listar(), c, pesos));
+        if (cliente.getNome() == null || cliente.getNome().isBlank()) {
+            cliente.setNome("Cliente");
         }
-        session.setAttribute("resultadosPorCenario", porCenario);
 
+        // Calcula todos os cenários disponíveis (Base, Otimista, Pessimista e Personalizado).
+        Map<String, ResultadoDecisao> porCenario = avaliarCenarios(cliente, pesos);
         ResultadoDecisao escolhido = porCenario.getOrDefault(cenario, porCenario.get("Base"));
-        session.setAttribute("resultado", escolhido);
-        simulacoesSalvas.salvar(cliente, pesos, escolhido);
+        String idSalvo = simulacoesSalvas.salvar(cliente, pesos, escolhido);
+        PagesController.registrarNaSessao(session, banco.usuarioAtual(), escolhido, porCenario, idSalvo);
+
         relatorios.registrar("Comparativo de alternativas",
                 "Simulação (" + escolhido.getCenario().getNome() + ") · "
                         + String.format(java.util.Locale.forLanguageTag("pt-BR"), "R$ %,.2f", cliente.getAporte())
@@ -107,20 +119,20 @@ public class SimulacaoController {
             return "redirect:/dashboard";
         }
         var entrada = opt.get();
-        Map<String, ResultadoDecisao> porCenario = new LinkedHashMap<>();
-        for (Cenario c : cenarios.todos()) {
-            porCenario.put(c.getNome(), decisao.avaliar(entrada.cliente(), catalogo.listar(), c, entrada.pesos()));
-        }
-        session.setAttribute("resultadosPorCenario", porCenario);
+        Map<String, ResultadoDecisao> porCenario = avaliarCenarios(entrada.cliente(), entrada.pesos());
         ResultadoDecisao escolhido = porCenario.getOrDefault(entrada.cenario(), porCenario.get("Base"));
-        session.setAttribute("resultado", escolhido);
+        PagesController.registrarNaSessao(session, banco.usuarioAtual(), escolhido, porCenario, id);
         return montarResultado(model, entrada.cliente(), entrada.pesos(), escolhido.getCenario().getNome(), escolhido, porCenario);
     }
 
     @PostMapping("/simulacao/salva/{id}/excluir")
     public String excluirSalva(@PathVariable String id,
-                               @RequestParam(name = "origem", defaultValue = "/dashboard") String origem) {
+                               @RequestParam(name = "origem", defaultValue = "/dashboard") String origem,
+                               HttpSession session) {
         simulacoesSalvas.excluir(id);
+        if (id.equals(session.getAttribute("simulacaoSalvaId")) || simulacoesSalvas.total() == 0) {
+            PagesController.limparSessaoDecisao(session);
+        }
         return "redirect:" + ("/simulacao".equals(origem) ? "/simulacao" : "/dashboard");
     }
 
@@ -128,15 +140,27 @@ public class SimulacaoController {
     @GetMapping("/simulacao/resultado")
     public String resultado(@RequestParam(name = "cenario", defaultValue = "Base") String cenario,
                             Model model, HttpSession session) {
+        String usuarioAtual = banco.usuarioAtual();
+        PagesController.validarSessaoUsuario(session, usuarioAtual);
         @SuppressWarnings("unchecked")
         Map<String, ResultadoDecisao> porCenario = (Map<String, ResultadoDecisao>) session.getAttribute("resultadosPorCenario");
         if (porCenario == null || porCenario.isEmpty()) {
             return "redirect:/simulacao";
         }
         ResultadoDecisao escolhido = porCenario.getOrDefault(cenario, porCenario.get("Base"));
-        session.setAttribute("resultado", escolhido);
+        PagesController.registrarNaSessao(session, usuarioAtual, escolhido, porCenario,
+                (String) session.getAttribute("simulacaoSalvaId"));
         return montarResultado(model, escolhido.getCliente(), escolhido.getPesos(),
                 escolhido.getCenario().getNome(), escolhido, porCenario);
+    }
+
+    private Map<String, ResultadoDecisao> avaliarCenarios(Cliente cliente, Pesos pesos) {
+        var produtos = catalogo.listar();
+        Map<String, ResultadoDecisao> porCenario = new LinkedHashMap<>();
+        for (Cenario c : cenarios.todos()) {
+            porCenario.put(c.getNome(), decisao.avaliar(cliente, produtos, c, pesos));
+        }
+        return porCenario;
     }
 
     private String montarResultado(Model model, Cliente cliente, Pesos pesos, String cenario,
@@ -174,6 +198,7 @@ public class SimulacaoController {
     @GetMapping("/simulacao/ranking")
     public String ranking(@RequestParam(name = "ordem", defaultValue = "score") String ordem,
                           Model model, HttpSession session) {
+        PagesController.validarSessaoUsuario(session, banco.usuarioAtual());
         ResultadoDecisao resultado = (ResultadoDecisao) session.getAttribute("resultado");
         if (resultado == null) {
             return "redirect:/simulacao";

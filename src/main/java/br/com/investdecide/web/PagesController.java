@@ -4,6 +4,7 @@ import br.com.investdecide.dominio.Cenario;
 import br.com.investdecide.dominio.Cliente;
 import br.com.investdecide.dominio.Pesos;
 import br.com.investdecide.dominio.ResultadoDecisao;
+import br.com.investdecide.servico.BancoDadosService;
 import br.com.investdecide.servico.CatalogoService;
 import br.com.investdecide.servico.CenarioService;
 import br.com.investdecide.servico.DadosMercadoService;
@@ -29,16 +30,18 @@ public class PagesController {
     private final DadosMercadoService base;
     private final RelatorioService relatorios;
     private final SimulacaoSalvaService simulacoesSalvas;
+    private final BancoDadosService banco;
 
     public PagesController(CatalogoService catalogo, DecisaoService decisao, CenarioService cenarios,
                            DadosMercadoService base, RelatorioService relatorios,
-                           SimulacaoSalvaService simulacoesSalvas) {
+                           SimulacaoSalvaService simulacoesSalvas, BancoDadosService banco) {
         this.catalogo = catalogo;
         this.decisao = decisao;
         this.cenarios = cenarios;
         this.base = base;
         this.relatorios = relatorios;
         this.simulacoesSalvas = simulacoesSalvas;
+        this.banco = banco;
     }
 
     @GetMapping("/")
@@ -53,60 +56,126 @@ public class PagesController {
 
     @GetMapping("/dashboard")
     public String dashboard(Model model, HttpSession session) {
-        Cliente cliente = clientePadrao();
-        Pesos pesos = new Pesos();
-        Cenario cenario = cenarios.base();
-        ResultadoDecisao resultado = decisao.avaliar(cliente, catalogo.listar(), cenario, pesos);
+        String usuarioAtual = banco.usuarioAtual();
+        validarSessaoUsuario(session, usuarioAtual);
 
-        if (session.getAttribute("resultado") == null) {
-            Map<String, ResultadoDecisao> porCenario = new LinkedHashMap<>();
-            for (Cenario c : cenarios.todos()) {
-                porCenario.put(c.getNome(), c.getNome().equals("Base")
-                        ? resultado
-                        : decisao.avaliar(cliente, catalogo.listar(), c, pesos));
+        List<SimulacaoSalvaService.ResumoSimulacao> salvas = simulacoesSalvas.listar(6);
+        ResultadoDecisao resultado = (ResultadoDecisao) session.getAttribute("resultado");
+
+        if (resultado == null) {
+            if (!salvas.isEmpty() && !BancoDadosService.USUARIO_PADRAO.equalsIgnoreCase(usuarioAtual)) {
+                var ultima = salvas.get(0);
+                if (ultima.entrada() != null && ultima.entrada().cliente() != null && ultima.entrada().pesos() != null) {
+                    Map<String, ResultadoDecisao> porCenario = avaliarCenarios(
+                            ultima.entrada().cliente(), ultima.entrada().pesos());
+                    resultado = porCenario.getOrDefault(ultima.cenario(), porCenario.get("Base"));
+                    registrarNaSessao(session, usuarioAtual, resultado, porCenario, ultima.id());
+                }
+            } else if (BancoDadosService.USUARIO_PADRAO.equalsIgnoreCase(usuarioAtual)) {
+                Map<String, ResultadoDecisao> porCenario = avaliarCenarios(clientePadrao(), new Pesos());
+                resultado = porCenario.get("Base");
+                registrarNaSessao(session, usuarioAtual, resultado, porCenario, null);
             }
-            session.setAttribute("resultadosPorCenario", porCenario);
-            session.setAttribute("resultado", resultado);
         }
 
-        model.addAttribute("cliente", cliente);
-        model.addAttribute("resultado", resultado);
         model.addAttribute("base", base);
         model.addAttribute("indicadores", cenarios.getIndicadores());
-        model.addAttribute("destaques", resultado.getRanking().stream().limit(3).toList());
-        model.addAttribute("top10", resultado.getRanking().stream().limit(10).toList());
-        model.addAttribute("grupos", resultado.getGrupos());
-        model.addAttribute("simulacoesSalvas", simulacoesSalvas.listar(6));
-        model.addAttribute("chartPontos", resultado.getRanking().stream()
-                .map(a -> Map.<String, Object>of(
-                        "nome", a.getNome(),
-                        "x", Math.round(a.getVolatilidade() * 100.0) / 100.0,
-                        "y", Math.round(a.getRetornoLiquido() * 100.0) / 100.0,
-                        "grupo", a.getGrupo(),
-                        "score", Math.round(a.getScore() * 10.0) / 10.0))
-                .toList());
-        model.addAttribute("chartGrupos", resultado.getGrupos().stream()
-                .map(g -> Map.<String, Object>of(
-                        "nome", g.getNome(),
-                        "retorno", Math.round(g.getRetornoMedio() * 100.0) / 100.0,
-                        "carga", Math.round(g.getCargaMedia() * 100.0) / 100.0,
-                        "qtd", g.getQuantidade()))
-                .toList());
-        model.addAttribute("alertas", List.of(
-                Map.of("tipo", "warning", "icone", "bi-exclamation-triangle",
-                        "titulo", "Alternativa restrita pelo perfil",
-                        "texto", resultado.getAvaliacoes().stream().filter(a -> !a.isElegivel()).count()
-                                + " alternativas foram eliminadas pelos filtros de elegibilidade deste cliente."),
-                Map.of("tipo", "info", "icone", "bi-diagram-3",
-                        "titulo", "Agrupamento recalculado",
-                        "texto", resultado.getGrupos().size() + " grupos identificados (silhueta "
-                                + String.format(new java.util.Locale("pt", "BR"), "%.2f", resultado.getSilhueta()) + ")."),
-                Map.of("tipo", "neutral", "icone", "bi-database-check",
-                        "titulo", "Liquidez XP + CVM e banco H2",
-                        "texto", "Base de " + cenarios.getIndicadores().getDataReferencia()
-                                + " · come-cotas semestral ativo · " + simulacoesSalvas.total() + " simulação(ões) salva(s).")
-        ));
+        model.addAttribute("simulacoesSalvas", salvas);
+
+        if (resultado != null) {
+            model.addAttribute("cliente", resultado.getCliente());
+            model.addAttribute("resultado", resultado);
+            model.addAttribute("destaques", resultado.getRanking().stream().limit(3).toList());
+            model.addAttribute("top10", resultado.getRanking().stream().limit(10).toList());
+            model.addAttribute("grupos", resultado.getGrupos());
+            model.addAttribute("chartPontos", resultado.getRanking().stream()
+                    .map(a -> Map.<String, Object>of(
+                            "nome", a.getNome(),
+                            "x", Math.round(a.getVolatilidade() * 100.0) / 100.0,
+                            "y", Math.round(a.getRetornoLiquido() * 100.0) / 100.0,
+                            "grupo", a.getGrupo(),
+                            "score", Math.round(a.getScore() * 10.0) / 10.0))
+                    .toList());
+            model.addAttribute("chartGrupos", resultado.getGrupos().stream()
+                    .map(g -> Map.<String, Object>of(
+                            "nome", g.getNome(),
+                            "retorno", Math.round(g.getRetornoMedio() * 100.0) / 100.0,
+                            "carga", Math.round(g.getCargaMedia() * 100.0) / 100.0,
+                            "qtd", g.getQuantidade()))
+                    .toList());
+            model.addAttribute("alertas", List.of(
+                    Map.of("tipo", "warning", "icone", "bi-exclamation-triangle",
+                            "titulo", "Alternativa restrita pelo perfil",
+                            "texto", resultado.getAvaliacoes().stream().filter(a -> !a.isElegivel()).count()
+                                    + " alternativas foram eliminadas pelos filtros de elegibilidade deste cliente."),
+                    Map.of("tipo", "info", "icone", "bi-diagram-3",
+                            "titulo", "Agrupamento recalculado",
+                            "texto", resultado.getGrupos().size() + " grupos identificados (silhueta "
+                                    + String.format(new java.util.Locale("pt", "BR"), "%.2f", resultado.getSilhueta()) + ").")
+            ));
+        } else {
+            model.addAttribute("cliente", null);
+            model.addAttribute("resultado", null);
+            model.addAttribute("destaques", List.of());
+            model.addAttribute("top10", List.of());
+            model.addAttribute("grupos", List.of());
+            model.addAttribute("chartPontos", List.of());
+            model.addAttribute("chartGrupos", List.of());
+            model.addAttribute("alertas", List.of());
+        }
         return "dashboard";
+    }
+
+    private Map<String, ResultadoDecisao> avaliarCenarios(Cliente cliente, Pesos pesos) {
+        var produtos = catalogo.listar();
+        Map<String, ResultadoDecisao> porCenario = new LinkedHashMap<>();
+        for (Cenario c : cenarios.todos()) {
+            porCenario.put(c.getNome(), decisao.avaliar(cliente, produtos, c, pesos));
+        }
+        return porCenario;
+    }
+
+    static void validarSessaoUsuario(HttpSession session, String usuarioAtual) {
+        if (session == null) {
+            return;
+        }
+        Object dono = session.getAttribute("resultadoUsuario");
+        if (dono == null || (usuarioAtual != null && !usuarioAtual.equalsIgnoreCase(String.valueOf(dono)))) {
+            limparSessaoDecisao(session);
+        }
+    }
+
+    static void limparSessaoDecisao(HttpSession session) {
+        if (session == null) {
+            return;
+        }
+        session.removeAttribute("resultado");
+        session.removeAttribute("resultadosPorCenario");
+        session.removeAttribute("resultadoUsuario");
+        session.removeAttribute("simulacaoSalvaId");
+    }
+
+    static void registrarNaSessao(HttpSession session, String usuarioAtual, ResultadoDecisao resultado,
+                                  Map<String, ResultadoDecisao> porCenario, String simulacaoSalvaId) {
+        if (session == null) {
+            return;
+        }
+        session.setAttribute("resultado", resultado);
+        session.setAttribute("resultadosPorCenario", porCenario);
+        session.setAttribute("resultadoUsuario", usuarioAtual);
+        if (simulacaoSalvaId != null) {
+            session.setAttribute("simulacaoSalvaId", simulacaoSalvaId);
+        } else {
+            session.removeAttribute("simulacaoSalvaId");
+        }
+    }
+
+    static Cliente clienteInicialParaUsuario(String email) {
+        Cliente cliente = clientePadrao();
+        if (!BancoDadosService.USUARIO_PADRAO.equalsIgnoreCase(email)) {
+            cliente.setNome("");
+        }
+        return cliente;
     }
 
     @GetMapping("/relatorios")
