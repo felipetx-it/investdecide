@@ -9,9 +9,17 @@ target/
 
 # dados baixados e processados (não versionar base da CVM)
 data/raw/
-data/processed/
+# a série diária (31 MB) não é lida em runtime; só os agregados abaixo entram no deploy
+data/processed/*
+!data/processed/catalogo_fundos.csv
+!data/processed/fatores_macro.csv
+!data/processed/fundos_mensal.csv
+!data/processed/liquidez_fundos.csv
 scripts/_fixture/out/
 scripts/_fixture/out2/
+
+# banco H2 local: nunca versionar (cada ambiente tem o seu)
+data/db/
 
 # sistema
 .DS_Store

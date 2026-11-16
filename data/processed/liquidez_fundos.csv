@@ -1,0 +1,504 @@
+﻿cnpj,nome_xp,tipo_xp,cnpj_xp,nome_xp_api,cotizacao_resgate,cotizacao_dias,liquidacao_resgate,liquidacao_dias,liquidez_dias,match,score_match_xp,fonte,coletado_em
+34774642000160,ACE Capital Advisory FIF CIC Mul...,Fundo,34774642000160,ACE Capital Advisory FIF CIC Multi RL,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,cnpj,1.0,XP,2026-11-15
+47586689000141,ACE Capital Multicenários FC FIF...,Fundo,47612105000165,ACE Capital Multicenários FC FIF MULT - RL,D+15 (Dias Corridos),15,D+2 (Dias Úteis),2,18,nome,1.058,XP,2026-11-15
+44025131000107,AF Horizonte FIF Multimercado CP...,Fundo,44025131000107,AF Horizonte FIF Multimercado CP RL,D+59 (Dias Corridos),59,D+1 (Dias Úteis),1,61,cnpj,1.0,XP,2026-11-15
+29044189000104,AF Invest Geraes 30 FIRF CP,Fundo,29044189000104,AF Invest Geraes 30 FIRF CP,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,cnpj,1.0,XP,2026-11-15
+09720734000110,AF Invest Geraes FIF RF CP RL,Fundo,09720734000110,AF Invest Geraes FIF RF CP RL,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,cnpj,1.0,XP,2026-11-15
+31120022000119,ARX Denali Icatu Prev FIC FIRF CP,Previdência,31120022000119,ARX DENALI ICATU PREVIDÊNCIA FI FINANCEIRO RENDA FIXA CRÉDITO PRIVADO - RESPONSABILIDADE LIMITADA,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,cnpj,1.0,CVM,2026-11-15
+32318938000140,ARX Denali XP Seg Prev FIC FIRF CP RL,Previdência,32318938000140,ARX DENALI XP SEGUROS PREV FIC RENDA FIXA CRÉDITO PRIVADO RESPONSABILIDADE LIMITADA,D+2 (Dias Úteis),2,D+2 (Dias Úteis),2,6,cnpj,1.0,CVM,2026-11-15
+32319627000104,ARX Elbrus Advisory FIC Incentiv...,Fundo,32319627000104,ARX Elbrus Advisory FIC Incentivado FIF em Infra RF RL,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,cnpj,1.0,XP,2026-11-15
+37368078000173,ARX Elbrus Pro Advisory I FIC In...,Fundo,39959156000130,ARX Elbrus Pro Advisory I FIC Incentivado FIF Infra RF RL,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,nome,1.057,XP,2026-11-15
+35789436000196,ARX Everest Advisory FIC de FIF...,Fundo,35789436000196,ARX Everest Advisory FIC de FIF RF CP RL,D+60 (Dias Corridos),60,D+1 (Dias Úteis),1,62,cnpj,1.0,XP,2026-11-15
+32225663000109,ARX Hedge FIC Incentivado Financ...,Fundo,32225663000109,ARX Hedge FIC Incentivado Financeiro em Infra RF RL,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,XP,2026-11-15
+34461754000160,ARX Income 100 XP Seg Prev FIC FIA,Previdência,34461754000160,ARX INCOME 100 XP SEGUROS PREVIDÊNCIA FIC DE FI FINANCEIRO EM AÇÕES - RESPONSABILIDADE LIMITADA,D+6 (Dias Úteis),6,D+2 (Dias Úteis),2,12,cnpj,1.0,CVM,2026-11-15
+03168062000103,ARX Income FIC de FIF em Ações R...,Fundo,03168062000103,ARX Income FIC de FIF em Ações RL,D+1 (Dias Úteis),1,D+2 (Dias Úteis),2,5,cnpj,1.0,XP,2026-11-15
+03879361000148,ARX Income Icatu Prev FIM,Previdência,03879361000148,ARX INCOME ICATU PREVIDÊNCIA FI FINANCEIRO MULTIMERCADO - RESPONSABILIDADE LIMITADA,D+1 (Dias Úteis),1,D+1 (Dias Úteis),1,4,cnpj,1.0,CVM,2026-11-15
+05975117000104,ARX Target Icatu Prev FIC FIM,Previdência,05975117000104,ARX TARGET ICATU PREV FIC DE FI FINANCEIRO MULTIMERCADO - RESPONSABILIDADE LIMITADA,D+1 (Dias Úteis),1,D+2 (Dias Úteis),2,5,cnpj,1.0,CVM,2026-11-15
+20216114000180,ASA Gauss,Fundo,25307278000137,ASA Gauss,D+29 (Dias Corridos),29,D+1 (Dias Úteis),1,31,nome,1.06,XP,2026-11-15
+35002473000102,AXA WF Framlington Digital Econo...,Fundo,35002482000101,AXA WF Framlington Digital Economy Advisory CIC CIA IE RL,D+1 (Dias Úteis),1,D+5 (Dias Úteis),5,9,nome,1.056,XP,2026-11-15
+35002455000120,AXA WF Framlington Robotech Adv...,Fundo,35002463000177,AXA WF Framlington Robotech Adv Classe de FIC CIA IE RL,D+1 (Dias Úteis),1,D+5 (Dias Úteis),5,9,nome,1.057,XP,2026-11-15
+28911614000144,AZ Quest Advisory Icatu Multi Prev FIC FIM,Previdência,28911614000144,AZ QUEST ADVISORY ICATU MULTI PREV FI EM COTAS DE FIF MULTIMERCADO RESP LTDA,D+1 (Dias Úteis),1,D+2 (Dias Úteis),2,5,cnpj,1.0,CVM,2026-11-15
+32240069000189,AZ Quest Advisory Total Return F...,Fundo,32240069000189,AZ Quest Advisory Total Return FIC FIF Multimercado,D+27 (Dias Corridos),27,D+2 (Dias Úteis),2,30,cnpj,1.0,XP,2026-11-15
+22100009000107,AZ Quest Altro Advisory FIC de F...,Fundo,34370777000160,AZ Quest Altro Advisory FIC de FIF Multimercado CP,D+44 (Dias Corridos),44,D+1 (Dias Úteis),1,46,nome,1.058,XP,2026-11-15
+07279657000189,AZ Quest Ações FIF CIC Ações RL,Fundo,07279657000189,AZ Quest Ações FIF CIC Ações RL,D+1 (Dias Úteis),1,D+2 (Dias Úteis),2,5,cnpj,1.0,XP,2026-11-15
+36499625000197,AZ Quest Bayes LS Sistemático FI...,Fundo,36499625000197,AZ Quest Bayes LB Sistemático FIF Multimercado,D+14 (Dias Úteis),14,D+2 (Dias Úteis),2,23,cnpj,1.0,XP,2026-11-15
+46929688000190,AZ Quest Bayes Sistemático FIF C...,Fundo,46929688000190,AZ Quest Bayes LS Sistemático FIF em Cotas de FIM,D+14 (Dias Úteis),14,D+2 (Dias Úteis),2,23,cnpj,1.0,XP,2026-11-15
+33342220000152,AZ Quest Inflação Ativo Prev FIE FIRF,Previdência,33342220000152,AZ QUEST INFLAÇÃO ATIVO PREV FIE II FIC DE FI FINANCEIRO RENDA FIXA - RESPONSABILIDADE LIMITADA,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,cnpj,1.0,CVM,2026-11-15
+10320188000109,AZ Quest Low Vol FIF Multimercad...,Fundo,10320188000109,AZ Quest Low Vol FIF Multimercado RL,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,cnpj,1.0,XP,2026-11-15
+49438428000100,AZ Quest Luce Advisory II FIC FI...,Previdência,49438428000100,AZ QUEST LUCE PREVIDENCIARIO MASTER II FIFE FIF RENDA FIXA CRÉDITO PRIVADO - RESP LTDA,D+1 (Dias Úteis),1,D+2 (Dias Úteis),2,5,cnpj,1.0,CVM,2026-11-15
+29562424000121,AZ Quest Luce Advisory Icatu Prev FIC FIRF CP LP,Previdência,29562424000121,AZ QUEST LUCE ADVISORY ICATU PREVIDENCIÁRIO FIC DE FIF RENDA FIXA CRÉDITO PRIVADO - RESP LTDA,D+1 (Dias Úteis),1,D+2 (Dias Úteis),2,5,cnpj,1.0,CVM,2026-11-15
+32847001000162,AZ Quest Luce Advisory Prev XP Seg FICFIRF CP,Previdência,32847001000162,AZ QUEST LUCE ADVISORY PREV XP SEGUROS FIC RENDA FIXA CRÉDITO PRIVADO RESPONSABILIDADE LIMITADA,D+1 (Dias Úteis),1,D+2 (Dias Úteis),2,5,cnpj,1.0,CVM,2026-11-15
+04455632000109,AZ Quest Multi FIC de FIF Multim...,Fundo,04455632000109,AZ Quest Multi FIC de FIF Multimercado,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,cnpj,1.0,XP,2026-11-15
+26323079000185,AZ Quest Multi Max FIC FIF Multi...,Fundo,26323079000185,AZ Quest Multi Max FIC FIF Multimercado,D+29 (Dias Corridos),29,D+1 (Dias Úteis),1,31,cnpj,1.0,XP,2026-11-15
+11392165000172,AZ Quest Small Mid Caps FIF CIC...,Fundo,11392165000172,AZ Quest Small Mid Caps FIF CIC em Ações RL,D+27 (Dias Corridos),27,D+2 (Dias Úteis),2,30,cnpj,1.0,XP,2026-11-15
+36352498000107,AZ Quest Supra FIC FIF Multimerc...,Fundo,36352498000107,AZ Quest Supra FIC FIF Multimercado CP,D+59 (Dias Corridos),59,D+1 (Dias Úteis),1,61,cnpj,1.0,XP,2026-11-15
+22681798000117,AZ Quest Termo FIF RF LP,Fundo,22681798000117,AZ Quest Termo FIF RF LP,D+6 (Dias Corridos),6,D+1 (Dias Úteis),1,8,cnpj,1.0,XP,2026-11-15
+13974750000106,AZ Quest Top Long Biased FIC FIF...,Fundo,13974750000106,AZ Quest Top Long Biased FIC FIF Ações,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,XP,2026-11-15
+19782311000188,AZ Quest Valore FIRF CP,Fundo,19782311000188,AZ Quest Valore FIRF CP,D+4 (Dias Corridos),4,D+1 (Dias Úteis),1,6,cnpj,1.0,XP,2026-11-15
+16599968000116,AZ Quest Yield RF Ativo FIF CIC...,Fundo,16599968000116,AZ Quest Yield RF Ativo FIF CIC RF LP RL,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,cnpj,1.0,XP,2026-11-15
+21983042000160,Absolute Alpha Global Advisory F...,Fundo,29813769000100,Absolute Alpha Global Advisory FIC de FIF Multimercado RL,D+4 (Dias Corridos),4,D+1 (Dias Úteis),1,6,nome,1.057,XP,2026-11-15
+35617938000130,Absolute Alpha Marb Advisory FIC...,Fundo,35617938000130,Absolute Alpha Marb Advisory FIC de FIF Multimercado RL,D+17 (Dias Corridos),17,D+1 (Dias Úteis),1,19,cnpj,1.0,XP,2026-11-15
+48096589000108,Absolute Atenas Advisory FIC FIF...,Fundo,48096589000108,Absolute Atenas Advisory FIC FIF RF CP RL,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,cnpj,1.0,XP,2026-11-15
+47612701000145,Absolute Atenas Icatu Prev FIC FIRF CP,Previdência,47612701000145,ABSOLUTE ATENAS ICATU PREVIDÊNCIA FUNDO DE INVESTIMENTO FINANCEIRO EM COTAS DE FI RENDA FIXA,D+6 (Dias Corridos),6,D+2 (Dias Úteis),2,9,cnpj,1.0,CVM,2026-11-15
+37355605000105,Absolute Endurance XP Seg FICFIA Prev,Previdência,37355605000105,ABSOLUTE ENDURANCE XP SEGUROS FIC DE FI FINANCEIRO EM AÇÕES PREV - RESPONSABILIDADE LIMITADA,D+21 (Dias Úteis),21,D+2 (Dias Úteis),2,33,cnpj,1.0,CVM,2026-11-15
+18422264000107,Absolute Hedge FIC de FIF Multim...,Fundo,18860059000115,Absolute Hedge FIC de FIF Multimercado RL,D+4 (Dias Corridos),4,D+1 (Dias Úteis),1,6,nome,1.058,XP,2026-11-15
+51112363000150,Absolute Hidra IPCA FIC de FIF R...,Fundo,51112363000150,Absolute Hidra IPCA FIC de FIF RF Investimento em Infra CP,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,cnpj,1.0,XP,2026-11-15
+29242441000181,Absolute Icatu I Prev FIC FIM,Previdência,29242441000181,ABSOLUTE ICATU I PREV FIC DE FIF MULTIMERCADO - RESPONSABILIDADE LIMITADA,D+0 (Dias Úteis),0,D+3 (Dias Úteis),3,5,cnpj,1.0,CVM,2026-11-15
+32892827000143,Absolute Pace Long Biased Adviso...,Fundo,32892827000143,Absolute Pace LB Advisory FIF em Cotas de FIA - RL,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,XP,2026-11-15
+28947266000165,Absolute Vertex Advisory FIC FIF...,Fundo,28947266000165,Absolute Vertex Advisory FIC de FIF Multimercado,D+44 (Dias Corridos),44,D+1 (Dias Úteis),1,46,cnpj,1.0,XP,2026-11-15
+40882496000199,Absolute Vertex XP Seg Prev FIC FIM,Previdência,40882496000199,ABSOLUTE VERTEX XP SEG PREV FUNDO DE INVESTIMENTO EM COTAS MULT RESP LIMITADA,D+21 (Dias Úteis),21,D+1 (Dias Úteis),1,32,cnpj,1.0,CVM,2026-11-15
+07124064000143,Ace Capital Absoluto FIC FIF FIA...,Fundo,07124064000143,Ace Capital Absoluto Institucional FIC de FIF em Ações RL,D+1 (Dias Úteis),1,D+3 (Dias Úteis),3,7,cnpj,1.0,XP,2026-11-15
+37541379000157,Ace Capital Prev Iq Xp Seg Fic Fim,Previdência,37541379000157,ACE CAPITAL PREV IQ XP SEGUROS FUNDO DE INVESTIMENTO FINANCEIRO DA CIC MULTIMERCADO RESP LIMITADA,D+6 (Dias Corridos),6,D+1 (Dias Úteis),1,8,cnpj,1.0,CVM,2026-11-15
+25681955000182,Adam Icatu Prev FIC FIM,Previdência,25681955000182,ADAM ICATU PREVIDENCIÁRIO FIF DA CLASSE DE INVESTIMENTO EM COTAS MULTIMERCADO RESP LIMITADA,D+0 (Dias Corridos),0,D+2 (Dias Úteis),2,3,cnpj,1.0,CVM,2026-11-15
+24078037000109,Adam Macro Advisory FIC FIF Mult...,Fundo,24078037000109,Adam Macro Advisory FIC FIF Multimercado RL,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,cnpj,1.0,XP,2026-11-15
+52079356000166,Adam Renda Fixa Ativa Advisory F...,Previdência,52079356000166,ADAM RENDA FIXA ATIVA PREV MASTER FIF RENDA FIXA LONGO PRAZO RESPONSABILIDADE LIMITADA,D+0 (Dias Corridos),0,D+1 (Dias Úteis),1,2,cnpj,1.0,CVM,2026-11-15
+30998045000168,Adam Xp Seg Prev I Fic Fim Rl,Previdência,30998045000168,ADAM XP SEGUROS PREV I FIC DE FUNDOS DE INVESTIMENTO MULTIMERCADO RESPONSABILIDADE LIMITADA,D+0 (Dias Úteis),0,D+3 (Dias Úteis),3,5,cnpj,1.0,CVM,2026-11-15
+28558042000161,Alaska 100 Icatu Prev FIM,Previdência,28558042000161,ALASKA LONG ONLY 100 ICATU PREVIDENCIA FIFE FUNDO DE INVESTIMENTO FINANCEIRO EM AÇÕES,D+6 (Dias Úteis),6,D+2 (Dias Úteis),2,12,cnpj,1.0,CVM,2026-11-15
+29722458000136,Alaska 70 Icatu Prev FIM,Previdência,29722458000136,ALASKA 70 LONG ONLY ICATU PREVIDENCIÁRIO FUNDO DE INVESTIMENTO FINANCEIRO MULTIMERCADO,D+6 (Dias Úteis),6,D+2 (Dias Úteis),2,12,cnpj,1.0,CVM,2026-11-15
+32757743000105,Alaska Black 100 Advisory XP Seg Prev FIC FIM,Previdência,32757743000105,ALASKA LONG ONLY ADVISORY XP SEGUROS PREVIDÊNCIA FIC DE FIF MULTIMERCADO 100 - RESP LIMITADA,D+6 (Dias Úteis),6,D+2 (Dias Úteis),2,12,cnpj,1.0,CVM,2026-11-15
+32761323000194,Alaska Black 70 Advisory XP Seg Prev FIC FIM,Previdência,32761323000194,ALASKA LONG ONLY ADVISORY XP SEGUROS PREVIDENCIÁRIO FIC DE FIF MULTIMERCADO 70 - RESP LIMITADA,D+6 (Dias Úteis),6,D+2 (Dias Úteis),2,12,cnpj,1.0,CVM,2026-11-15
+26673556000132,Alaska Institucional Long Only F...,Fundo,26673556000132,Alaska Institucional Long Only FIF em Ações RL,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,XP,2026-11-15
+31525084000100,AlphaKey Institucional FIF em Co...,Fundo,36352721000108,AlphaKey Institucional FIF em Cotas de FIA RL,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,nome,1.058,XP,2026-11-15
+15862830000103,Apex Ações 30 FIC FIF Ações RL,Fundo,15862830000103,Apex Ações 30 FIC FIF Ações RL,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,XP,2026-11-15
+13608337000128,Apex Equity Hedge Advisory FIC F...,Fundo,40634864000180,Apex Equity Hedge Advisory FIC FIF Multi RL,D+29 (Dias Corridos),29,D+1 (Dias Úteis),1,31,nome,1.058,XP,2026-11-15
+20814969000103,Apex Long Biased Icatu Seg Prev FIM,Previdência,20814969000103,APEX LONG BIASED ICATU PREVIDÊNCIA FI FINANCEIRO MULTIMERCADO 49 - RESPONSABILIDADE LIMITADA,D+3 (Dias Úteis),3,D+1 (Dias Úteis),1,7,cnpj,1.0,CVM,2026-11-15
+47756349000111,Arbor II FIC FIA RL,Fundo,47756349000111,Arbor II FIC FIA RL,D+10 (Dias Úteis),10,D+2 (Dias Úteis),2,17,cnpj,1.0,XP,2026-11-15
+41888219000156,Arx Denali Advisory FIC de FIF R...,Fundo,41888219000156,Arx Denali Advisory FIC de FIF RF CP RL,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,cnpj,1.0,XP,2026-11-15
+40212715000122,Arx K2 XP Seg Prev Inflação Curta FIC FIM CP,Previdência,40212715000122,ARX K2 XP SEGUROS PREV INFLAÇÃO CURTA FC MULTIMERCADO CRÉDITO PRIVADO RESPONSABILIDADE LIMITADA,D+5 (Dias Úteis),5,D+2 (Dias Úteis),2,10,cnpj,1.0,CVM,2026-11-15
+10237480000162,Arx Long Term FIC de FIF em Açõe...,Fundo,10237480000162,Arx Long Term FIC de FIF em Ações RL,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,XP,2026-11-15
+41888492000180,Arx Vinson Advisory FIC de FIF R...,Fundo,41888492000180,Arx Vinson Advisory FIC de FIF RF CP RL,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,cnpj,1.0,XP,2026-11-15
+45645218000131,Asa Hedge Prev XP Seg FIC FIM RL,Previdência,48259098000122,ASA HEDGE PREV ITAÚ FIF CIC MULTIMERCADO RESPONSABILIDADE LIMITADA,D+3 (Dias Corridos),3,D+2 (Dias Úteis),2,6,nome,0.805,CVM,2026-11-15
+35602471000154,Ashmore Emerging Markets Equity...,Fundo,35602471000154,Ashmore Emerging Markets Equity Advisory CIC de Classes de Ações IE RL,D+1 (Dias Úteis),1,D+5 (Dias Úteis),5,9,cnpj,1.0,XP,2026-11-15
+44211899000167,Atena Icatu Prev FIC FIRF CP FIE,Previdência,44211899000167,ATENA ICATU PREVIDÊNCIARIO FI EM COTAS DE FI FINANCEIRO RENDA FIXA,D+7 (Dias Úteis),7,D+2 (Dias Úteis),2,13,cnpj,1.0,CVM,2026-11-15
+31340838000158,Atena Yield D30 FIC de FIF RF CP...,Fundo,31340838000158,Atena Yield D30 FIC de FIF RF CP RL,D+29 (Dias Corridos),29,D+1 (Dias Úteis),1,31,cnpj,1.0,XP,2026-11-15
+26680218000128,Athena Icatu Prev FIM 49,Previdência,26680218000128,ATHENA ICATU PREVIDÊNCIA FUNDO DE INVESTIMENTO MULTIMERCADO 49,D+1 (Dias Úteis),1,D+2 (Dias Úteis),2,5,cnpj,1.0,CVM,2026-11-15
+29045319000115,Athena Icatu Prev FIM 70,Previdência,29045319000115,ATHENA ICATU PREVIDENCIÁRIO FUNDO DE INVESTIMENTO FINANCEIRO MULTIMERCADO 70,D+6 (Dias Úteis),6,D+3 (Dias Úteis),3,14,cnpj,1.0,CVM,2026-11-15
+34218678000167,Augme 180 FIC FIM CP,Fundo,34218678000167,Augme 180 FIC FIM CP,D+90 (Dias Corridos),90,D+1 (Dias Úteis),1,92,cnpj,1.0,XP,2026-11-15
+30568495000110,Augme 30 Advisory CIC RF CP LP R...,Fundo,30568495000110,Augme 30 Advisory CIC RF CP LP RL,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,cnpj,1.0,XP,2026-11-15
+52285852000176,Augme 30 II CIC de CIRF CP LP RL,Fundo,52285852000176,Augme 30 II FIF RF - CP RL LP,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,cnpj,1.0,XP,2026-11-15
+45298150000161,Az Quest Altro Prev XP Seg FIC FIM CP,Previdência,46328602000173,AZ QUEST ALTRO PREV MASTER FIFE FIF MULTIMERCADO CRÉDITO PRIVADO - RESPONSABILIDADE LIMITADA,D+20 (Dias Úteis),20,D+1 (Dias Úteis),1,30,nome,0.855,CVM,2026-11-15
+40792737000109,Az Quest XP Seg Multi Max Prev Quali FIC FIM,Previdência,40792737000109,AZ QUEST XP MULTI MAX PREV QUALIFICADO FIE II FIC DE FIF MULTIMERCADO - RESPONSABILIDADE LIMITADA,D+22 (Dias Úteis),22,D+1 (Dias Úteis),1,33,cnpj,1.0,CVM,2026-11-15
+44315932000107,BB Asset RF Ativa Plus LP FIC FI...,Fundo,44315932000107,BB Asset RF Ativa Plus LP FIC FIF RL,D+1 (Dias Úteis),1,D+1 (Dias Úteis),1,4,cnpj,1.0,XP,2026-11-15
+05104498000156,BNP Paribas Inflação FIF RF RL,Fundo,05104498000156,BNP Paribas Inflação FIF RF RL,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,cnpj,1.0,XP,2026-11-15
+38443033000189,BNP Paribas Infra FIF RF Sustent...,Fundo,38443033000189,BNP Paribas Infra CDI FIF RF Sustentável RL,D+29 (Dias Corridos),29,D+1 (Dias Úteis),1,31,cnpj,1.0,XP,2026-11-15
+50098505000109,BNP Paribas Match Plus 30 Adviso...,Fundo,50098505000109,BNP Paribas Match Plus 30 Advisory FIF RF CP LP RL,D+29 (Dias Corridos),29,D+1 (Dias Úteis),1,31,cnpj,1.0,XP,2026-11-15
+02539921000152,BNP Paribas RF FIF RF RL,Fundo,02539921000152,BNP Paribas RF FIF RF RL,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,cnpj,1.0,XP,2026-11-15
+34081022000145,BNP Paribas Rubi FIF RF CP RL,Fundo,21185984000100,BNP Paribas Rubi FIF RF CP RL,D+9 (Dias Corridos),9,D+1 (Dias Úteis),1,11,nome,1.06,XP,2026-11-15
+11108013000103,BNP Paribas Small Caps FIF em Aç...,Fundo,11108013000103,BNP Paribas Small Caps FIF em Ações RL,D+5 (Dias Úteis),5,D+2 (Dias Úteis),2,10,cnpj,1.0,XP,2026-11-15
+50109627000153,BOCOM BBM Cash Enhanced FIF CIC...,Fundo,50109627000153,BOCOM BBM Cash Enhanced FIF CIC RF CP RL,D+9 (Dias Corridos),9,D+1 (Dias Úteis),1,11,cnpj,1.0,XP,2026-11-15
+50094963000170,BOCOM BBM Cash FIF CIC RF CP Ref...,Fundo,50094963000170,BOCOM BBM Cash FIF CIC RF CP Ref DI RL,D+0 (Dias Corridos),0,D+0 (Dias Corridos),0,0,cnpj,1.0,XP,2026-11-15
+34799129000123,BOCOM BBM Corporate Credit Plus...,Fundo,34799129000123,BOCOM BBM Corporate Credit Plus FIF CIC MULT CP RL,D+120 (Dias Corridos),120,D+1 (Dias Úteis),1,122,cnpj,1.0,XP,2026-11-15
+14799785000119,BTG Pactual Absoluto LS FIF em C...,Fundo,14799785000119,BTG Pactual Absoluto LS FIF em Cotas de FIA,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,XP,2026-11-15
+08913187000126,BTG Pactual Crédito Corporativo...,Previdência,08913187000126,BTG PACTUAL CREDITO CORPORATIVO FIFE PREVIDENCIA FUNDO DE INVESTIMENTO FINANCEIRO RENDA FIXA,D+1 (Dias Úteis),1,D+1 (Dias Úteis),1,4,cnpj,1.0,CVM,2026-11-15
+11952873000110,BTG Pactual Hedge Sigma FIF RF -...,Fundo,11952873000110,BTG Pactual Hedge Sigma FIF RF - Subclasse A,D+2 (Dias Úteis),2,D+1 (Dias Úteis),1,5,cnpj,1.0,XP,2026-11-15
+32862354000131,Bahia AM Advisory FIF CIC Multim...,Fundo,32862354000131,Bahia AM Advisory FIF CIC Multimercado RL,D+20 (Dias Corridos),20,D+1 (Dias Úteis),1,22,cnpj,1.0,XP,2026-11-15
+23732220000105,Bahia AM Long Biased FIF CIC Mul...,Fundo,23732231000195,Bahia AM Long Biased FIF CIC Multimercado RL,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,nome,1.058,XP,2026-11-15
+17087932000116,Bahia AM Maraú Advisory FIF CIC...,Fundo,28747733000103,Bahia AM Maraú Advisory FIF CIC Multimercado RL,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,nome,1.057,XP,2026-11-15
+17488514000130,Bahia AM Mutá Advisory FIF CIC M...,Fundo,41333093000153,Bahia AM Mutá Advisory FIF CIC Multimercado RL,D+60 (Dias Corridos),60,D+1 (Dias Úteis),1,62,nome,1.058,XP,2026-11-15
+09635130000175,Bahia AM Valuation FIF CIC em Aç...,Fundo,09635172000106,Bahia AM Valuation FIF CIC em Ações RL,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,nome,1.059,XP,2026-11-15
+45645241000126,Bahia Am Rf Ativo Prev Xp Seg Fic Fim,Previdência,51927928000157,BAHIA AM A PREVIDENCIARIO ATIVO FIF CIC RF LP - RESP LIMITADA,D+3 (Dias Corridos),3,D+1 (Dias Úteis),1,5,nome,0.838,CVM,2026-11-15
+49996302000150,Bocom BBM Corporate Credit II FI...,Fundo,49996302000150,Bocom BBM Corporate Credit II FIF RF CP RL,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,cnpj,1.0,XP,2026-11-15
+42870763000133,Bogari Value Advisory FIC de FIF...,Fundo,42870763000133,Bogari Value Advisory FIC de FIF em Ações RL,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,XP,2026-11-15
+51293148000100,Bradesco Bancos II FIF CIC RF CP...,Fundo,51293148000100,Bradesco Bancos II FIF CIC RF CP RL,D+0 (Dias Úteis),0,D+0 (Dias Úteis),0,0,cnpj,1.0,XP,2026-11-15
+34109809000178,Bradesco Zupo FIF CIC RF CP LP R...,Fundo,34109809000178,Bradesco Zupo FIF CIC RF CP LP RL,D+5 (Dias Corridos),5,D+1 (Dias Úteis),1,7,cnpj,1.0,XP,2026-11-15
+34187279000186,Brasil Capital 100 XP Seg Advisory FIC FIA RL,Previdência,34187279000186,BRASIL CAPITAL 100 XP SEGUROS ADVISORY PREVIDÊNCIA FIC DE FIF EM AÇÕES - RESPONSABILIDADE LIMITADA,D+22 (Dias Úteis),22,D+2 (Dias Úteis),2,34,cnpj,1.0,CVM,2026-11-15
+14284684000105,Brasil Capital 30 Advisory FIF F...,Fundo,34430477000129,Brasil Capital 30 Advisory FIF FIA RL,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,nome,1.059,XP,2026-11-15
+32892517000129,Brasil Capital 70 XP Seg Advisory Prev FIM RL,Previdência,32892517000129,BRASIL CAPITAL 70 XP SEGUROS ADVISORY PREVIDÊNCIA FIF MULTIMERCADO - RESPONSABILIDADE LIMITADA,D+6 (Dias Úteis),6,D+3 (Dias Úteis),3,14,cnpj,1.0,CVM,2026-11-15
+23263359000157,Brasil Plural Icatu Prev CP FIC FIRF,Previdência,23263359000157,BRASIL PLURAL CRÉDITO CORPORATIVO ICATU PREVIDÊNCIA CRÉDITO PRIVADO FIC FIF RENDA FIXA - RESP LTDA,D+3 (Dias Úteis),3,D+1 (Dias Úteis),1,7,cnpj,1.0,CVM,2026-11-15
+24405282000175,Canvas Icatu Prev FIC FIM Prev,Previdência,24405282000175,CANVAS ICATU PREVIDÊNCIA FIF CIC MULTIMERCADO PREVIDENCIÁRIO RESP LIMITADA,D+0 (Dias Corridos),0,D+3 (Dias Úteis),3,5,cnpj,1.0,CVM,2026-11-15
+52248139000152,Capitânia Infra Renda 90 Incenti...,Fundo,52248139000152,Capitânia Infra Renda 90 Incentivado Infraestrutura RF CP,D+89 (Dias Corridos),89,D+1 (Dias Úteis),1,91,cnpj,1.0,XP,2026-11-15
+20146294000171,Capitânia Premium 45 FIC de FIF...,Fundo,20146294000171,Capitânia Premium 45 FIC de FIF RF CP LP RL,D+44 (Dias Corridos),44,D+1 (Dias Úteis),1,46,cnpj,1.0,XP,2026-11-15
+32319658000157,Capitânia Prev Advisory Xp Seg Ficfirf Cp Rl,Previdência,32319658000157,CAPITANIA PREV ADVISORY XP SEGUROS FIC RENDA FIXA CRÉDITO PRIVADO RESPONSABILIDADE LIMITADA,D+5 (Dias Úteis),5,D+1 (Dias Úteis),1,9,cnpj,1.0,CVM,2026-11-15
+43779018000146,Capitânia Prev Inflação D30 XP Seg Advisory FIC FIRF CP,Previdência,43779018000146,CAPITANIA PREV INFLAÇÃO D30 XP SEGUROS ADVISORY FIC RF CP RESP LIMITADA,D+20 (Dias Úteis),20,D+1 (Dias Úteis),1,30,cnpj,1.0,CVM,2026-11-15
+26498249000162,Capitânia Previdence Advisory Icatu FIRF CP,Previdência,26498249000162,CAPITÂNIA PREVIDENCE ADVISORY ICATU FIF RENDA FIXA CRÉDITO PRIVADO RESPONSABILIDADE LTDA,D+1 (Dias Úteis),1,D+3 (Dias Úteis),3,7,cnpj,1.0,CVM,2026-11-15
+23272391000107,Capitânia Radar 90 FIC de FIF Mu...,Fundo,23272391000107,Capitânia Radar 90 FIC de FIF Multimercado CP LP RL,D+89 (Dias Corridos),89,D+1 (Dias Úteis),1,91,cnpj,1.0,XP,2026-11-15
+21732670000172,Capitânia Reit Institucional FIC...,Fundo,21732670000172,Capitânia Reit Institucional FIC de FIF Multimercado RL,D+89 (Dias Corridos),89,D+1 (Dias Úteis),1,91,cnpj,1.0,XP,2026-11-15
+35955948000185,Capitânia Reit Prev Adv XP Seg FIE I FIC FIM CP,Previdência,35955948000185,CAPITÂNIA REIT PREV ADVISORY XP SEGUROS FIE I FIC DE FIF MULTIMERCADO CRÉD PRIV - RESP LTDA,D+59 (Dias Úteis),59,D+1 (Dias Úteis),1,85,cnpj,1.0,CVM,2026-11-15
+35399404000184,Compass Credit Selection FIC de...,Fundo,35408329000170,Compass Credit Selection FIC de FIF RF CP LP RL,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,nome,1.057,XP,2026-11-15
+47936719000100,Compass High Yield 180 Advisory...,Fundo,47936719000100,Compass High Yield 180 Advisory FIF em Cotas de FIM,D+180 (Dias Corridos),180,D+1 (Dias Úteis),1,182,cnpj,1.0,XP,2026-11-15
+36318479000156,Compass Yield 30 FIF RF CP LP RL,Fundo,36318479000156,Compass Yield 30 FIF RF CP LP RL,D+29 (Dias Corridos),29,D+1 (Dias Úteis),1,31,cnpj,1.0,XP,2026-11-15
+30178912000119,Constellation Icatu 70 Prev FIM,Previdência,30178912000119,CONSTELLATION ICATU 70 PREVIDÊNCIA FUNDO DE INVESTIMENTO FINANCEIRO MULTIMERCADO,D+6 (Dias Úteis),6,D+2 (Dias Úteis),2,12,cnpj,1.0,CVM,2026-11-15
+34462109000162,Constellation Institucional Advi...,Fundo,34462109000162,Constellation Institucional Advisory FIC de Ações RL,D+60 (Dias Corridos),60,D+2 (Dias Úteis),2,63,cnpj,1.0,XP,2026-11-15
+35651477000111,Constellation XP Seg 100 Prev FIC FIM,Previdência,35651477000111,CONSTELLATION XP SEGUROS 100 PREV FI EM COTAS DE FUNDO DE INVESTIMENTO FINANCEIRO MULTIMERCADO,D+40 (Dias Úteis),40,D+2 (Dias Úteis),2,59,cnpj,1.0,CVM,2026-11-15
+35420731000170,DNA Energy Prev XP Seg FIM,Previdência,35420731000170,DNA ENERGY PREVIDENCIÁRIO XP SEGUROS FUNDO DE INVESTIMENTO MULTIMERCADO RESPONSABILIDADE LIMITADA,D+7 (Dias Úteis),7,D+2 (Dias Úteis),2,13,cnpj,1.0,CVM,2026-11-15
+36327214000114,Dahlia 100 Advisory XP Seg Prev FIC FIM,Previdência,36327214000114,DAHLIA 100 ADVISORY XP SEGUROS PREVIDÊNCIA FIC DE FIF MULTIMERCADO - RESPONSABILIDADE LIMITADA,D+10 (Dias Úteis),10,D+2 (Dias Úteis),2,17,cnpj,1.0,CVM,2026-11-15
+43761805000160,Dahlia 70 Advisory Xp Seg Ii Prev Fic Fim,Previdência,43761805000160,DAHLIA 70 ADVISORY XP SEGUROS II PREVIDÊNCIA FIC MULTI RESP LIMITADA,D+7 (Dias Úteis),7,D+2 (Dias Úteis),2,13,cnpj,1.0,CVM,2026-11-15
+31963337000128,Dahlia 70 Advisory Xp Seg Prev Fic Fim,Previdência,31963337000128,DAHLIA 70 ADVISORY XP SEGUROS PREVIDÊNCIA FC MULTIMERCADO RESPONSABILIDADE LIMITADA,D+7 (Dias Úteis),7,D+2 (Dias Úteis),2,13,cnpj,1.0,CVM,2026-11-15
+33755672000166,Dahlia Ações Advisory FIF em FIC...,Fundo,33755672000166,Dahlia Ações Advisory FIF em FIC de FIA,D+15 (Dias Corridos),15,D+2 (Dias Úteis),2,18,cnpj,1.0,XP,2026-11-15
+37645515000159,Dahlia Global 50 Advisory XP Seg Prev FIC FIM,Previdência,37645515000159,DAHLIA GLOBAL 50 ADVISORY XP SEGUROS PREVIDÊNCIA FIC DE FIF MULTIMERCADO - RESPONSABILIDADE LIMITADA,D+7 (Dias Úteis),7,D+2 (Dias Úteis),2,13,cnpj,1.0,CVM,2026-11-15
+32785900000188,Dahlia Macro Global FIC de FIF M...,Fundo,35432385000140,Dahlia Macro Global FIC de FIF Multimercado RL,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,nome,1.058,XP,2026-11-15
+30317436000170,Dahlia Total Return Advisory FIC...,Fundo,34309551000153,Dahlia Total Return Advisory FIC FIF Multi RL,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,nome,1.058,XP,2026-11-15
+29250121000173,Daycoval Classic 30 FIRF CP,Fundo,29250121000173,Daycoval Classic 30 FIRF CP,D+29 (Dias Corridos),29,D+1 (Dias Úteis),1,31,cnpj,1.0,XP,2026-11-15
+26142614000100,Daycoval Debêntures Incentivadas...,Fundo,26142614000100,Daycoval Debêntures Incentivadas CP FIM,D+14 (Dias Corridos),14,D+1 (Dias Úteis),1,16,cnpj,1.0,XP,2026-11-15
+52280783000108,Drys Shelter FIC FIF RF CP LP RL,Fundo,52282978000197,Drys Shelter FIC FIF RF CP LP RL,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,nome,1.06,XP,2026-11-15
+37487547000173,Encore Ações Advisory FIC Ações...,Fundo,37487547000173,Encore Ações Advisory FIC Ações RL,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,XP,2026-11-15
+50493115000133,Encore Fundo Mútuo de Privatizaç...,Fundo,50493115000133,Encore Fundo Mútuo de Privatização - FGTS Carteira Livre RL,D+1 (Dias Úteis),1,D+4 (Dias Úteis),4,8,cnpj,1.0,XP,2026-11-15
+41867324000109,Encore LB Advisory FIC Multimerc...,Previdência,41867324000109,ENCORE LB XP SEGUROS PREV 100 FUNDO DE INVESTIMENTO MULTIMERCADO RESPONSABILIDADE LIMITADA,D+20 (Dias Úteis),20,D+2 (Dias Úteis),2,31,cnpj,1.0,CVM,2026-11-15
+11980010000157,Equitas Selection FIC FIF FIA RL,Fundo,12004203000135,Equitas Selection FIC FIF FIA RL,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,nome,1.06,XP,2026-11-15
+38281397000100,Forpus 100 Icatu Prev FICFIA,Previdência,38281397000100,FORPUS 100 ICATU PREVIDENCIARIO QUALIFICADO FIC DE FIF EM AÇÕES - RESPONSABILIDADE LIMITADA,D+8 (Dias Úteis),8,D+2 (Dias Úteis),2,15,cnpj,1.0,CVM,2026-11-15
+40212923000121,Forpus 100 XP Seg Prev FICFIA,Previdência,40212923000121,FORPUS 100 XP SEG PREV FIC DE FUNDOS DE INVESTIMENTO FINANCEIRO EM AÇÕES - RESPONSABILIDADE LIMITADA,D+8 (Dias Úteis),8,D+2 (Dias Úteis),2,15,cnpj,1.0,CVM,2026-11-15
+21917184000129,Forpus Ações FIC FIF em Ações RL,Fundo,21917184000129,Forpus Ações FIC FIF em Ações RL,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,XP,2026-11-15
+37887638000104,Forpus Multiestratégia FIF Multi...,Fundo,37887638000104,Forpus Multiestratégia FIF Multimercado LP RL,D+14 (Dias Corridos),14,D+2 (Dias Úteis),2,17,cnpj,1.0,XP,2026-11-15
+28320600000156,Franklin Clearbridge Ações EUA G...,Fundo,28320600000156,Franklin Clearbridge Ações EUA Growth FIF em Ações IE - RL,D+1 (Dias Úteis),1,D+4 (Dias Úteis),4,8,cnpj,1.0,XP,2026-11-15
+32319047000109,Franklin Valor e Liquidez 70 XP Seg FIM,Previdência,32319047000109,FRANKLIN VALOR E LIQUIDEZ 70 ADVISORY XP SEGUROS PREV FIF MULTIMERCADO - RESPONSABILIDADE LIMITADA,D+2 (Dias Úteis),2,D+2 (Dias Úteis),2,6,cnpj,1.0,CVM,2026-11-15
+02895694000106,Franklin Valor e Liquidez FVL FI...,Fundo,02895694000106,Franklin Valor e Liquidez FVL FIF em Ações RL,D+1 (Dias Úteis),1,D+2 (Dias Úteis),2,5,cnpj,1.0,XP,2026-11-15
+40781467000130,Franklin Valor e Liquidez Long Bias Prev FIC FIM,Previdência,40781467000130,FRANKLIN VALOR E LIQUIDEZ LONG BIAS PREV FIC MULTIMERCADO RESPONSABILIDADE LIMITADA,D+13 (Dias Úteis),13,D+2 (Dias Úteis),2,22,cnpj,1.0,CVM,2026-11-15
+51328493000124,Gama Pearl Diver Global Floating...,Fundo,51835937000118,Gama Pearl Diver Global Floating Income BRL FIC FIM IE RL,D+31 (Dias Corridos),31,D+6 (Dias Úteis),6,40,nome,1.056,XP,2026-11-15
+35744790000102,Gama Schroder Gaia Contour Tech...,Fundo,35744790000102,Gama Schroder Gaia Contour Tech Equity LS BRL FIF CIC Multimercado IE RL,D+2 (Dias Úteis),2,D+3 (Dias Úteis),3,8,cnpj,1.0,XP,2026-11-15
+37405108000174,Gama Wellington Schroder Gaia BR...,Fundo,37405108000174,Gama Wellington Schroder Gaia BRL FIF CIC Multimercado IE RL,D+7 (Dias Corridos),7,D+3 (Dias Úteis),3,12,cnpj,1.0,XP,2026-11-15
+37487877000169,Genoa Capital Arpa Advisory CIC...,Fundo,39317019000100,Genoa Capital Arpa Advisory CIC CIA RL,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,nome,1.058,XP,2026-11-15
+42535455000151,Genoa Capital Cruise Prev Icatu Seguros FIC FIM,Previdência,42535455000151,GENOA CAPITAL CRUISE PREV ICATU SEGUROS FIF CIC MM RESPONSABILIDADE LIMITADA,D+5 (Dias Corridos),5,D+2 (Dias Úteis),2,8,cnpj,1.0,CVM,2026-11-15
+42535297000130,Genoa Capital Cruise Prev XP Seg FIC FIM,Previdência,42535297000130,GENOA CAPITAL CRUISE PREV XP SEG FIF DA CIC MULTIMERCADO - RESPONSABILIDADE LIMITADA,D+5 (Dias Corridos),5,D+2 (Dias Úteis),2,8,cnpj,1.0,CVM,2026-11-15
+35828652000101,Genoa Capital Radar Advisory CIC...,Fundo,36017731000197,Genoa Capital Radar Advisory CIC Multimercado RL,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,nome,1.057,XP,2026-11-15
+48997077000104,Genoa Capital Sagres I FIF CIC M...,Fundo,48997077000104,Genoa Capital Sagres I FIF CIC Multimercado RL,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,cnpj,1.0,XP,2026-11-15
+28075532000107,Geo Empresas Globais em Dolares...,Fundo,28075532000107,Geo Empresas Globais em Dolares FIC FIF Ações IE - Resp Limitada,D+30 (Dias Corridos),30,D+4 (Dias Úteis),4,36,cnpj,1.0,XP,2026-11-15
+32102192000133,Geo Empresas Globais em Reais FI...,Fundo,32102192000133,Geo Empresas Globais em Reais FIC FIF Ações IE RL,D+30 (Dias Corridos),30,D+4 (Dias Úteis),4,36,cnpj,1.0,XP,2026-11-15
+36499448000149,Giant DAO Multifactor LB FIF em...,Fundo,40920066000114,Giant DAO Multifactor LB FIF em Cotas de FIM,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,nome,1.058,XP,2026-11-15
+41075713000100,Giant Darius Advisory FIC de FIF...,Fundo,41075713000100,Giant Darius Advisory FIC de FIF Multimercado RL,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,XP,2026-11-15
+32847791000186,Giant Prev FIE FIC FIM,Previdência,32847791000186,GIANT PREV XP FIE FIC DE FIF MULTIMERCADO - RESPONSABILIDADE LIMITADA,D+7 (Dias Úteis),7,D+1 (Dias Úteis),1,12,cnpj,1.0,CVM,2026-11-15
+34186116000189,Giant Sigma Advisory FIC de FIF...,Fundo,34186116000189,Giant Sigma Advisory FIC de FIF Multimercado RL,D+10 (Dias Corridos),10,D+2 (Dias Úteis),2,13,cnpj,1.0,XP,2026-11-15
+35940266000107,Giant Zarathustra Advisory FIC d...,Fundo,35940266000107,Giant Zarathustra Advisory FIC de FIF Multimercado RL,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,XP,2026-11-15
+45605046000172,Guepardo Icatu Qualificado 100 Prev FIE FIC FIM,Previdência,45605046000172,GUEPARDO ICATU QUALIFICADO 100 PREV FIE TIPO 1 FI EM COTAS DE FI MULT RESPONSABILIDADE LIMITADA,D+21 (Dias Úteis),21,D+2 (Dias Úteis),2,33,cnpj,1.0,CVM,2026-11-15
+04437399000123,Guepardo Institucional FIF em Co...,Fundo,08830947000131,Guepardo Institucional FIF em Cotas FIA RL,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,nome,1.058,XP,2026-11-15
+35956641000107,Guepardo XP Seg Prev FIC FIM,Previdência,35956641000107,GUEPARDO XP SEGUROS PREV FI EM COTAS DE FI MULTIMERCADO RESPONSABILIDADE LIMITADA,D+21 (Dias Úteis),21,D+2 (Dias Úteis),2,33,cnpj,1.0,CVM,2026-11-15
+24300684000105,Gávea Macro Advisory FIF CIC Mul...,Fundo,24300684000105,GAVEA MACRO PLUS MASTER FIF - CI MULT - RESP LIMITADA,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,cnpj,1.0,CVM,2026-11-15
+32890800000111,HIX Capital Advisory FIC FIA,Fundo,32890800000111,HIX Capital Advisory FIC FIA,D+85 (Dias Corridos),85,D+2 (Dias Úteis),2,88,cnpj,1.0,XP,2026-11-15
+22662135000155,HIX Capital Institucional FIF em...,Fundo,22662135000155,HIX Capital Institucional FIF em Cotas de FIA,D+60 (Dias Úteis),60,D+2 (Dias Úteis),2,87,cnpj,1.0,XP,2026-11-15
+29800227000101,HIX Icatu Prev Qualificado FIC FIM 100,Previdência,29800227000101,HIX ICATU PREVIDENCIÁRIO LONG ONLY QUALIFICADO FIC DE FIF MULTIMERCADO 100 - RESP LTDA,D+60 (Dias Úteis),60,D+2 (Dias Úteis),2,87,cnpj,1.0,CVM,2026-11-15
+33736845000107,Hashdex 100 Nasdaq Crypto Index...,Fundo,33736845000107,Hashdex 100 Nasdaq Crypto Index FIM RL - Subclasse Hashdex 100,D+1 (Dias Corridos),1,D+5 (Dias Úteis),5,8,cnpj,1.0,XP,2026-11-15
+33736873000116,Hashdex 20 Nasdaq Crypto Index F...,Fundo,33736873000116,Hashdex 20 Nasdaq Crypto Index FIF em Cotas de FIM,D+1 (Dias Úteis),1,D+5 (Dias Úteis),5,9,cnpj,1.0,XP,2026-11-15
+35088108000162,Hashdex 40 Nasdaq Crypto Index F...,Fundo,35088108000162,Hashdex 40 Nasdaq Crypto Index FIF em Cotas de FIM,D+1 (Dias Úteis),1,D+5 (Dias Úteis),5,9,cnpj,1.0,XP,2026-11-15
+39992897000112,Hashdex 40 Nasdaq Crypto Index Xp Seg Prev Ficfim Rl,Previdência,39992897000112,HASHDEX 40 NASDAQ CRYPTO INDEX XP SEGUROS PREV FIC MULTIMERCADO RESPONSABILIDADE LIMITADA,D+5 (Dias Úteis),5,D+2 (Dias Úteis),2,10,cnpj,1.0,CVM,2026-11-15
+40212940000169,Hashdex Crypto Top Perfomers FIC...,Fundo,40212940000169,Hashdex Crypto Top Perfomers FIC de FIF Multimercado RL,D+1 (Dias Úteis),1,D+5 (Dias Úteis),5,9,cnpj,1.0,XP,2026-11-15
+40779216000111,Hix Xp Seg Prev Fic Fim,Previdência,40779216000111,HIX XP SEGUROS PREV FUNDO DE INVESTIMENTO EM COTAS MULTIMERCADO RESPONSABILIDADE LIMITADA,D+60 (Dias Úteis),60,D+2 (Dias Úteis),2,87,cnpj,1.0,CVM,2026-11-15
+35939779000190,IP Atlas BRL FIC FIA RL,Fundo,35939779000190,IP Atlas BRL FIC FIA RL,D+5 (Dias Corridos),5,D+4 (Dias Úteis),4,11,cnpj,1.0,XP,2026-11-15
+35939847000110,IP Atlas USD FIC FIF FIF Ações R...,Fundo,35939847000110,IP Atlas USD FIC FIF FIF Ações RL,D+10 (Dias Corridos),10,D+4 (Dias Úteis),4,16,cnpj,1.0,XP,2026-11-15
+12082452000149,IP Participações IPG FIC FIF Açõ...,Fundo,12082452000149,IP Participações IPG FIC FIF Ações RL,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,XP,2026-11-15
+35955960000190,IP Prev XP Seg IQ FIC FIM,Previdência,35955960000190,IP PREVIDÊNCIA XP SEGUROS IQ FIC DE FI FINANCEIRO MULTIMERCADO - RESPONSABILIDADE LIMITADA,D+20 (Dias Úteis),20,D+2 (Dias Úteis),2,31,cnpj,1.0,CVM,2026-11-15
+05936530000160,IP Value Hedge Advisory FIC de F...,Fundo,40796008000120,IP Value Hedge Advisory FIC de FIF Multimercado RL,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,nome,1.058,XP,2026-11-15
+37310657000165,Ibiuna Credit FIF CIC Multimerca...,Fundo,37310657000165,Ibiuna Credit FIF CIC Multimercado CP RL,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,cnpj,1.0,XP,2026-11-15
+13401715000106,Ibiuna Equities FIF CIC Ações RL,Fundo,13401715000106,Ibiuna Equities FIF CIC Ações RL,D+1 (Dias Úteis),1,D+3 (Dias Úteis),3,7,cnpj,1.0,XP,2026-11-15
+12124089000187,Ibiuna Hedge FIF FIM RL,Fundo,12154412000165,Ibiuna Hedge FIF FIM RL,D+15 (Dias Corridos),15,D+1 (Dias Úteis),1,17,nome,1.06,XP,2026-11-15
+15487918000184,Ibiuna Hedge ST Advisory FIF CIC...,Fundo,30493349000173,Ibiuna Hedge ST Advisory FIF CIC Multimercado RL,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,nome,1.057,XP,2026-11-15
+17554200000199,Ibiuna Long Biased FIF CIC Multi...,Fundo,17554200000199,Ibiuna Long Biased FIF CIC Multi RL,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,XP,2026-11-15
+13962959000150,Ibiuna Long Short Advisory FIF C...,Fundo,29732926000153,Ibiuna Long Short Advisory FIF CIC Multimercado RL,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,nome,1.058,XP,2026-11-15
+45511041000180,Ibiuna ST Prev Icatu FI Multimercado CP,Previdência,45511041000180,IBIUNA ST PREV ICATU FIF - CI MULTIMERCADO CRÉDITO PRIVADO - RESP LIMITADA,D+22 (Dias Úteis),22,D+1 (Dias Úteis),1,33,cnpj,1.0,CVM,2026-11-15
+15862867000123,Icatu Seg Kadima FIM CP Prev,Previdência,15862867000123,ICATU KADIMA FIE PREVIDÊNCIA FIC DE FIF MULTIMERCADO - RESPONSABILIDADE LIMITADA,D+2 (Dias Úteis),2,D+1 (Dias Úteis),1,5,cnpj,1.0,CVM,2026-11-15
+21818801000139,Icatu Seg Western Asset Prev FIM,Previdência,21818801000139,ICATU SEG WESTERN ASSET PREVIDÊNCIA FI FINANCEIRO - CI MULT - RESP LIMITADA,D+2 (Dias Úteis),2,D+1 (Dias Úteis),1,5,cnpj,1.0,CVM,2026-11-15
+34081211000118,Icatu Vanguarda Absoluto FI Prev RF CP,Previdência,34081211000118,ICATU VANGUARDA ABSOLUTO FIFE FIF - CLASSE DE INVESTIMENTO RF CRED PRIV PREVIDENCIÁRIO - RESP  LTDA,D+4 (Dias Úteis),4,D+5 (Dias Úteis),5,13,cnpj,1.0,CVM,2026-11-15
+46685502000102,Icatu Vanguarda Absoluto II FIRF CP Previdenciário,Previdência,46685502000102,ICATU VANGUARDA ABSOLUTO II FIF RENDA FIXA CRED PRIV PREVIDENCIÁRIO - RESP LIMITADA,D+9 (Dias Úteis),9,D+1 (Dias Úteis),1,15,cnpj,1.0,CVM,2026-11-15
+46762380000100,Icatu Vanguarda Absoluto Inflação FIF RF CP Previdenciário,Previdência,46762380000100,ICATU VANGUARDA ABSOLUTO INFLAÇÃO FIF RF CRED PRIV PREVIDENCIÁRIO - RESP LIMITADA,D+9 (Dias Úteis),9,D+1 (Dias Úteis),1,15,cnpj,1.0,CVM,2026-11-15
+41776707000171,Icatu Vanguarda Absoluto Plus Qualificado Xp Seg FI RF CP PREV RL,Previdência,41776707000171,ICATU VANGUARDA ABSOLUTO PLUS INFLAÇÃO QUALIFICADO IU FIFE FIF RF CRED PRIV PREV - RESP LIMITADA,D+0 (Dias Corridos),0,D+1 (Dias Úteis),1,2,cnpj,1.0,CVM,2026-11-15
+36352241000147,Icatu Vanguarda Crédito Global FIC FIM CP,Previdência,36352241000147,ICATU VANGUARDA CRÉDITO GLOBAL PREV FC FIF MULT CRED PRIV - RESP LIMITADA,D+22 (Dias Úteis),22,D+1 (Dias Úteis),1,33,cnpj,1.0,CVM,2026-11-15
+08279304000141,Icatu Vanguarda Dividendos FIF C...,Fundo,08279304000141,Icatu Vanguarda Dividendos FIF CIA RL,D+1 (Dias Úteis),1,D+2 (Dias Úteis),2,5,cnpj,1.0,XP,2026-11-15
+12823627000121,Icatu Vanguarda FIC FIRF Inflação Curta Prev,Previdência,12823627000121,ICATU VANGUARDA FC FIF RENDA FIXA INFLAÇÃO CURTA PREVIDENCIÁRIO - RESPONSABILIDADE LIMITADA,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,cnpj,1.0,CVM,2026-11-15
+04228716000100,Icatu Vanguarda FIC FIRF Inflação Longa Prev,Previdência,04228716000100,ICATU VANGUARDA FUNDO DE INVESTIMENTO EM COTAS FIF RF INFLAÇÃO LONGA PREVIDENCIÁRIO - RESP LIMITADA,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,cnpj,1.0,CVM,2026-11-15
+34793170000192,Icatu Vanguarda FIF Incentivado...,Fundo,34793170000192,Icatu Vanguarda FIF CI de Investimento em Infra RF RL,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,cnpj,1.0,XP,2026-11-15
+46192463000101,Icatu Vanguarda Igaraté Fim Prev,Previdência,46192463000101,ICATU VANGUARDA IGARATÉ FC DE FIF MULTIMERCADO PREVIDENCIÁRIO - RESPONSABILIDADE LIMITADA,D+8 (Dias Úteis),8,D+2 (Dias Úteis),2,15,cnpj,1.0,CVM,2026-11-15
+10922432000103,Icatu Vanguarda Inflação Curta F...,Fundo,12682783000110,Icatu Vanguarda Inflação Curta FIF CIC RF LP RL,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,nome,1.058,XP,2026-11-15
+07400556000114,Icatu Vanguarda Inflação Longa F...,Fundo,07400556000114,Icatu Vanguarda Inflação Longa FIF CIC RF LP RL,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,cnpj,1.0,XP,2026-11-15
+48069005000105,Icatu Vanguarda Liquidez FIF CI...,Fundo,44917374000141,Icatu Vanguarda Liquidez FIF CI RF CP LP RL,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,nome,1.058,XP,2026-11-15
+07190746000154,Icatu Vanguarda Minha Aposentadoria 2030 FIC FIM Prev,Previdência,07190746000154,ICATU VANGUARDA MINHA APOSENTADORIA 2030 FIF - CI MULTIMERCADO PREVIDENCIÁRIO - RESP LIMITADA,D+1 (Dias Úteis),1,D+1 (Dias Úteis),1,4,cnpj,1.0,CVM,2026-11-15
+07190735000174,Icatu Vanguarda Minha Aposentadoria 2040 FIC Prev,Previdência,07190735000174,ICATU VANGUARDA MINHA APOSENTADORIA 2040 FIF - CI MULTIMERCADO PREVIDENCIÁRIO - RESP LIMITADA,D+1 (Dias Úteis),1,D+2 (Dias Úteis),2,5,cnpj,1.0,CVM,2026-11-15
+35636610000160,Icatu Vanguarda Minha Aposentadoria 2050 FIC FIM Prev,Previdência,35636610000160,ICATU VANGUARDA MINHA APOSENTADORIA 2050 FIF - CIC MULTIMERCADO PREVIDENCIÁRIO - RESP LIMITADA,D+5 (Dias Úteis),5,D+2 (Dias Úteis),2,10,cnpj,1.0,CVM,2026-11-15
+03537456000183,Icatu Vanguarda Multiestratégia Arrojado FIC FIM Prev,Previdência,03537456000183,ICATU VANGUARDA MULTIESTRATÉGIA ARROJADO FIF MULT PREVIDENCIÁRIO - RESP LIMITADA,D+1 (Dias Úteis),1,D+2 (Dias Úteis),2,5,cnpj,1.0,CVM,2026-11-15
+19418031000195,Icatu Vanguarda Pré-Fixado FIF C...,Fundo,19418031000195,Icatu Vanguarda Pré-Fixado FIF CI RF LP RL,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,cnpj,1.0,XP,2026-11-15
+33520901000163,Icatu Vanguarda Pós-Fixado FIRF Prev,Previdência,33520901000163,ICATU VANGUARDA PÓS-FIXADO FIF RENDA FIXA PREVIDENCIÁRIO - RESP LIMITADA,D+1 (Dias Úteis),1,D+0 (Dias Úteis),0,2,cnpj,1.0,CVM,2026-11-15
+29732967000140,Indie 70 Icatu Prev FIM,Previdência,29732967000140,INDIE 70 ICATU PREVIDÊNCIA FI FINANCEIRO - CI MULT - RESP LIMITADA,D+2 (Dias Úteis),2,D+4 (Dias Úteis),4,9,cnpj,1.0,CVM,2026-11-15
+49835864000112,Inter Conservador FIF RF CP RL,Previdência,49835864000112,INTER CONSERVADOR PLUS ICATU SEG PREV FIF - CIC RFCRED PRIV - RESP LIMITADA,D+2 (Dias Úteis),2,D+1 (Dias Úteis),1,5,cnpj,1.0,CVM,2026-11-15
+32849785000168,Iridium Apollo Advisory Xp Seg Fic Firf Cp Rl,Previdência,32849785000168,IRIDIUM APOLLO ADVISORY XP SEGUROS PREV FIC RENDA FIXA CRÉDITO PRIVADO RESPONSABILIDADE LIMITADA,D+5 (Dias Úteis),5,D+1 (Dias Úteis),1,9,cnpj,1.0,CVM,2026-11-15
+32756812000158,Iridium Titan Advisory FIC em FI...,Fundo,32756812000158,Iridium Titan Advisory FIC em FIF RF CP RL,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,cnpj,1.0,XP,2026-11-15
+42380161000106,Itaú Debêntures Incentivadas FIF...,Fundo,45512169000169,Itaú Debêntures Incentivadas FIF CIC em Infra RF CP RL,D+21 (Dias Úteis),21,D+1 (Dias Úteis),1,32,nome,1.057,XP,2026-11-15
+50236261000183,Itaú Global Dinâmico Rf Prev Xp Advisory Longo Prazo Ficfi,Previdência,50236261000183,ITAÚ GLOBAL DINÂMICO RENDA FIXA PREV XP ADVISORY LONGO PRAZO FIF CIC RESP LIMITADA,D+0 (Dias Corridos),0,D+1 (Dias Úteis),1,2,cnpj,1.0,CVM,2026-11-15
+52285727000166,Itaú Janeiro Distribuidores FIF...,Fundo,52285727000166,Itaú Janeiro Distribuidores FIF CIC Mult - Resp Limitada,D+21 (Dias Úteis),21,D+1 (Dias Úteis),1,32,cnpj,1.0,XP,2026-11-15
+32892819000105,Itaú Optimus Distribuidores FIF...,Fundo,32892819000105,Itaú Optimus Distribuidores FIF CIC RF LP - Resp Limitada,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,cnpj,1.0,XP,2026-11-15
+35727276000150,Itaú Optimus Titan Distribuidore...,Fundo,35727276000150,Itaú Optimus Titan Distribuidores FIF CIC Mult - Resp Limitada,D+21 (Dias Úteis),21,D+1 (Dias Úteis),1,32,cnpj,1.0,XP,2026-11-15
+45756511000176,Itaú Optimus Titan Xp Seg Fic Fi Rl,Previdência,42534623000194,ITAU OPTIMUS TITAN PREV XP SEGUROS MULTIMERCADO FUNDO DE INVESTIMENTO EM COTAS DE FICFI,D+21 (Dias Corridos),21,D+1 (Dias Úteis),1,23,nome,1.055,CVM,2026-11-15
+32892615000166,JGP Crédito Advisory FIF Multime...,Fundo,32892615000166,JGP SELECT FUNDO DE INVESTIMENTO FINANCEIRO DA CIC MULTIMERCADO CRÉDITO PRIVADO IU RESP LIMITADA,D+60 (Dias Corridos),60,D+2 (Dias Úteis),2,63,cnpj,1.0,CVM,2026-11-15
+45683300000150,JGP Crédito Ecossistema 360 Advi...,Fundo,45683300000150,JGP Crédito Ecossistema 360 Advisory FIC de FIF Multimercado CP RL,D+365 (Dias Corridos),365,D+1 (Dias Úteis),1,367,cnpj,1.0,XP,2026-11-15
+09143318000104,JGP Equity FIC FIF Multimercado...,Fundo,09143318000104,JGP Equity FIC FIF Multimercado RL,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,XP,2026-11-15
+11228311000129,JGP Long Only FIC FIF Ações RL,Fundo,11228311000129,JGP Long Only FIC FIF Ações RL,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,XP,2026-11-15
+28648924000118,JGP MAX Advisory FIC de FIF Mult...,Fundo,28648924000118,JGP MAX Advisory FIC de FIF Multimercado RL,D+15 (Dias Corridos),15,D+1 (Dias Úteis),1,17,cnpj,1.0,XP,2026-11-15
+34462142000192,JGP Multimercado Prev Advisory XP Seg FICFI,Previdência,34462142000192,JGP MULTIMERCADO PREVIDENCIÁRIO ADVISORY XP SEGUROS FI FINANCEIRO - RESPONSABILIDADE LIMITADA,D+0 (Dias Úteis),0,D+2 (Dias Úteis),2,3,cnpj,1.0,CVM,2026-11-15
+37910253000102,JGP Prev Multimercado Icatu FICFI,Previdência,37910253000102,JGP MULTIMERCADO PREVIDENCIÁRIO ICATU FUNDO DE INVESTIMENTO FINANCEIRO - RESPONSABILIDADE LIMITADA,D+0 (Dias Úteis),0,D+2 (Dias Úteis),2,3,cnpj,1.0,CVM,2026-11-15
+30190210000150,JGP Strategy Advisory FIC FIF Mu...,Fundo,30190210000150,JGP Strategy Advisory FIC FIF Multimercado RL,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,cnpj,1.0,XP,2026-11-15
+22759978000174,JGP SulAmérica FIM CP,Previdência,22759978000174,JGP SULAMÉRICA PREVIDENCIÁRIO FIF DA CLASSE DE INV EM COTAS MULTIMERCADO CRED PRIV RL,D+1 (Dias Úteis),1,D+3 (Dias Úteis),3,7,cnpj,1.0,CVM,2026-11-15
+44951924000149,Jive Dist & Spec Sits IV Adv Qua...,Fundo,52204330000100,Jive Dist & Spec Sits IV Adv Qual III FicFim CP - Modelo A,D+0 (Dias Úteis),0,D+0 (Dias Úteis),0,0,nome,1.056,XP,2026-11-15
+31120420000135,Journey Capital Endurance Incent...,Fundo,31120420000135,Journey Capital Endurance Incentivado FIF em Infra RF,D+29 (Dias Corridos),29,D+1 (Dias Úteis),1,31,cnpj,1.0,XP,2026-11-15
+09412694000149,Kadima Master FIF Multimercado R...,Fundo,09412694000149,Kadima Master FIF Multimercado RL - Subclasse II,D+10 (Dias Corridos),10,D+1 (Dias Úteis),1,12,cnpj,1.0,XP,2026-11-15
+28353060000107,Kadima Xp Seg Prev Fie Fic Fim Rl,Previdência,28353060000107,KADIMA XP SEGUROS PREV FIFE FIF MULTIMERCADO CRÉDITO PRIVADO - RESP LTDA,D+2 (Dias Úteis),2,D+1 (Dias Úteis),1,5,cnpj,1.0,CVM,2026-11-15
+28558411000116,Kapitalo Alpha Global Advisory F...,Fundo,28849694000155,Kapitalo Alpha Global Advisory FIF em Cotas de FIM,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,nome,1.058,XP,2026-11-15
+33520968000106,Kapitalo K10 Advisory FIF em Cot...,Fundo,33520968000106,Kapitalo K10 Advisory FIF em Cotas de FIM,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,cnpj,1.0,XP,2026-11-15
+41505673000180,Kapitalo K10 Global Icatu Prev FIC FIM,Previdência,41505673000180,KAPITALO K10 GLOBAL ICATU PREVIDENCIÁRIO IQ FIF CIC MULTIMERCADO RESP LIMITADA,D+7 (Dias Corridos),7,D+2 (Dias Úteis),2,10,cnpj,1.0,CVM,2026-11-15
+41498482000139,Kapitalo K10 Global Prev Xp Seg Advisory Fic Fim Rl,Previdência,41498482000139,KAPITALO K10 GLOBAL BP PREVIDÊNCIA FICFI MULT,D+7 (Dias Úteis),7,D+2 (Dias Úteis),2,13,cnpj,1.0,CVM,2026-11-15
+26978199000110,Kapitalo Kappa Advisory FIF em C...,Fundo,26978199000110,Kapitalo Kappa Advisory FIF em Cotas de FIM,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,cnpj,1.0,XP,2026-11-15
+26396708000105,Kapitalo NW3 Plus FIF em Cotas d...,Fundo,26396708000105,Kapitalo NW3 Plus FIF em Cotas de FIM RL - Subclasse Geral,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,XP,2026-11-15
+39573883000164,Kapitalo Tarkus Advisory FIF em...,Fundo,39573883000164,Kapitalo Tarkus Advisory FIF em Cotas de FIA,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,XP,2026-11-15
+30521581000178,Kapitalo Zeta Advisory FIF em Co...,Fundo,30521581000178,Kapitalo Zeta Advisory FIF em Cotas de FIM,D+60 (Dias Corridos),60,D+1 (Dias Úteis),1,62,cnpj,1.0,XP,2026-11-15
+42831201000180,Kapitalo Zeta Merídia FIC de FIM,Fundo,42831231000197,Kapitalo Zeta Merídia FIC de FIM,D+60 (Dias Corridos),60,D+2 (Dias Úteis),2,63,nome,1.06,XP,2026-11-15
+32990311000131,Kinea Apolo Advisory Xp Seg Prev Fic Fim Rl,Previdência,32990311000131,KINEA PREV APOLO XP MULTIMERCADO FUNDO DE INVESTIMENTO FINANCEIRO DA CIC RESP LIMITADA,D+0 (Dias Corridos),0,D+1 (Dias Úteis),1,2,cnpj,1.0,CVM,2026-11-15
+29762315000158,Kinea Atlas II FIM RL - Subclass...,Fundo,29762315000158,Kinea Atlas II FIM RL - Subclasse I,D+10 (Dias Úteis),10,D+1 (Dias Úteis),1,16,cnpj,1.0,XP,2026-11-15
+52998678000109,Kinea Dakar FIF CIC RF LP RL - S...,Previdência,52998678000109,KINEA PREV DAKAR XP SEGUROS FIF - CIC RF LP - RESP LIMITADA,D+0 (Dias Corridos),0,D+1 (Dias Úteis),1,2,cnpj,1.0,CVM,2026-11-15
+35495418000100,Kinea Gama FIF CIC em Ações RL -...,Fundo,35372771000194,Kinea Gama FIF CIC em Ações RL - Subclasse I,D+15 (Dias Úteis),15,D+2 (Dias Úteis),2,24,nome,1.058,XP,2026-11-15
+39586858000115,Kinea IPCA Dinâmico II FIF RF RL...,Fundo,39586858000115,Kinea IPCA Dinâmico II FIF RF RL - Subclasse II,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,cnpj,1.0,XP,2026-11-15
+53075427000115,Kinea Incentivado RF CP LP FIF R...,Fundo,53075427000115,Kinea Incentivado RF CP LP FIF RL FI Deb Infra RL - Subclasse I,D+22 (Dias Úteis),22,D+1 (Dias Úteis),1,33,cnpj,1.0,XP,2026-11-15
+41681294000141,Kinea PE V Feeder Advisory FIP M...,Fundo,41219331000102,Kinea PE V Feeder Advisory FIP Multi RL - Classe A,D+0 (Dias Úteis),0,D+0 (Dias Úteis),0,0,nome,1.058,XP,2026-11-15
+37728799000147,Kinea Prev Atlas XP Seg FIC FIM,Previdência,37728799000147,KINEA PREV ATLAS XP SEGUROS FUNDO DE INVESTIMENTO EM COTAS MULTIMERCADO RESPONSABILIDADE LIMITADA,D+20 (Dias Corridos),20,D+1 (Dias Úteis),1,22,cnpj,1.0,CVM,2026-11-15
+32320644000153,Kinea Xtr Xp Seg Prev Fic Fim,Previdência,32320644000153,KINEA PREV II XTR XP FIF CIC MULTIMERCADO RESPONSABILIDADE LIMITADA,D+0 (Dias Corridos),0,D+1 (Dias Úteis),1,2,cnpj,1.0,CVM,2026-11-15
+25213366000170,Kiron FIC de FIF em Ações RL,Fundo,25213366000170,Kiron FIC de FIF em Ações RL,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,XP,2026-11-15
+42731202000153,Kínitro 30 FIF em Cotas de FIM,Fundo,42731202000153,KÍNITRO 30 FUNDO DE INVESTIMENTO FINANCEIRO EM COTAS DE FUNDOS DE INVESTIMENTO MULTIMERCADO,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,cnpj,1.0,CVM,2026-11-15
+35314803000103,Leblon 100 Icatu Prev FIM,Previdência,35314803000103,LEBLON 100 ICATU PREV  FUNDO DE INVESTIMENTO MULTIMERCADO,D+28 (Dias Úteis),28,D+2 (Dias Úteis),2,43,cnpj,1.0,CVM,2026-11-15
+34462068000104,Leblon 100 XP Seg Prev FIM,Previdência,34462068000104,LEBLON 100 XP SEGUROS PREV FUNDO DE INVESTIMENTO MULTIMERCADO,D+28 (Dias Úteis),28,D+2 (Dias Úteis),2,43,cnpj,1.0,CVM,2026-11-15
+27793095000102,Leblon 70 XP Seg Prev FIM,Previdência,27793095000102,LEBLON 70 XP SEGUROS PREV FUNDO DE INVESTIMENTO MULTIMERCADO,D+2 (Dias Úteis),2,D+2 (Dias Úteis),2,6,cnpj,1.0,CVM,2026-11-15
+10320151000180,Leblon Ações FIC de FIF,Fundo,10320151000180,Leblon Ações FIC de FIF,D+27 (Dias Corridos),27,D+3 (Dias Úteis),3,32,cnpj,1.0,XP,2026-11-15
+10346018000101,Leblon Ações II Institucional FI...,Fundo,26768800000140,Leblon Ações II Institucional FIC FIA,D+27 (Dias Corridos),27,D+3 (Dias Úteis),3,32,nome,1.059,XP,2026-11-15
+11098129000109,Leblon Icatu Prev FIM,Previdência,11098129000109,LEBLON ICATU PREVIDÊNCIA FUNDO DE INVESTIMENTO FINANCEIRO,D+2 (Dias Úteis),2,D+2 (Dias Úteis),2,6,cnpj,1.0,CVM,2026-11-15
+30566221000192,Legacy Capital Advisory FIC FIM...,Fundo,30566221000192,Legacy Capital Advisory FIC FIM RL,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,cnpj,1.0,XP,2026-11-15
+47698578000127,Legacy Capital Compound FIF DEB...,Fundo,54699979000167,Legacy Capital Compound IPCA Advisory FIF CIC Deb Infra CP RF RL,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,nome,1.056,XP,2026-11-15
+34287126000100,Legacy Capital Prev Advisory XP Seg FIC FIM,Previdência,34287126000100,LEGACY CAPITAL PREV ADVISORY XP SEGUROS FI EM COTAS DE FIF MULTIMERCADO,D+3 (Dias Úteis),3,D+1 (Dias Úteis),1,7,cnpj,1.0,CVM,2026-11-15
+42195844000185,Legacy Crédito Prev Advisory XP Seg FIC FIRF CP,Previdência,42195844000185,LEGACY CAPITAL PREVIDENCIÁRIO ADVISORY XP SEGUROS FIF CIC RF CRÉDITO PRIVADO RESP LIMITADA,D+5 (Dias Corridos),5,D+1 (Dias Úteis),1,7,cnpj,1.0,CVM,2026-11-15
+24325422000103,Lis Value FIA RL,Fundo,24325422000103,LIS VALUE FUNDO DE INVESTIMENTO FINANCEIRO EM AÇÕES - RESPONSABILIDADE LIMITADA,D+29 (Dias Úteis),29,D+1 (Dias Úteis),1,43,cnpj,1.0,CVM,2026-11-15
+39958460000162,M8 Capital Plus FI RF CP LP,Fundo,39958460000162,M8 Capital Plus FI RF CP RL LP,D+31 (Dias Corridos),31,D+1 (Dias Úteis),1,33,cnpj,1.0,XP,2026-11-15
+47046855000117,MAG Cash 10 FIRF,Fundo,47046855000117,MAG Cash 10 FIRF,D+9 (Dias Úteis),9,D+1 (Dias Úteis),1,15,cnpj,1.0,XP,2026-11-15
+42084981000142,MAG Global Bonds FIC FIM IE,Fundo,42084992000122,MAG Global Bonds FIC FIM IE,D+1 (Dias Úteis),1,D+3 (Dias Úteis),3,7,nome,1.06,XP,2026-11-15
+32385140000111,MAG Prev XP Seg Advisory FIRF CP,Previdência,32385140000111,MAG PREV XP SEGUROS ADVISORY FIF RF CRÉD PRIV - RESPONSABILIDADE LIMITADA,D+1 (Dias Úteis),1,D+1 (Dias Úteis),1,4,cnpj,1.0,CVM,2026-11-15
+46300572000197,MERAKI BRABUS FIF FIA,Fundo,46300572000197,Meraki Brabus FIF FIA,D+30 (Dias Corridos),30,D+2 (Dias Corridos),2,32,cnpj,1.0,XP,2026-11-15
+33362028000128,MS Global Opportunities Dólar Ad...,Fundo,33913562000185,MS Global Opportunities Dólar Advisory CIC FIC FIA IE RL,D+1 (Dias Úteis),1,D+5 (Dias Úteis),5,9,nome,1.057,XP,2026-11-15
+50697486000137,Mag High Grade Plus 30 FIF RF CP...,Fundo,50697486000137,Mag High Grade Plus 30 FIF RF CP LP RL,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,cnpj,1.0,XP,2026-11-15
+14115118000170,Mag Inflação Referenciado IMA-B...,Fundo,14115118000170,Mag Inflação Referenciado IMA-B FIRF FIF CIRF LP RL,D+2 (Dias Úteis),2,D+1 (Dias Úteis),1,5,cnpj,1.0,XP,2026-11-15
+11961080000168,Mag Prev Rf Fic Fim,Previdência,11961080000168,MAG PREVIDÊNCIA CRÉDITO PRIVADO FIF - CLASSE DE INVESTIMENTO RF  - RESP  LIMITADA,D+0 (Dias Úteis),0,D+0 (Dias Úteis),0,0,cnpj,1.0,CVM,2026-11-15
+14083797000142,Mantaro Ações FIF em Cotas de FI...,Fundo,14083797000142,Mantaro Ações FIF em Cotas de FIA,D+15 (Dias Corridos),15,D+2 (Dias Úteis),2,18,cnpj,1.0,XP,2026-11-15
+45653398000101,Mantaro Equity Hedge FIF Multime...,Fundo,45653398000101,Mantaro Equity Hedge FIF Multimercado,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,cnpj,1.0,XP,2026-11-15
+17002861000101,Mantaro LB FIF em Cotas de FIM,Fundo,17002861000101,Mantaro LB FIF em Cotas de FIM,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,XP,2026-11-15
+51253495000100,Mapfre Confianza FIF RF Referenc...,Fundo,51253495000100,Mapfre Confianza FIF RF Referenciado DI CP RL,D+0 (Dias Úteis),0,D+0 (Dias Úteis),0,0,cnpj,1.0,XP,2026-11-15
+21596006000143,Mapfre FIF RF RL,Fundo,08610270000126,Mapfre FIF RF RL,D+0 (Dias Úteis),0,D+0 (Dias Úteis),0,0,nome,1.06,XP,2026-11-15
+32397723000162,Mar Absoluto FIF em Cotas de FIM,Fundo,32397723000162,Mar Absoluto FIF em Cotas de FIM,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,cnpj,1.0,XP,2026-11-15
+22222949000179,Meraki Equity Hedge FIF em Cotas...,Fundo,38049108000141,Meraki Equity Hedge FIF em Cotas de FIM,D+15 (Dias Corridos),15,D+2 (Dias Úteis),2,18,nome,1.058,XP,2026-11-15
+35354967000156,Moat Capital Advisory FIC FIA,Fundo,35354967000156,Moat Capital Advisory FIC FIA,D+15 (Dias Corridos),15,D+2 (Dias Úteis),2,18,cnpj,1.0,XP,2026-11-15
+41326095000115,Moat Capital Equity Hedge Adviso...,Fundo,41326095000115,Moat Capital Equity Hedge Advisory FIC FIM,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,cnpj,1.0,XP,2026-11-15
+31392336000170,Moat Capital Total Return Adviso...,Fundo,31392336000170,Moat Capital Total Return Advisory FIF CIC Multimercado RL,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,XP,2026-11-15
+34546288000116,Navi Fender FIC FIA,Fundo,34633411000136,Navi Fender FIC FIA,D+60 (Dias Corridos),60,D+2 (Dias Úteis),2,63,nome,1.06,XP,2026-11-15
+34081162000113,Navi LS FIC FIM,Fundo,12430199000177,Navi LS FIC FIM,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,nome,1.06,XP,2026-11-15
+26680221000141,Navi Long Biased FIC FIM,Fundo,26680221000141,Navi Long Biased FIC FIM,D+60 (Dias Corridos),60,D+2 (Dias Úteis),2,63,cnpj,1.0,XP,2026-11-15
+08771538000101,Neo Multi Estratégia 30 Feeder F...,Fundo,08771538000101,Neo Multi Estratégia 30 Feeder FIC FIM,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,cnpj,1.0,XP,2026-11-15
+26218614000138,Neo Navitas B FIC FIA,Fundo,26218614000138,Neo Navitas B FIC FIA,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,XP,2026-11-15
+24140284000180,Neo Provectus I FIC FIM,Fundo,26324209000102,Neo Provectus I FIC FIM,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,nome,1.06,XP,2026-11-15
+20485402000130,Neuberger Berman US MultiCap Opp...,Fundo,20485402000130,Neuberger Berman US MultiCap Opportunities Dolar Advisory FIC FIA IE RL,D+1 (Dias Corridos),1,D+5 (Dias Úteis),5,8,cnpj,1.0,XP,2026-11-15
+39602857000117,Nordea Alfa 10 Dolar Advisory FI...,Fundo,39602877000198,Nordea Alfa 10 Dolar Advisory FIC FIM IE,D+1 (Dias Úteis),1,D+5 (Dias Úteis),5,9,nome,1.058,XP,2026-11-15
+14806166000104,Novus Macro D5 FIC FIM,Fundo,14806166000104,NOVUS MACRO D5 FIF DA CLASSE DE INVESTIMENTO EM COTAS MULT RESP LIMITADA,D+4 (Dias Úteis),4,D+1 (Dias Úteis),1,8,cnpj,1.0,CVM,2026-11-15
+14146709000104,Novus Macro FIC FIM,Fundo,14146709000104,NOVUS MACRO MASTER FUNDO DE INVESTIMENTO FINANCEIRO MULTIMERCADO RESP LIMITADA,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,cnpj,1.0,CVM,2026-11-15
+41681049000134,Novus Renda Fixa Exclusive FIC F...,Fundo,41681049000134,NOVUS INSTITUCIONAL FUNDO DE INVESTIMENTO FINANCEIRO RENDA FIXA,D+3 (Dias Úteis),3,D+1 (Dias Úteis),1,7,cnpj,1.0,CVM,2026-11-15
+27749572000124,OWN Participações FIF em Ações,Fundo,27749572000124,OWN PARTICIPAÇÕES FUNDO DE INVESTIMENTO FINANCEIRO EM AÇÕES,D+8 (Dias Úteis),8,D+2 (Dias Úteis),2,15,cnpj,1.0,CVM,2026-11-15
+29363886000110,Oaktree Global Credit BRL FIC FI...,Fundo,29853005000149,Oaktree Global Credit BRL FIC FIM,D+9 (Dias Corridos),9,D+3 (Dias Úteis),3,14,nome,1.059,XP,2026-11-15
+38281467000120,Oaktree Global Credit USD Adviso...,Fundo,38281467000120,Oaktree Global Credit USD Advisory FIC FIM,D+9 (Dias Corridos),9,D+3 (Dias Úteis),3,14,cnpj,1.0,XP,2026-11-15
+11403956000150,Occam Equity Hedge Advisory FIC...,Fundo,38267707000131,Occam Equity Hedge Advisory FIC FIF Multi RL,D+14 (Dias Corridos),14,D+1 (Dias Úteis),1,16,nome,1.058,XP,2026-11-15
+17685620000104,Occam Icatu Prev FIC FIM,Previdência,17685620000104,OCCAM ICATU PREVIDÊNCIA FIC DE FI FINANCEIRO MULTIMERCADO - RESPONSABILIDADE LIMITADA,D+1 (Dias Úteis),1,D+2 (Dias Úteis),2,5,cnpj,1.0,CVM,2026-11-15
+15578417000103,Occam Institucional FIC FIF Mult...,Fundo,15578417000103,Occam Institucional FIC FIF Multi II RL,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,cnpj,1.0,XP,2026-11-15
+17102710000125,Occam Long & Short Plus FIC FIF...,Fundo,17164789000119,Occam Long & Short Plus FIC FIF Multi RL,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,nome,1.058,XP,2026-11-15
+18525753000186,Occam Long Biased Advisory FIC F...,Fundo,35714550000157,Occam Long Biased Advisory FIC FIF Multi RL,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,nome,1.058,XP,2026-11-15
+34475592000110,Occam Retorno Absoluto Advisory...,Fundo,34475592000110,Occam Retorno Absoluto Advisory FIC FIF Multi - RL,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,XP,2026-11-15
+32312361000160,Occam Xp Seg Prev Fic Fim Rl,Previdência,32312361000160,OCCAM XP SEGUROS PREV FUNDO DE INVESTIMENTO EM COTAS MULTIMERCADO RESPONSABILIDADE LIMITADA,D+1 (Dias Úteis),1,D+2 (Dias Úteis),2,5,cnpj,1.0,CVM,2026-11-15
+12823624000198,Oceana Long Biased Advisory FIC...,Fundo,33401080000146,Oceana Long Biased Advisory FIC FIM RL,D+60 (Dias Corridos),60,D+2 (Dias Úteis),2,63,nome,1.058,XP,2026-11-15
+38236291000194,Oceana Long Biased Advisory XP Seg Prev FIC FIM,Previdência,38236291000194,OCEANA LONG BIASED ADVISORY XP SEGUROS PREV FIC DE FIF MULTIMERCADO - RESPONSABILIDADE LIMITADA,D+21 (Dias Úteis),21,D+2 (Dias Úteis),2,33,cnpj,1.0,CVM,2026-11-15
+26956042000194,Oceana Valor 30 FIF em Cotas de...,Fundo,26956042000194,Oceana Valor 30 FIF em Cotas de FIA,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,XP,2026-11-15
+23729562000176,Opportunity Global Equity em Dól...,Fundo,46352768000125,Opportunity Global Equity em Dólar Institucional FIC de FIF Ações IE RL,D+2 (Dias Úteis),2,D+3 (Dias Úteis),3,8,nome,1.056,XP,2026-11-15
+46351969000108,Opportunity Global Equity em Rea...,Fundo,46351969000108,Opportunity Global Equity em Real Institucional FIC de FIF de Açoes IE RL,D+2 (Dias Úteis),2,D+3 (Dias Úteis),3,8,cnpj,1.0,XP,2026-11-15
+30869348000180,Opportunity Icatu Prev FIM,Previdência,30869348000180,OPPORTUNITY ICATU PREVIDÊNCIA FIC DE FI FINANCEIRO MULTIMERCADO - RESPONSABILIDADE LIMITADA,D+1 (Dias Úteis),1,D+2 (Dias Úteis),2,5,cnpj,1.0,CVM,2026-11-15
+13106983000197,Opportunity Selection FIC FIF Aç...,Fundo,13106983000197,Opportunity Selection FIC FIF Ações - Resp Limitada,D+1 (Dias Úteis),1,D+2 (Dias Úteis),2,5,cnpj,1.0,XP,2026-11-15
+05448587000110,Opportunity Total FIC de FIF Mul...,Fundo,05448587000110,Opportunity Total FIC de FIF Multimercado,D+1 (Dias Úteis),1,D+2 (Dias Úteis),2,5,cnpj,1.0,XP,2026-11-15
+32817365000108,PV FIA,Fundo,32817365000108,PV FUNDO DE INVESTIMENTO FINANCEIRO EM AÇÕES,D+22 (Dias Úteis),22,D+2 (Dias Úteis),2,34,cnpj,1.0,CVM,2026-11-15
+18316558000146,Plural Crédito Corporativo II FI...,Fundo,18316558000146,Plural Crédito Corporativo II FIC de FIF RF CP LP RL,D+15 (Dias Corridos),15,D+1 (Dias Úteis),1,17,cnpj,1.0,XP,2026-11-15
+30178843000143,Plural Debentures Incentivadas H...,Previdência,30178843000143,Plural Debentures Incentivadas Hedge 30 FIC FIF RF CP RL,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,cnpj,1.0,XP,2026-11-15
+15350679000116,Plural High Grade FIF RF CP RL,Fundo,15350679000116,Plural High Grade FIF RF CP RL,D+1 (Dias Úteis),1,D+0 (Dias Úteis),0,2,cnpj,1.0,XP,2026-11-15
+31455879000190,Polo Crédito Corporativo Advisor...,Fundo,31455879000190,Polo Crédito Corporativo Advisory FIC FIF RF CP LP RL,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,cnpj,1.0,XP,2026-11-15
+07013315000112,Polo Norte I LS FIC FIF Multimer...,Fundo,07013315000112,Polo Norte I LS FIC FIF Multimercado RL,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,XP,2026-11-15
+23601467000192,Polo Total Credit FIC FIF Multim...,Fundo,23601467000192,Polo Total Credit FIF Multimercado CP RL,D+30 (Dias Corridos),30,D+3 (Dias Úteis),3,35,cnpj,1.0,XP,2026-11-15
+02603461000184,Porto Seguro Clássico RF FIC FI...,Fundo,02603461000184,Porto Seguro Clássico RF FIC FI LP,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,cnpj,1.0,XP,2026-11-15
+03233070000188,Porto Seguro FIRF Referenciado D...,Fundo,18719154000101,Porto Seguro FIRF Referenciado DI CP,D+0 (Dias Úteis),0,D+0 (Dias Úteis),0,0,nome,1.059,XP,2026-11-15
+49972274000131,Porto Seguro Ipê RF FIC FI CP LP,Fundo,35378376000119,Porto Seguro Ipê RF FIC FI CP LP,D+29 (Dias Corridos),29,D+1 (Dias Úteis),1,31,nome,1.06,XP,2026-11-15
+35716198000199,Principal Claritas Long Bias FIC...,Previdência,35716198000199,PRINCIPAL CLARITAS LONG BIAS PREVIDÊNCIA FIFE FI FINANCEIRO MULTIMERCADO - RESPONSABILIDADE LIMITADA,D+1 (Dias Úteis),1,D+2 (Dias Úteis),2,5,cnpj,1.0,CVM,2026-11-15
+31392821000144,Principal Claritas Quant FIC FIM,Fundo,31416575000113,Principal Claritas Quant FIC FIM,D+15 (Dias Corridos),15,D+2 (Dias Úteis),2,18,nome,1.06,XP,2026-11-15
+11357735000193,Principal Claritas Valor FIF em...,Fundo,11357735000193,Principal Claritas Valor FIF em Ações - Subclasse B,D+31 (Dias Corridos),31,D+2 (Dias Úteis),2,34,cnpj,1.0,XP,2026-11-15
+17302010000184,Principal Global High Yield FIF...,Fundo,17302010000184,Principal Global High Yield FIF Multimercado,D+1 (Dias Úteis),1,D+4 (Dias Úteis),4,8,cnpj,1.0,XP,2026-11-15
+36046327000141,Pátria Moneda Latam Corporate Cr...,Fundo,36046327000141,Pátria Moneda Latam Corporate Credit FIC FIM CP Resp Limitada,D+1 (Dias Úteis),1,D+5 (Dias Úteis),5,9,cnpj,1.0,XP,2026-11-15
+22918359000185,Quantitas FIC FIM Mallorca,Fundo,22918359000185,Quantitas FIC FIM Mallorca,D+14 (Dias Corridos),14,D+1 (Dias Úteis),1,16,cnpj,1.0,XP,2026-11-15
+27928186000108,Quantitas FIM Galápagos,Fundo,27928186000108,Quantitas FIM Galápagos,D+14 (Dias Corridos),14,D+1 (Dias Úteis),1,16,cnpj,1.0,XP,2026-11-15
+27783868000161,RPS FIF em Cotas de FIA Selectio...,Fundo,27783868000161,RPS FIF em Cotas de FIA Selection,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,XP,2026-11-15
+32041623000107,RPS Long Bias Advisory D30 FIF e...,Fundo,34706586000126,RPS Long Bias Advisory D30 FIF em Cotas de FIA,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,nome,1.058,XP,2026-11-15
+26362460000153,Reach Total Return FIC FIA,Fundo,26362460000153,Reach Total Return FIC FIA,D+14 (Dias Corridos),14,D+2 (Dias Úteis),2,17,cnpj,1.0,XP,2026-11-15
+40213005000117,Real Investor 100 Icatu Prev FICFIA,Previdência,40213005000117,REAL INVESTOR 100 ICATU PREV MASTER FIF EM AÇÕES - RESPONSABILIDADE LIMITADA,D+20 (Dias Úteis),20,D+2 (Dias Úteis),2,31,cnpj,1.0,CVM,2026-11-15
+41035989000156,Real Investor 100 Xp Seg Ad Ficfia,Previdência,41035989000156,REAL INVESTOR 100 XP SEG ADVISORY FUNDO DE INVESTIMENTO EM COTAS DE AÇÕES RESPONSABILIDADE LIMITADA,D+20 (Dias Úteis),20,D+2 (Dias Úteis),2,31,cnpj,1.0,CVM,2026-11-15
+28911549000157,Real Investor FIC de FIF Multime...,Fundo,28911549000157,Real Investor FIC de FIF Multimercado RL,D+27 (Dias Corridos),27,D+3 (Dias Úteis),3,32,cnpj,1.0,XP,2026-11-15
+10500884000105,Real Investor FIC de FIF em Açõe...,Fundo,10500884000105,Real Investor FIC de FIF em Ações RL,D+27 (Dias Corridos),27,D+2 (Dias Úteis),2,30,cnpj,1.0,XP,2026-11-15
+44643002000174,Real Investor Icatu Prev Qualificado FIC FIM,Previdência,44643002000174,REAL INVESTOR ICATU PREV QUALIFICADO FI EM COTAS DE FIF MULTIMERCADO - RESPONSABILIDADE LIMITADA,D+20 (Dias Úteis),20,D+2 (Dias Úteis),2,31,cnpj,1.0,CVM,2026-11-15
+36436794000188,Riza Daikon Advisory FIF em Cota...,Fundo,36436794000188,Riza Daikon Advisory FIF em Cotas de FIM,D+60 (Dias Corridos),60,D+1 (Dias Úteis),1,62,cnpj,1.0,XP,2026-11-15
+43915486000109,Riza Lotus Plus Advisory FIF RF,Fundo,43917493000131,Riza Lotus Plus Advisory FIF RF,D+10 (Dias Corridos),10,D+1 (Dias Úteis),1,12,nome,1.06,XP,2026-11-15
+43423186000102,Riza Lotus Prev Xp Seg Fic Fim Cp,Previdência,45646230000160,RIZA LOTUS PREVIDÊNCIA FUNDO DE INVESTIMENTO FINANCEIRO RENDA FIXA,D+7 (Dias Úteis),7,D+1 (Dias Úteis),1,12,nome,0.805,CVM,2026-11-15
+36498149000190,Riza Meyenii 180 Advisory FIF de...,Fundo,36498149000190,Riza Meyenii 180 Advisory FIF de Cotas de FIM,D+180 (Dias Corridos),180,D+1 (Dias Úteis),1,182,cnpj,1.0,XP,2026-11-15
+43508091000183,Riza Meyenii 360 Advisory FIF de...,Fundo,43508091000183,Riza Meyenii 360 Advisory FIF de Cotas de FIM,D+360 (Dias Corridos),360,D+1 (Dias Úteis),1,362,cnpj,1.0,XP,2026-11-15
+48969047000194,Riza Évora Debêntures Incentivad...,Fundo,48969198000142,Riza Évora Debêntures Incentivadas Juros Ativos FIF em Cotas de FIRF,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,nome,1.055,XP,2026-11-15
+48940997000196,Root Capital Crédito HG PREV XP SEG FIC FIRF CP,Previdência,48940997000196,ROOT CAPITAL CRÉDITO HG PREV XP SEG FIC DE FIF RENDA FIXA CRÉD PRIV - RESPONSABILIDADE LIMITADA,D+7 (Dias Úteis),7,D+2 (Dias Úteis),2,13,cnpj,1.0,CVM,2026-11-15
+42405028000159,Root Capital Crédito HG Plus FIC...,Fundo,42405028000159,Root Capital Crédito HG Plus FIC de FIF Multimercado CP RL,D+59 (Dias Corridos),59,D+1 (Dias Úteis),1,61,cnpj,1.0,XP,2026-11-15
+34431610000161,Root Capital High Yield Advisory...,Fundo,34431610000161,Root Capital High Yield Advisory FIC de FIF Multimercado CP RL,D+179 (Dias Corridos),179,D+1 (Dias Úteis),1,181,cnpj,1.0,XP,2026-11-15
+24215286000190,SPX Falcon Armata Advisory FIC F...,Fundo,24215286000190,SPX Falcon Armata Advisory FIC FIA,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,XP,2026-11-15
+28692448000132,SPX Lancer Advisory Icatu Prev FIC FIM,Previdência,28692448000132,SPX LANCER ADVISORY ICATU PREVIDÊNCIA FIF DA CIC MULTIMERCADO RESPONSABILIDADE LIMITADA,D+2 (Dias Corridos),2,D+3 (Dias Úteis),3,7,cnpj,1.0,CVM,2026-11-15
+41424063000152,SPX Lancer Plus Icatu Prev FIC FIM,Previdência,41424063000152,SPX LANCER PLUS ICATU PREVIDÊNCIA FIF CIC MULTIMERCADO RESPONSABILIDADE LIMITADA,D+2 (Dias Corridos),2,D+3 (Dias Úteis),3,7,cnpj,1.0,CVM,2026-11-15
+41802098000188,SPX Lancer Plus XP Seg Prev FIC FIM,Previdência,43164533000111,SPX LANCER PLUS XXX PREV ACCESS FI EM COTAS DE FI FINANCEIRO MULTIMERCADO,D+2 (Dias Úteis),2,D+3 (Dias Úteis),3,8,nome,0.855,CVM,2026-11-15
+24193691000155,SPX Nimitz Gripen Advisory FIC F...,Fundo,24193691000155,SPX Nimitz Gripen Advisory FIC FIM,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,cnpj,1.0,XP,2026-11-15
+15334585000153,SPX Patriot FIC FIA,Fundo,15334585000153,SPX Patriot FIC FIA,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,XP,2026-11-15
+40386490000120,SPX Prev Long Bias Icatu Qualificado FIC FIM,Previdência,40386490000120,SPX PREV LONG BIAS ICATU QUALIFICADO FIF CIC MULTIMERCADO RESPONSABILIDADE LIMITADA,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,CVM,2026-11-15
+41342497000103,SPX Raptor 180 Advisory FIC FIM...,Fundo,41342497000103,SPX Raptor 180 Advisory FIC FIM CP,D+180 (Dias Corridos),180,D+1 (Dias Úteis),1,182,cnpj,1.0,XP,2026-11-15
+34781162000126,SPX Seahawk Plus Advisory FIF CI...,Fundo,37069872000116,SPX Seahawk Plus Advisory FIF CIC Multimercado CP RL,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,nome,1.057,XP,2026-11-15
+12282747000169,STK Long Biased FIC FIF Ações -...,Fundo,12282747000169,STK Long Biased FIC FIF Ações - Resp Limitada,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,XP,2026-11-15
+23960625000109,Safari 30 FIF em Cotas de FIM II,Fundo,23960625000109,Safari 30 FIF em Cotas de FIM II,D+27 (Dias Corridos),27,D+2 (Dias Úteis),2,30,cnpj,1.0,XP,2026-11-15
+28516168000173,Safari SulAmérica Prev FIC FIM,Previdência,28516168000173,SAFARI SULAMÉRICA PREV FIF DA CLASSE DE INVESTIMENTO EM COTAS MULTIMERCADO RESPONSABILIDADE LIMITADA,D+2 (Dias Úteis),2,D+2 (Dias Úteis),2,6,cnpj,1.0,CVM,2026-11-15
+02536364000116,Safra DI Master FIRF Referenciad...,Fundo,02536364000116,Safra DI Master FIRF Referenciado DI LP,D+0 (Dias Úteis),0,D+0 (Dias Úteis),0,0,cnpj,1.0,XP,2026-11-15
+18623722000168,Safra Debêntures Incentivadas CP...,Fundo,18623722000168,Safra Debêntures Incentivadas CP FIC FIM,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,cnpj,1.0,XP,2026-11-15
+52242738000169,Safra Extra Bancos Special FIC F...,Fundo,52242738000169,Safra Extra Bancos Special FIC FIRF CP,D+0 (Dias Úteis),0,D+0 (Dias Úteis),0,0,cnpj,1.0,XP,2026-11-15
+23714047000112,Safra Grand Vitesse FIRF CP,Fundo,23714047000112,Safra Grand Vitesse FIRF CP,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,cnpj,1.0,XP,2026-11-15
+12796193000118,Safra Prev Icatu FIRF CP Prev,Previdência,12796193000118,SAFRA PREV VITESSE ICATU FIF PREV CI RF CRÉDITO PRIVADO PREVIDENCIÁRIO RESPONSABILIDADE LIMITADA,D+1 (Dias Corridos),1,D+2 (Dias Úteis),2,4,cnpj,1.0,CVM,2026-11-15
+11447124000136,Safra Vitesse Classe de Investim...,Fundo,11447124000136,Safra Vitesse Classe de Investimento RF CP RL,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,cnpj,1.0,XP,2026-11-15
+31403572000145,Selection Ações FIC FIA,Fundo,31403572000145,Selection Ações FIC FIA,D+10 (Dias Corridos),10,D+3 (Dias Úteis),3,15,cnpj,1.0,XP,2026-11-15
+32889197000158,Selection Debêntures Incentivada...,Fundo,32889197000158,Selection Debêntures Incentivadas FIC FIM CP,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,XP,2026-11-15
+24582449000173,Selection Multimercado FIC FIM,Fundo,24582449000173,Selection Multimercado FIC FIM,D+10 (Dias Corridos),10,D+2 (Dias Úteis),2,13,cnpj,1.0,XP,2026-11-15
+35939801000100,Selection Multimercado Internaci...,Fundo,35939801000100,Selection Multimercado Internacional FIC FIM,D+10 (Dias Corridos),10,D+5 (Dias Úteis),5,17,cnpj,1.0,XP,2026-11-15
+30518346000147,Selection Multimercado Plus FIC...,Fundo,30518346000147,Selection Multimercado Plus FIC FIM,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,XP,2026-11-15
+35386842000108,Selection Multimercado XP Seg FIC FIM,Previdência,35386842000108,SELECTION MULTIMERCADO XP SEGUROS FUNDO DE INVESTIMENTO EM COTAS MULTIMERCADO RESP LIMITADA,D+7 (Dias Úteis),7,D+2 (Dias Úteis),2,13,cnpj,1.0,CVM,2026-11-15
+34957512000162,Selection RF High Yield FIC FIM...,Fundo,34957512000162,Selection RF High Yield FIC FIM CP LP,D+90 (Dias Corridos),90,D+3 (Dias Úteis),3,95,cnpj,1.0,XP,2026-11-15
+24572219000123,Selection RF Light FIC FIRF CP L...,Fundo,24572219000123,Selection RF Light FIC FIRF CP LP,D+10 (Dias Corridos),10,D+2 (Dias Úteis),2,13,cnpj,1.0,XP,2026-11-15
+35957156000140,Sharp Equity Value 100 XP Seg Prev FIC FIM,Previdência,35957156000140,SHARP EQUITY VALUE 100 XP SEGUROS PREVIDËNCIA FIC DE FIF MULTIMERCADO - RESPONSABILIDADE LIMITADA,D+22 (Dias Úteis),22,D+2 (Dias Úteis),2,34,cnpj,1.0,CVM,2026-11-15
+12565159000132,Sharp Equity Value Advisory FIF...,Fundo,37887412000103,Sharp Equity Value Advisory FIF em Cotas de FIF em Ações,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,nome,1.057,XP,2026-11-15
+08912569000135,Sharp Ibovespa Ativo Feeder FIC...,Fundo,08912569000135,Sharp Ibovespa Ativo Feeder FIC de FIA em Ações RL,D+1 (Dias Úteis),1,D+2 (Dias Úteis),2,5,cnpj,1.0,XP,2026-11-15
+32064571000186,Sharp Long Biased Advisory FIF e...,Fundo,33497084000170,Sharp Long Biased Advisory FIF em Cotas de FIF em Ações,D+90 (Dias Corridos),90,D+2 (Dias Úteis),2,93,nome,1.057,XP,2026-11-15
+19366052000104,Sharp Long Short 2X Advisory FIF...,Fundo,36326889000149,Sharp Long Short 2X Advisory FIF em Cotas de FIF Multimercado,D+90 (Dias Corridos),90,D+1 (Dias Úteis),1,92,nome,1.056,XP,2026-11-15
+36352361000144,Sparta Debêntures Incentivadas 4...,Fundo,36352361000144,Sparta Debêntures Incentivadas 45 FIC de FIF Infra RF RL,D+45 (Dias Corridos),45,D+1 (Dias Úteis),1,47,cnpj,1.0,XP,2026-11-15
+32757330000112,Sparta Max Advisory FIC de FIF R...,Fundo,32757330000112,Sparta Max Advisory FIC de FIF RF CP LP RL,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,cnpj,1.0,XP,2026-11-15
+44643160000124,Sparta Prev Advisory Xp Seg Fic Rf Cp Rl,Previdência,44643160000124,SPARTA PREVIDÊNCIA INFLAÇÃO XP SEGUROS FIE 2 FIC FIF RF CRÉDITO PRIVADO - RESPONSABILIDADE LIMITADA,D+5 (Dias Úteis),5,D+1 (Dias Úteis),1,9,cnpj,1.0,CVM,2026-11-15
+41127450000127,Sparta Prev Inflação Icatu FIC FIRF CP,Previdência,41127450000127,SPARTA PREVIDÊNCIA INFLAÇÃO ICATU FIC FIF RF CRÉDITO PRIVADO - RESPONSABILIDADE LIMITADA,D+5 (Dias Úteis),5,D+2 (Dias Úteis),2,10,cnpj,1.0,CVM,2026-11-15
+32846811000102,Sparta Top Advisory FIC FIF RF C...,Fundo,32846811000102,Sparta Top Advisory FIC FIF RF CP LP RL,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,cnpj,1.0,XP,2026-11-15
+14188162000100,Sparta Top FIC FIF RF CP LP - Re...,Fundo,14188162000100,Sparta Top FIC FIF RF CP LP - Resp Limitada,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,cnpj,1.0,XP,2026-11-15
+38026869000188,Sparta Top Inflação FIC FIF RF C...,Fundo,38026926000129,Sparta Top Inflação FIC FIF RF CP LP - Resp Limitada,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,nome,1.058,XP,2026-11-15
+42014145000191,Spx Seahawk Plus XP Seg Prev FIC FIM CP,Previdência,42014145000191,SPX SEAHAWK PLUS ICATU PREVIDÊNCIA FIF CIC MULTIMERCADO CRÉDITO PRIVADO RESP LIMITADA,D+8 (Dias Corridos),8,D+1 (Dias Úteis),1,10,cnpj,1.0,CVM,2026-11-15
+17301119000105,Studio 30 FIC de FIF em Ações RL,Fundo,17301119000105,Studio 30 FIC de FIF em Ações RL,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,XP,2026-11-15
+34793027000109,Studio Icatu Prev Qualificado FIM CP,Previdência,34793027000109,STUDIO ICATU PREVIDENCIÁRIO QUALIFICADO FI FINANCEIRO - CI MULT CRED PRIV - RESP LIMITADA,D+6 (Dias Úteis),6,D+3 (Dias Úteis),3,14,cnpj,1.0,CVM,2026-11-15
+17797493000135,SulAmérica Apollo FIM,Fundo,17797493000135,SulAmérica Apollo FIM,D+9 (Dias Corridos),9,D+1 (Dias Úteis),1,11,cnpj,1.0,XP,2026-11-15
+33701828000126,SulAmérica Crédito ESG FIRF CP L...,Fundo,33701828000126,SulAmérica Crédito ESG FIRF CP LP IS,D+45 (Dias Corridos),45,D+1 (Dias Úteis),1,47,cnpj,1.0,XP,2026-11-15
+20889471000100,SulAmérica Fix 100 Plus FIRF,Previdência,20889471000100,SULAMÉRICA FIX 100 PLUS FUNDO DE INVESTIMENTO FINANCEIRO RENDA FIXA RESPONSABILIDADE LIMITADA,D+0 (Dias Úteis),0,D+0 (Dias Úteis),0,0,cnpj,1.0,CVM,2026-11-15
+29091970000121,SulAmérica Ibiuna Long Biased Prev FIM,Previdência,29091970000121,SULAMÉRICA IBIUNA LONG BIASED PREV FIF MULTIMERCADO RESPONSABILIDADE LIMITADA,D+1 (Dias Úteis),1,D+2 (Dias Úteis),2,5,cnpj,1.0,CVM,2026-11-15
+02811681000101,SulAmérica Mix 49 I FIM,Previdência,02811681000101,SULAMERICA MIX 49 FIF DA CLASSE DE INVESTIMENTO EM COTAS MULTIMERCADO RESPONSABILIDADE LIMITADA,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,cnpj,1.0,CVM,2026-11-15
+47715703000160,SulAmérica Premium Plus FIRF Ref... ,Fundo,47715703000160,SulAmérica Premium Plus FIRF Referenciado DI CP RL,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,cnpj,1.0,XP,2026-11-15
+13812265000136,SulAmérica Prestige Inflatie FIC FIRF,Previdência,13812265000136,SULAMÉRICA PRESTIGE INFLATIE FIFE FUNDO DE INVESTIMENTO FINANCEIRO RENDA FIXA RESP LIMITADA,D+1 (Dias Úteis),1,D+1 (Dias Úteis),1,4,cnpj,1.0,CVM,2026-11-15
+19959517000130,SulAmérica Prestige Strategie FIC FIRF CP,Previdência,19959517000130,SULAMÉRICA PRESTIGE STRATEGIE FIFE FIF RENDA FIXA CRÉDITO PRIVADO RESPONSABILIDADE LIMITADA,D+0 (Dias Úteis),0,D+0 (Dias Úteis),0,0,cnpj,1.0,CVM,2026-11-15
+45642714000131,SulAmérica Prev Crédito ESG FI RF CP Investimento Sustentável,Previdência,45642714000131,SULAMÉRICA PREV CRÉDITO ESG ITAÚ MASTER INVESTIMENTO SUSTENTÁVEL FIF RF CRÉD PRIV RESP LIMITADA,D+7 (Dias Corridos),7,D+2 (Dias Úteis),2,10,cnpj,1.0,CVM,2026-11-15
+23502654000119,Sulamérica Retorno Total FI RF L...,Fundo,23502654000119,Sulamérica Retorno Total FI RF LP,D+4 (Dias Úteis),4,D+1 (Dias Úteis),1,8,cnpj,1.0,XP,2026-11-15
+39723347000106,Systematica Blue Trend Advisory...,Fundo,39723347000106,Systematica Blue Trend Advisory FIC FIM IE,D+3 (Dias Úteis),3,D+5 (Dias Úteis),5,12,cnpj,1.0,XP,2026-11-15
+52314487000180,TB Advisory II FIF em Cotas de F...,Fundo,52314487000180,TB Advisory II FIF em Cotas de FIA,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,XP,2026-11-15
+34096201000156,Tavola Absoluto Advisory FIC de...,Fundo,34096201000156,Tavola Absoluto Advisory FIC de FIM,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,XP,2026-11-15
+45127383000100,Tenax Ações Master FIF em Ações...,Fundo,45127383000100,Tenax Ações Master FIF em Ações - Subclasse Tenax Ações I FIA,D+28 (Dias Corridos),28,D+2 (Dias Úteis),2,31,cnpj,1.0,XP,2026-11-15
+03319016000150,Tivio Dólar Cambial FIF CIC Camb...,Fundo,03319016000150,TIVIO DÓLAR CAMBIAL FIF - CLASSE DE INVESTIMENTO EM COTAS CAMBIAL - RESPONSABILIDADE LIMITADA,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,cnpj,1.0,CVM,2026-11-15
+04240128000183,Tivio Institucional 15,Fundo,04240128000183,Tivio Institucional 15,D+15 (Dias Corridos),15,D+1 (Dias Úteis),1,17,cnpj,1.0,XP,2026-11-15
+00836263000135,Tivio Institucional RF CP FIF RL,Fundo,06866051000187,Tivio Institucional RF CP FIF RL,D+0 (Dias Úteis),0,D+0 (Dias Úteis),0,0,nome,1.06,XP,2026-11-15
+34432014000104,Tork Long Only Institucional FIF...,Previdência,34432014000104,TORK LONG ONLY XP SEG PREV FUNDO DE INVESTIMENTO EM AÇÕES FIE - RESPONSABILIDADE LIMITADA,D+30 (Dias Úteis),30,D+2 (Dias Úteis),2,45,cnpj,1.0,CVM,2026-11-15
+36327455000163,Trend Bolsa Americana FIA RL,Fundo,36327455000163,Trend Bolsa Americana Alavancada FIF FIA RL,D+0 (Dias Úteis),0,D+2 (Dias Úteis),2,3,cnpj,1.0,XP,2026-11-15
+35717740000128,Trend Bolsa Chinesa FIA RL,Fundo,35717740000128,Trend Bolsa Chinesa FIA RL,D+4 (Dias Corridos),4,D+2 (Dias Úteis),2,7,cnpj,1.0,XP,2026-11-15
+40212899000120,Trend Bolsas Emergentes FIM RL,Fundo,40212899000120,Trend Bolsas Emergentes FIM RL,D+4 (Dias Corridos),4,D+2 (Dias Úteis),2,7,cnpj,1.0,XP,2026-11-15
+39227204000103,Trend Bolsas Europeias FIA RL,Fundo,39227204000103,Trend Bolsas Europeias FIA RL,D+4 (Dias Corridos),4,D+2 (Dias Úteis),2,7,cnpj,1.0,XP,2026-11-15
+37553464000135,Trend Bolsas Globais FIA RL,Fundo,37553464000135,Trend Bolsas Globais FIA RL,D+4 (Dias Corridos),4,D+2 (Dias Úteis),2,7,cnpj,1.0,XP,2026-11-15
+40212817000148,Trend Commodities FIM RL,Fundo,40212817000148,Trend Commodities FIM RL,D+4 (Dias Corridos),4,D+2 (Dias Úteis),2,7,cnpj,1.0,XP,2026-11-15
+31132386000119,Trend Dolar FIF Cambial RL,Fundo,31132386000119,Trend Dolar FIF Cambial RL,D+0 (Dias Úteis),0,D+2 (Dias Úteis),2,3,cnpj,1.0,XP,2026-11-15
+38597202000135,Trend Euro FIM RL,Fundo,38597202000135,Trend Euro FIM RL,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,cnpj,1.0,XP,2026-11-15
+33795343000149,Trend Ibovespa 100 XP Seg Prev FIC FIA RL,Previdência,33795343000149,TREND IBOVESPA 100 XP SEGUROS PREV FIC DE FI FINANCEIRO EM AÇÕES - RESPONSABILIDADE LIMITADA,D+0 (Dias Úteis),0,D+2 (Dias Úteis),2,3,cnpj,1.0,CVM,2026-11-15
+33784183000132,Trend Ibovespa 70 XP Seg Prev FIC FIM RL,Previdência,33784183000132,TREND IBOVESPA 70 XP SEGUROS PREV FIC DE FI FINANCEIRO MULTIMERCADO - RESPONSABILIDADE LIMITADA,D+0 (Dias Úteis),0,D+2 (Dias Úteis),2,3,cnpj,1.0,CVM,2026-11-15
+31936857000141,Trend Ibovespa Alavancado FIF em...,Fundo,31936857000141,Trend Ibovespa Alavancado FIF em Ações RL,D+0 (Dias Úteis),0,D+2 (Dias Úteis),2,3,cnpj,1.0,XP,2026-11-15
+31145833000174,Trend Inflação Curta FIRF LP RL,Fundo,31145833000174,Trend Inflação Curta FIRF LP RL,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,cnpj,1.0,XP,2026-11-15
+34475424000124,Trend Inflação Geral FIRF LP RL,Fundo,34475424000124,Trend Inflação Geral FIRF LP RL,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,cnpj,1.0,XP,2026-11-15
+38026814000178,Trend Inflação Longa FIF FIRF RL,Fundo,38026814000178,Trend Inflação Longa FIF FIRF RL,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,cnpj,1.0,XP,2026-11-15
+44431925000162,Trend Inteligencia Artificial CI...,Fundo,44431925000162,Trend Inteligencia Artificial CIA RL,D+1 (Dias Úteis),1,D+2 (Dias Úteis),2,5,cnpj,1.0,XP,2026-11-15
+40212883000118,Trend Nasdaq 100 FIM RL,Fundo,40212883000118,TREND NASDAQ 100 FIA,D+4 (Dias Corridos),4,D+2 (Dias Úteis),2,7,cnpj,1.0,XP,2026-11-15
+35609786000123,Trend Ouro Dólar FIF Multi RL,Fundo,35609786000123,Trend Ouro Dólar FIF Multi RL,D+4 (Dias Corridos),4,D+2 (Dias Úteis),2,7,cnpj,1.0,XP,2026-11-15
+22963439000152,Trend Ouro FIF Multi RL,Fundo,22963439000152,Trend Ouro FIF Multi RL,D+4 (Dias Corridos),4,D+2 (Dias Úteis),2,7,cnpj,1.0,XP,2026-11-15
+31145851000156,Trend Pré-Fixado FIRF LP RL,Fundo,31145851000156,Trend Pré-Fixado FIRF LP RL,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,cnpj,1.0,XP,2026-11-15
+33755733000195,Trend Pré-Fixado XP Seg Prev FIC FIRF RL,Previdência,33755733000195,TREND PRÉ-FIXADO XP SEGUROS PREV FUNDO DE INVESTIMENTO EM COTAS RENDA FIXA RESPONSABILIDADE LIMITADA,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,cnpj,1.0,CVM,2026-11-15
+26559284000144,Trend Pós-Fixado FIC FIRF Simple...,Fundo,26559284000144,Trend Pós-Fixado FIC FIRF Simples RL,D+0 (Dias Úteis),0,D+0 (Dias Úteis),0,0,cnpj,1.0,XP,2026-11-15
+33784231000192,Trend Pós-Fixado XP Seg Prev FIC FIRF,Previdência,33784231000192,TREND PÓS-FIXADO XP SEGUROS PREV FUNDO DE INVESTIMENTO EM COTAS RENDA FIXA RESPONSABILIDADE LIMITADA,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,cnpj,1.0,CVM,2026-11-15
+47033348000149,Trend Qualidade Brasil FIA RL,Fundo,47033348000149,Trend Qualidade Brasil FIA RL,D+0 (Dias Úteis),0,D+2 (Dias Úteis),2,3,cnpj,1.0,XP,2026-11-15
+32246789000151,Trend Short Dolar FIF Cambial RL,Fundo,32246789000151,Trend Short Dolar FIF Cambial RL,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,cnpj,1.0,XP,2026-11-15
+35956046000163,Trend Small Caps FIA RL,Fundo,35956046000163,Trend Small Caps FIA RL,D+0 (Dias Úteis),0,D+2 (Dias Úteis),2,3,cnpj,1.0,XP,2026-11-15
+32319351000156,Trend Tecnologia Americana FIM R...,Fundo,32319351000156,Trend Tecnologia Americana CIA RL,D+4 (Dias Corridos),4,D+2 (Dias Úteis),2,7,cnpj,1.0,XP,2026-11-15
+47033388000190,Trend Valor Brasil FIA RL,Fundo,47033388000190,Trend Valor Brasil FIA RL,D+0 (Dias Úteis),0,D+2 (Dias Úteis),2,3,cnpj,1.0,XP,2026-11-15
+35625840000124,Trend XP Inc FIC FIF em Ações RL,Fundo,35625840000124,Trend XP Inc FIC FIF em Ações RL,D+5 (Dias Corridos),5,D+3 (Dias Úteis),3,10,cnpj,1.0,XP,2026-11-15
+26269603000187,Truxt I Valor FIC FIA,Fundo,26269603000187,Truxt I Valor FIF em Cotas de FIF em Ações RL,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,XP,2026-11-15
+26859401000195,Truxt Long Bias Advisory FIC FIM,Fundo,30830162000118,Truxt Long Bias Advisory FIC FIM,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,nome,1.06,XP,2026-11-15
+35471498000155,Trígono Flagship 60 Small Caps F...,Fundo,35471498000155,Trígono Flagship 60 Small Caps FIF em Cotas de FIA,D+60 (Dias Corridos),60,D+2 (Dias Úteis),2,63,cnpj,1.0,XP,2026-11-15
+40575693000165,Távola Equity Hedge 15 FIF Multi...,Fundo,40575693000165,Távola Equity Hedge 15 FIF Multimercado,D+15 (Dias Corridos),15,D+1 (Dias Úteis),1,17,cnpj,1.0,XP,2026-11-15
+44409412000155,Távola Ls Fic Fim Cp,Previdência,44409412000155,TÁVOLA EQUITY HEDGE PREV LS XP SEGUROS FI EM COTAS DE FUNDOS DE INVESTIMENTO MULTIMERCADO,D+20 (Dias Úteis),20,D+2 (Dias Úteis),2,31,cnpj,1.0,CVM,2026-11-15
+35816850000147,V8 Cash Platinum FIF,Fundo,42774627000140,V8 Cash Platinum FIF,D+12 (Dias Corridos),12,D+0 (Dias Úteis),0,12,nome,1.06,XP,2026-11-15
+39354762000121,V8 Speedway Long Short FIF FIF M...,Fundo,39354762000121,V8 Speedway Long Short FIF FIF Multimercado,D+15 (Dias Corridos),15,D+2 (Dias Úteis),2,18,cnpj,1.0,XP,2026-11-15
+36017289000107,V8 Vanquish Termo FIF,Fundo,36017289000107,V8 Vanquish Termo FIF,D+6 (Dias Corridos),6,D+1 (Dias Úteis),1,8,cnpj,1.0,XP,2026-11-15
+42847973000100,V8 Vanquish Termo Previdência FIRF CP,Previdência,42847973000100,V8 VANQUISH TERMO PREVIDÊNCIA CLASSE DE  INVESTIMENTO RENDA FIXA CRÉDITO PRIVADO - RESP LIMITADA,D+8 (Dias Úteis),8,D+1 (Dias Úteis),1,14,cnpj,1.0,CVM,2026-11-15
+47032970000132,V8 Vanquish Termo Xp Seg Prev Fic Fim Cp,Previdência,52279180000196,V8 VANQUISH TERMO ICATU PREV CIC DE CLASSE DE INVESTIMENTO RENDA FIXA CRÉDITO PRIVADO RESP LIMITADA,D+8 (Dias Úteis),8,D+1 (Dias Úteis),1,14,nome,0.855,CVM,2026-11-15
+22041216000138,VOKIN GBV ACONCÁGUA MASTER LONG...,Fundo,42847942000150,Vokin GBV Aconcágua 30 CIC de CIA - RL,D+30 (Dias Úteis),30,D+1 (Dias Úteis),1,44,nome,1.057,XP,2026-11-15
+24140275000199,VRB FIM,Fundo,24140275000199,VRB FIM,D+45 (Dias Corridos),45,D+2 (Dias Úteis),2,48,cnpj,1.0,XP,2026-11-15
+41163524000180,Valora Icatu Prev FIC FIRF CP,Previdência,41163524000180,VALORA ICATU PREV FI EM COTAS DE FUNDOS DE INVESTIMENTO RENDA FIXA CRÉDITO RESPONSABILIDADE LIMITADA,D+4 (Dias Úteis),4,D+2 (Dias Úteis),2,9,cnpj,1.0,CVM,2026-11-15
+16929553000163,Verde AM Ações FIC de FIF em Aço...,Fundo,23243536000133,Verde AM Ações FIC de FIF em Açoes RL,D+29 (Dias Corridos),29,D+2 (Dias Úteis),2,32,nome,1.059,XP,2026-11-15
+23339924000112,Verde AM Icatu Prev FIC FIM,Previdência,23339924000112,VERDE AM ICATU PREVIDÊNCIA MASTER FUNDO DE INVESTIMENTO FINANCEIRO MULTIMERCADO RESP LIMITADA,D+0 (Dias Corridos),0,D+3 (Dias Úteis),3,5,cnpj,1.0,CVM,2026-11-15
+35363972000125,Verde AM Long Bias 70 Icatu Prev FIE FIM,Previdência,35363972000125,VERDE AM LONG BIAS 70 ICATU PREV FIE FUNDO DE INVESTIMENTO FINANCEIRO MULTIMERCADO RESP LIMITADA,D+0 (Dias Corridos),0,D+3 (Dias Úteis),3,5,cnpj,1.0,CVM,2026-11-15
+36428288000147,Verde AM Mundi Ações Globais BRL…,Fundo,37013129000144,Verde AM Mundi Ações Globais BRL FIC FIA RL,D+5 (Dias Corridos),5,D+5 (Dias Úteis),5,12,nome,1.059,XP,2026-11-15
+25682017000105,Verde AM Mundi Ações Globais FIF...,Fundo,34831155000191,Verde AM Mundi Ações Globais FIF CIC Ações RL,D+5 (Dias Corridos),5,D+5 (Dias Úteis),5,12,nome,1.058,XP,2026-11-15
+24048538000134,Verde AM Scena Advisory FIC de F...,Fundo,24048538000134,Verde AM Scena Advisory FIC de FIF Multimercado RL,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,cnpj,1.0,XP,2026-11-15
+31403590000127,Verde AM X60 Advisory FIC de FIF...,Fundo,31403590000127,Verde AM X60 Advisory FIC de FIF Multimercado RL,D+59 (Dias Corridos),59,D+1 (Dias Úteis),1,61,cnpj,1.0,XP,2026-11-15
+30830237000160,Verde Am Lb 70 Advisory Xp Seg Prev Fic Fim Rl,Previdência,30830237000160,VERDE AM LONG BIAS 70 ADVISORY XP SEGUROS PREV MASTER FIF MULTIMERCADO RESPONSABILIDADE LIMITADA,D+0 (Dias Corridos),0,D+3 (Dias Úteis),3,5,cnpj,1.0,CVM,2026-11-15
+30630186000123,Verde Am Scena Advisory Xp Seg Fic Fim Rl,Previdência,30630186000123,VERDE AM SCENA ADVISORY XP SEGUROS PREV MASTER FIF MULTIMERCADO RESPONSABILIDADE LIMITADA,D+0 (Dias Corridos),0,D+3 (Dias Úteis),3,5,cnpj,1.0,CVM,2026-11-15
+24572582000149,Vinci Atlas FIC FIM,Fundo,24572582000149,Vinci Atlas FIC FIM,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,cnpj,1.0,XP,2026-11-15
+32319702000129,Vinci Equilibrio Advisory XP Seg Prev FIM,Previdência,32319702000129,VINCI EQUILIBRIO ADVISORY XP SEGUROS PREV FIF - CI MULT - RESP LIMITADA,D+1 (Dias Úteis),1,D+2 (Dias Úteis),2,5,cnpj,1.0,CVM,2026-11-15
+23964741000198,Vinci Equilíbrio Icatu Prev FIC FIM II,Previdência,23964741000198,VINCI EQUILÍBRIO ICATU PREVIDÊNCIA II FI FINANCEIRO - CIC MULT - RESP LIMITADA,D+0 (Dias Úteis),0,D+0 (Dias Úteis),0,0,cnpj,1.0,CVM,2026-11-15
+35636871000180,Vinci Total Return FIC FIM,Fundo,35636909000115,Vinci Total Return FIC FIM,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,nome,1.06,XP,2026-11-15
+33796273000143,Vinci Valorem Advisory XP Seg Prev FIM,Previdência,33796273000143,VINCI VALOREM ADVISORY XP SEGUROS PREV FIF - CLASSE DE INVESTIMENTO MULTIMERCADO - RESP LIMITADA,D+1 (Dias Úteis),1,D+1 (Dias Úteis),1,4,cnpj,1.0,CVM,2026-11-15
+13396703000122,Vinci Valorem FIM,Fundo,13396703000122,Vinci Valorem FIM,D+1 (Dias Úteis),1,D+1 (Dias Úteis),1,4,cnpj,1.0,XP,2026-11-15
+41866348000143,Vinland Ativo Advisory FIF CIC R...,Previdência,45599105000147,VINLAND RENDA FIXA ATIVO P FI FINANCEIRO EM COTAS DE FI RENDA FIXA PREVIDENCIARIO,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,nome,1.004,CVM,2026-11-15
+47670400000178,Vinland Crédito Multimercado FIC...,Fundo,47684408000193,Vinland Crédito Multimercado FIC FI CP,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,nome,1.058,XP,2026-11-15
+28581039000169,Vinland Long Bias Advisory FIC F...,Fundo,28581039000169,Vinland Long Bias Advisory FIC FIM,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,XP,2026-11-15
+31846641000195,Vinland Long Biased Advisory Xp Seg Prev Fic Fim Rl,Previdência,31846641000195,VINLAND LONG BIAS ADVISORY XP SEGUROS PREV FIC MULTIMERCADO RESPONSABILIDADE LIMITADA,D+0 (Dias Corridos),0,D+3 (Dias Úteis),3,5,cnpj,1.0,CVM,2026-11-15
+30593403000152,Vinland Long Only FIC FIA,Fundo,30593403000152,Vinland Long Only FIF CIC em Ações RL,D+14 (Dias Corridos),14,D+2 (Dias Úteis),2,17,cnpj,1.0,XP,2026-11-15
+42718410000112,Vinland Macro Advisory 2 Xp Seg Prev Fic Fim Rl,Previdência,37037502000105,VINLAND MACRO ADVISORY II XP SEGUROS PREV FUNDO DE INVESTIMENTO FINANCEIRO DA CIC MULT RESP LIMITADA,D+1 (Dias Corridos),1,D+3 (Dias Úteis),3,6,nome,0.856,CVM,2026-11-15
+28581109000189,Vinland Macro Advisory FIC FIM,Fundo,28581109000189,Vinland Macro Advisory FIC FIM,D+30 (Dias Corridos),30,D+1 (Dias Úteis),1,32,cnpj,1.0,XP,2026-11-15
+31846723000130,Vinland Macro Advisory XP Seg Prev FIC FIM,Previdência,31846723000130,VINLAND MACRO ADVISORY XP SEGUROS PREV FUNDO DE INVESTIMENTO EM COTAS MULTIMERCADO RESP LIMITADA,D+0 (Dias Corridos),0,D+3 (Dias Úteis),3,5,cnpj,1.0,CVM,2026-11-15
+28692461000191,Vinland Macro Plus Advisory FIC...,Fundo,41409831000107,Vinland Macro Plus Advisory FIC FIM,D+60 (Dias Corridos),60,D+1 (Dias Úteis),1,62,nome,1.059,XP,2026-11-15
+39914112000193,Vintage Asset Allocation Prev Advisory Icatu FIC FIM,Previdência,39914112000193,VINTAGE ASSET ALLOCATION PREVIDENCIÁRIO PLATAFORMAS ICATU FUNDO DE INVESTIMENTO MULTIMERCADO,D+0 (Dias Úteis),0,D+3 (Dias Úteis),3,5,cnpj,1.0,CVM,2026-11-15
+30057258000195,Vista Hedge FIF em Cotas de FIM,Fundo,30057258000195,Vista Hedge FIF em Cotas de FIM,D+15 (Dias Corridos),15,D+1 (Dias Úteis),1,17,cnpj,1.0,XP,2026-11-15
+40920005000157,Vista Multiestratégia Advisory F...,Fundo,40920005000157,Vista Multiestratégia Advisory FIF em Cotas FIM RL,D+60 (Dias Corridos),60,D+1 (Dias Úteis),1,62,cnpj,1.0,XP,2026-11-15
+34507447000173,Vrb Advisory Prev Fundo De Investimento Multimercado,Previdência,34507447000173,VRB ADVISORY PREV FUNDO DE INVESTIMENTO MULTIMERCADO RESPONSABILIDADE LIMITADA,D+6 (Dias Úteis),6,D+3 (Dias Úteis),3,14,cnpj,1.0,CVM,2026-11-15
+40921195000127,WHG Global Long Biased BRL FIC F...,Fundo,40921195000127,WHG GLOBAL LONG BIASED MASTER FIF EM AÇÕES RESP LIMITADA,D+1 (Dias Corridos),1,D+3 (Dias Úteis),3,6,cnpj,1.0,CVM,2026-11-15
+41255006000197,WHG Global Long Biased USD FIC F...,Fundo,41423887000108,WHG Global Long Biased USD FIC FIA IE,D+27 (Dias Corridos),27,D+3 (Dias Úteis),3,32,nome,1.059,XP,2026-11-15
+41955522000124,WHG RF Dinâmico FIC FIM,Fundo,41978534000174,WHG RF Dinâmico FIC FIM,D+5 (Dias Úteis),5,D+1 (Dias Úteis),1,9,nome,1.06,XP,2026-11-15
+38443068000118,Wellington Asia Technology Advis...,Fundo,38443120000136,Wellington Asia Technology Advisory FIA RL,D+2 (Dias Úteis),2,D+5 (Dias Úteis),5,10,nome,1.058,XP,2026-11-15
+38077221000130,Wellington European Equity Advis...,Fundo,38077221000130,Wellington European Equity Advisory FIA RL,D+1 (Dias Úteis),1,D+5 (Dias Úteis),5,9,cnpj,1.0,XP,2026-11-15
+35556444000192,Wellington Ventura Advisory CI A...,Fundo,35556444000192,Wellington Ventura Advisory CI Ações IE RL,D+1 (Dias Úteis),1,D+5 (Dias Úteis),5,9,cnpj,1.0,XP,2026-11-15
+35556516000100,Wellington Ventura Dólar Advisor...,Fundo,35578709000153,Wellington Ventura Dólar Advisory CI Ações IE RL,D+1 (Dias Úteis),1,D+5 (Dias Úteis),5,9,nome,1.057,XP,2026-11-15
+05024659000100,Western Asset Multitrading H Mul...,Fundo,05024659000100,Western Asset Multitrading H FIF Multimercado RL,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,cnpj,1.0,XP,2026-11-15
+28320756000137,Western Asset Total Credit Advis...,Fundo,28320756000137,Western Asset Total Credit Advisory FIC de FIF RF CP RL,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,cnpj,1.0,XP,2026-11-15
+49984055000172,Western Asset Total Credit Plus...,Fundo,49984055000172,Western Asset Total Credit Plus FIF RF CP RL,D+9 (Dias Corridos),9,D+1 (Dias Úteis),1,11,cnpj,1.0,XP,2026-11-15
+17453850000148,Western Asset US Index 500 FIF,Fundo,17453850000148,Western Asset US Index 500 FIF Multimercado RL,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,cnpj,1.0,XP,2026-11-15
+34475199000126,XP Advisory Portfolio Private II Prev FIM CP,Previdência,34475172000133,XP ADVISORY PORTFOLIO PRIVATE IV PREV FIM CRÉDITO PRIVADO RESPONSABILIDADE LIMITADA,D+15 (Dias Úteis),15,D+2 (Dias Úteis),2,24,nome,0.857,CVM,2026-11-15
+45756473000151,XP Balanceado Fundo Mútuo de Pri...,Fundo,45756473000151,XP Balanceado Fundo Mútuo de Privatização - FGTS Carteira Livre RL,D+1 (Dias Úteis),1,D+4 (Dias Úteis),4,8,cnpj,1.0,XP,2026-11-15
+23999611000190,XP Corporate Plus FIC FIF Multi...,Fundo,23999611000190,XP Corporate Plus FIC FIF Multi CP RL,D+45 (Dias Corridos),45,D+1 (Dias Úteis),1,47,cnpj,1.0,XP,2026-11-15
+04621721000170,XP Corporate Top CP FIF FIRF LP...,Fundo,04621721000170,XP Corporate Top CP FIF FIRF LP RL,D+29 (Dias Corridos),29,D+1 (Dias Úteis),1,31,cnpj,1.0,XP,2026-11-15
+43636010000120,XP Corporate Top CP XP Seg Prev FIC FIM RL,Previdência,32770355000156,XP CORPORATE PLUS PREV XP SEG FIC RENDA FIXA CRÉDITO PRIVADO RESPONSABILIDADE LIMITADA,D+7 (Dias Úteis),7,D+1 (Dias Úteis),1,12,nome,0.805,CVM,2026-11-15
+22003930000131,XP Crédito Estruturado 120 FIC d...,Fundo,22003930000131,XP Crédito Estruturado 120 FIC de FIF Multimercado CP RL,D+120 (Dias Corridos),120,D+2 (Dias Úteis),2,123,cnpj,1.0,XP,2026-11-15
+29813596000120,XP Crédito Estruturado 15 FIC de...,Fundo,29813596000120,XP Crédito Estruturado 15 FIRF CP LP RL,D+15 (Dias Corridos),15,D+2 (Dias Úteis),2,18,cnpj,1.0,XP,2026-11-15
+36352610000100,XP Crédito Estruturado XP Seg Prev FIC FIRF,Previdência,36352610000100,XP CRÉDITO ESTRUTURADO SEGUROS PREV FIF RENDA FIXA CRÉDITO PRIVADO - RESPONSABILIDADE LIMITADA,D+7 (Dias Úteis),7,D+2 (Dias Úteis),2,13,cnpj,1.0,CVM,2026-11-15
+16575255000112,XP Dividendos FIA,Fundo,16575255000112,XP Dividendos FIA RL,D+1 (Dias Úteis),1,D+2 (Dias Úteis),2,5,cnpj,1.0,XP,2026-11-15
+18814964000139,XP Horizonte XP Seg FIC FIRF Prev RL,Previdência,18814964000139,XP HORIZONTE PREV MASTER FUNDO DE INVESTIMENTO FINANCEIRO RENDA FIXA - RESPONSABILIDADE LIMITADA,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,cnpj,1.0,CVM,2026-11-15
+18897562000145,XP Icatu Horizonte Prev FIC FIRF,Previdência,18897562000145,XP ICATU HORIZONTE PREV FIC DE FI FINANCEIRO RENDA FIXA - RESPONSABILIDADE LIMITADA,D+1 (Dias Úteis),1,D+3 (Dias Úteis),3,7,cnpj,1.0,CVM,2026-11-15
+26718169000175,XP Investor 30 FIC FIA RL,Fundo,26718169000175,XP Investor 30 FIC FIA RL,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,cnpj,1.0,XP,2026-11-15
+43761879000105,XP Investor Equity Hedge FIC FIM...,Fundo,43761934000159,XP Investor Equity Hedge FIC FIM RL,D+30 (Dias Corridos),30,D+2 (Dias Úteis),2,33,nome,1.059,XP,2026-11-15
+27826046000110,XP Investor Ibovespa Ativo FIC F...,Fundo,28122142000140,XP Investor Ibovespa Ativo FIC FIA RL,D+1 (Dias Corridos),1,D+2 (Dias Úteis),2,4,nome,1.059,XP,2026-11-15
+45688619000179,XP Macro FIM RL,Fundo,45688619000179,XP MACRO II FI FINANCEIRO MULTIMERCADO INVESTIMENTO NO EXTERIOR - RESPONSABILIDADE LIMITADA,D+0 (Dias Úteis),0,D+1 (Dias Úteis),1,2,cnpj,1.0,CVM,2026-11-15
+37900216000113,XP Seg Superprev 2 FIM,Previdência,37900216000113,XP SEGUROS SUPERPREV 2 FUNDO DE INVESTIMENTO FINANCEIRO MULTIMERCADO - RESPONSABILIDADE LIMITADA,D+7 (Dias Úteis),7,D+2 (Dias Úteis),2,13,cnpj,1.0,CVM,2026-11-15
+35420569000190,XP Seg Superprev FIM,Previdência,35420569000190,XP SEGUROS SUPERPREV FUNDO DE INVESTIMENTO FINANCEIRO MULTIMERCADO - RESPONSABILIDADE LIMITADA,D+7 (Dias Úteis),7,D+2 (Dias Úteis),2,13,cnpj,1.0,CVM,2026-11-15
+34081651000175,XP Special Situations FIC FIM CP...,Fundo,34081651000175,XP Special Situations FIC FIM CP LP IE,D+360 (Dias Corridos),360,D+2 (Dias Úteis),2,363,cnpj,1.0,XP,2026-11-15
+11046179000134,Xp Corporate Light Cp Xp Seg Fic Rf Rl,Previdência,11046179000134,XP Corporate Light FIRF CP LP,D+6 (Dias Corridos),6,D+1 (Dias Úteis),1,8,cnpj,1.0,XP,2026-11-15
+41035946000170,Xp Crédito Estruturado High Yield Xp Seg Prev Fic Fim Cp,Previdência,41035946000170,XP CRÉDITO ESTRUTURADO HIGH YIELD SEGUROS PREV FIC MULTIMERCADO CRÉDITO PRIVADO RESP LIMITADA,D+90 (Dias Úteis),90,D+2 (Dias Úteis),2,129,cnpj,1.0,CVM,2026-11-15
+32905400000132,Xp Equity Hedge Seguros Prev I Fic Fim Rl,Previdência,32905400000132,XP EQUITY HEDGE SEGUROS PREVIDÊNCIA FUNDO DE INVESTIMENTO MULTIMERCADO RESPONSABILIDADE LIMITADA,D+0 (Dias Corridos),0,D+2 (Dias Úteis),2,3,cnpj,1.0,CVM,2026-11-15
+34430623000116,Xp Long Biased Ii Seg Fic Fim,Previdência,34430623000116,XP LONG BIASED II SEGUROS FIC DE FI FINANCEIRO MULTIMERCADO - RESPONSABILIDADE LIMITADA,D+30 (Dias Úteis),30,D+2 (Dias Úteis),2,45,cnpj,1.0,CVM,2026-11-15
+41360263000199,Zeno Global Dólar Advisory FIC d...,Fundo,41360263000199,Zeno Global Dólar Advisory FIC de Ações RL,D+30 (Dias Corridos),30,D+6 (Dias Úteis),6,39,cnpj,1.0,XP,2026-11-15

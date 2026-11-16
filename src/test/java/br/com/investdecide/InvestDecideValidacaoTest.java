@@ -50,7 +50,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
-@SpringBootTest
+@SpringBootTest(properties = {
+        "spring.datasource.url=jdbc:h2:mem:investdecide-test;DB_CLOSE_DELAY=-1",
+        "investdecide.seed.consultor.senha=Invest@2026",
+        "investdecide.seed.analista.senha=Analista@2026",
+        "investdecide.seed.teste.senha=3u@Ygz9wmqwr8NYCmnPuG@d%h"
+})
 @AutoConfigureMockMvc
 class InvestDecideValidacaoTest {
 

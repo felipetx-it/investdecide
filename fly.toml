@@ -1,0 +1,57 @@
+# Deploy do InvestDecide no Fly.io.
+#
+# Antes do primeiro deploy:
+#   1. Troque "app" por um nome globalmente único (ou deixe o fly launch sugerir).
+#   2. Crie o volume: fly volumes create investdecide_data --region gru --size 1
+#   3. fly deploy
+#
+# O banco H2 fica em /app/data/db, que é o ponto de montagem do volume.
+# Nunca monte o volume em /app/data: isso esconderia os CSVs copiados na imagem.
+
+app = "investdecide-sad"
+primary_region = "gru"
+
+# Shutdown limpo para o H2 fechar o arquivo antes de a máquina parar.
+kill_signal = "SIGTERM"
+kill_timeout = 30
+
+# Folga para o pico de memória da primeira simulação (regressão + k-médias).
+swap_size_mb = 512
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  PORT = "8080"
+  SPRING_DATASOURCE_URL = "jdbc:h2:file:/app/data/db/investdecide"
+  SPRING_THYMELEAF_CACHE = "true"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  # Para entre sessões ocioso (custo ~zero); o volume preserva os dados.
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+
+  [http_service.concurrency]
+    type = "requests"
+    soft_limit = 20
+    hard_limit = 25
+
+[[http_service.checks]]
+  grace_period = "30s"
+  interval = "30s"
+  method = "GET"
+  path = "/login"
+  timeout = "5s"
+
+[[vm]]
+  cpu_kind = "shared"
+  cpus = 1
+  memory = "512mb"
+
+[mounts]
+  source = "investdecide_data"
+  destination = "/app/data/db"
+  initial_size = "1GB"

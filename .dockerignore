@@ -1,0 +1,15 @@
+# artefatos de build e IDE
+target/
+.idea/
+*.iml
+*.log
+
+# base bruta e série diária: não são usadas em runtime
+data/raw/
+data/processed/fundos_diario.csv
+
+# banco H2 local: o banco de produção vive no volume montado em /app/data/db
+data/db/
+
+# scripts auxiliares de geração da base (não entram na imagem)
+scripts/__pycache__/
