@@ -281,3 +281,47 @@
 .scenario-tabs a.active{background:#203c66;border-color:#203c66;color:#fff}
 .scenario-tabs a.active::before{content:'\F26B';font-family:'bootstrap-icons';font-size:11px}
 @media (max-width:760px){.scenario-tabs a{flex:1;justify-content:center;padding:0 10px}}
+
+
+/* ==========================================================================
+   Fase 5 — Gráficos interativos, badges de origem e histórico SQL multiusuário
+   ========================================================================== */
+.charts-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-bottom:16px}
+.chart-card{background:#fff;border:1px solid var(--line);border-radius:13px;padding:18px 20px;box-shadow:0 2px 5px rgba(27,46,73,.015);min-width:0}
+.chart-card .section-header{margin-bottom:12px}
+.chart-canvas-wrap{position:relative;height:255px;width:100%}
+.chart-canvas-wrap.tall{height:290px}
+.top3-card.top-lead{border-color:#9bd7c6;background:linear-gradient(180deg,#f6fcfa 0%,#ffffff 65%);box-shadow:0 6px 18px rgba(32,60,102,.06)}
+.score-progress{height:6px;width:100%;background:#eef2f7;border-radius:999px;overflow:hidden;margin:8px 0 6px}
+.score-progress>span{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#203c66,#35b99a)}
+.liq-badge{display:inline-flex;align-items:center;gap:4px;font-size:7.5px;font-weight:800;letter-spacing:.4px;padding:2px 6px;border-radius:4px;margin-left:5px;vertical-align:middle}
+.liq-xp{background:#eaf1ff;color:#365d99}
+.liq-cvm{background:#e7f8f2;color:#1d876d}
+.liq-est{background:#fff3e4;color:#b2762f}
+.weights-live-wrap{margin-top:12px;padding:12px 13px;background:#f7f9fc;border:1px solid #e9edf5;border-radius:10px}
+.weights-live-stack{display:flex;height:9px;border-radius:999px;overflow:hidden;gap:2px;background:#e9edf5;margin-bottom:8px}
+.weights-live-stack .w-seg{height:100%;transition:width .2s ease}
+.w-seg-ret{background:#203c66}
+.w-seg-ris{background:#35b99a}
+.w-seg-tri{background:#8771cf}
+.w-seg-liq{background:#eaa361}
+.weights-live-legend{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:8.5px;color:#5a6a80;font-weight:600}
+.weights-live-legend span{display:inline-flex;align-items:center;gap:5px}
+.weights-live-legend i{width:7px;height:7px;border-radius:50%;display:inline-block}
+.sidebar-logout-form{margin:0;display:inline-flex}
+.sidebar-logout-btn{width:28px;height:28px;border:1px solid #e6eaf0;background:#f8fafc;color:#66768b;border-radius:8px;display:grid;place-items:center;cursor:pointer;transition:all .15s}
+.sidebar-logout-btn:hover{background:#fdf0ef;color:#b4554e;border-color:#f2d2cf}
+.saved-sim-card{padding:18px 20px;margin-top:16px}
+.saved-sim-list{display:flex;flex-direction:column;gap:9px}
+.saved-sim-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 13px;border:1px solid #edf1f6;border-radius:10px;background:#fcfdff;flex-wrap:wrap}
+.saved-sim-row:hover{border-color:#d5e0ee;background:#f8fbff}
+.saved-sim-info strong{display:block;font-size:11px;color:#1e2e43}
+.saved-sim-info small{display:block;font-size:9px;color:#7f8c9d;margin-top:2px}
+.saved-sim-actions{display:flex;align-items:center;gap:8px}
+.btn-mini-open{border:1px solid #dce5f2;background:#eef4fc;color:#203c66;border-radius:7px;padding:5px 10px;font-size:9.5px;font-weight:700;display:inline-flex;align-items:center;gap:5px;transition:all .15s}
+.btn-mini-open:hover{background:#203c66;color:#fff}
+.btn-mini-del{border:1px solid #f0d6d4;background:#fff;color:#b4554e;border-radius:7px;padding:5px 8px;font-size:9.5px;font-weight:700;cursor:pointer}
+.btn-mini-del:hover{background:#fdf0ef}
+.register-link-box{margin-top:16px;padding:12px 14px;border:1px dashed #d6e0ec;border-radius:10px;background:#f8fafd;text-align:center;font-size:10px;color:#5d6e84}
+.register-link-box a{color:var(--navy);font-weight:700;text-decoration:underline}
+@media (max-width:1100px){.charts-grid{grid-template-columns:1fr}}

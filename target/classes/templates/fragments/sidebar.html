@@ -31,9 +31,16 @@
             <a th:href="@{/simulacao}">Criar simulação <i class="bi bi-arrow-up-right"></i></a>
         </div>
         <div class="sidebar-user">
-            <div class="avatar">MC</div>
-            <div class="user-meta"><strong>Mariana Costa</strong><small>Assessora de investimentos</small></div>
-            <i class="bi bi-three-dots"></i>
+            <div class="avatar" th:text="${usuarioAtual != null ? usuarioAtual.iniciais : 'MC'}">MC</div>
+            <div class="user-meta">
+                <strong th:text="${usuarioAtual != null ? usuarioAtual.nome : 'Mariana Costa'}">Mariana Costa</strong>
+                <small th:text="${usuarioAtual != null ? usuarioAtual.cargo : 'Assessora de investimentos'}">Assessora de investimentos</small>
+            </div>
+            <form th:action="@{/logout}" method="post" class="sidebar-logout-form" title="Encerrar sessão">
+                <button type="submit" class="sidebar-logout-btn" aria-label="Sair">
+                    <i class="bi bi-box-arrow-right"></i>
+                </button>
+            </form>
         </div>
     </div>
 </aside>

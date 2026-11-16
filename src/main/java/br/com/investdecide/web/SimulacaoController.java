@@ -9,12 +9,15 @@ import br.com.investdecide.dominio.ResultadoDecisao;
 import br.com.investdecide.servico.CatalogoService;
 import br.com.investdecide.servico.CenarioService;
 import br.com.investdecide.servico.DecisaoService;
+import br.com.investdecide.servico.RelatorioPdfService;
 import br.com.investdecide.servico.RelatorioService;
+import br.com.investdecide.servico.SimulacaoSalvaService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -24,7 +27,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/** Fluxo principal: formulário do cliente, cálculo do índice e ranking completo. */
+/** Fluxo principal: formulário do cliente, cálculo do índice, persistência e ranking completo. */
 @Controller
 public class SimulacaoController {
 
@@ -34,13 +37,18 @@ public class SimulacaoController {
     private final DecisaoService decisao;
     private final CenarioService cenarios;
     private final RelatorioService relatorios;
+    private final RelatorioPdfService pdf;
+    private final SimulacaoSalvaService simulacoesSalvas;
 
     public SimulacaoController(CatalogoService catalogo, DecisaoService decisao, CenarioService cenarios,
-                                RelatorioService relatorios) {
+                                RelatorioService relatorios, RelatorioPdfService pdf,
+                                SimulacaoSalvaService simulacoesSalvas) {
         this.catalogo = catalogo;
         this.decisao = decisao;
         this.cenarios = cenarios;
         this.relatorios = relatorios;
+        this.pdf = pdf;
+        this.simulacoesSalvas = simulacoesSalvas;
     }
 
     @GetMapping("/simulacao")
@@ -50,6 +58,7 @@ public class SimulacaoController {
         model.addAttribute("cenarios", cenarios.todos());
         model.addAttribute("cenarioSelecionado", "Base");
         model.addAttribute("indicadores", cenarios.getIndicadores());
+        model.addAttribute("simulacoesSalvas", simulacoesSalvas.listar(8));
         return "simulacao";
     }
 
@@ -66,6 +75,7 @@ public class SimulacaoController {
             model.addAttribute("cenarios", cenarios.todos());
             model.addAttribute("cenarioSelecionado", cenario);
             model.addAttribute("indicadores", cenarios.getIndicadores());
+            model.addAttribute("simulacoesSalvas", simulacoesSalvas.listar(8));
             return "simulacao";
         }
 
@@ -78,11 +88,40 @@ public class SimulacaoController {
 
         ResultadoDecisao escolhido = porCenario.getOrDefault(cenario, porCenario.get("Base"));
         session.setAttribute("resultado", escolhido);
+        simulacoesSalvas.salvar(cliente, pesos, escolhido);
         relatorios.registrar("Comparativo de alternativas",
-                "Simulação (" + escolhido.getCenario().getNome() + ") com " + escolhido.getTotalElegiveis() + " alternativas elegíveis",
-                cliente.getNome(), "Simulação", "/relatorios/comparativo.pdf");
+                "Simulação (" + escolhido.getCenario().getNome() + ") · "
+                        + String.format(java.util.Locale.forLanguageTag("pt-BR"), "R$ %,.2f", cliente.getAporte())
+                        + " · " + escolhido.getTotalElegiveis() + " elegíveis",
+                cliente.getNome(), "Simulação", "investdecide-comparativo.pdf",
+                pdf.comparativo(escolhido));
 
-        return montarResultado(model, cliente, pesos, escolhido.getCenario().getNome(), escolhido);
+        return montarResultado(model, cliente, pesos, escolhido.getCenario().getNome(), escolhido, porCenario);
+    }
+
+    /** Reabre uma simulação persistida no banco H2 da conta do usuário autenticado. */
+    @GetMapping("/simulacao/salva/{id}")
+    public String abrirSalva(@PathVariable String id, Model model, HttpSession session) {
+        var opt = simulacoesSalvas.buscar(id);
+        if (opt.isEmpty() || opt.get().cliente() == null || opt.get().pesos() == null) {
+            return "redirect:/dashboard";
+        }
+        var entrada = opt.get();
+        Map<String, ResultadoDecisao> porCenario = new LinkedHashMap<>();
+        for (Cenario c : cenarios.todos()) {
+            porCenario.put(c.getNome(), decisao.avaliar(entrada.cliente(), catalogo.listar(), c, entrada.pesos()));
+        }
+        session.setAttribute("resultadosPorCenario", porCenario);
+        ResultadoDecisao escolhido = porCenario.getOrDefault(entrada.cenario(), porCenario.get("Base"));
+        session.setAttribute("resultado", escolhido);
+        return montarResultado(model, entrada.cliente(), entrada.pesos(), escolhido.getCenario().getNome(), escolhido, porCenario);
+    }
+
+    @PostMapping("/simulacao/salva/{id}/excluir")
+    public String excluirSalva(@PathVariable String id,
+                               @RequestParam(name = "origem", defaultValue = "/dashboard") String origem) {
+        simulacoesSalvas.excluir(id);
+        return "redirect:" + ("/simulacao".equals(origem) ? "/simulacao" : "/dashboard");
     }
 
     /** Reabre o resultado da última simulação (sem voltar ao formulário). */
@@ -97,17 +136,38 @@ public class SimulacaoController {
         ResultadoDecisao escolhido = porCenario.getOrDefault(cenario, porCenario.get("Base"));
         session.setAttribute("resultado", escolhido);
         return montarResultado(model, escolhido.getCliente(), escolhido.getPesos(),
-                escolhido.getCenario().getNome(), escolhido);
+                escolhido.getCenario().getNome(), escolhido, porCenario);
     }
 
     private String montarResultado(Model model, Cliente cliente, Pesos pesos, String cenario,
-                                   ResultadoDecisao resultado) {
+                                   ResultadoDecisao resultado, Map<String, ResultadoDecisao> porCenario) {
         model.addAttribute("resultado", resultado);
         model.addAttribute("destaques", resultado.getRanking().stream().limit(3).toList());
+        model.addAttribute("top8", resultado.getRanking().stream().limit(8).toList());
         model.addAttribute("cliente", cliente);
         model.addAttribute("pesos", pesos);
         model.addAttribute("cenarioSelecionado", cenario);
         model.addAttribute("cenariosDisponiveis", CENARIOS_DA_SIMULACAO);
+        model.addAttribute("porCenario", porCenario != null ? porCenario : Map.of());
+        model.addAttribute("chartTop8", resultado.getRanking().stream().limit(8)
+                .map(a -> Map.<String, Object>of(
+                        "nome", a.getNome().length() > 28 ? a.getNome().substring(0, 26) + "…" : a.getNome(),
+                        "score", Math.round(a.getScore() * 10.0) / 10.0,
+                        "retorno", Math.round(a.getRetornoLiquido() * 100.0) / 100.0,
+                        "valor", Math.round(a.getValorFinal() * 100.0) / 100.0))
+                .toList());
+        List<Map<String, Object>> serieCenarios = new ArrayList<>();
+        if (porCenario != null) {
+            porCenario.forEach((nome, res) -> {
+                var lider = res.getRecomendada();
+                serieCenarios.add(Map.of(
+                        "cenario", nome,
+                        "lider", lider != null ? lider.getNome() : "Sem elegíveis",
+                        "valor", lider != null ? Math.round(lider.getValorFinal() * 100.0) / 100.0 : 0.0,
+                        "retorno", lider != null ? Math.round(lider.getRetornoLiquido() * 100.0) / 100.0 : 0.0));
+            });
+        }
+        model.addAttribute("chartCenarios", serieCenarios);
         return "resultado";
     }
 

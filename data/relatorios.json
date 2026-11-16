@@ -151,4 +151,112 @@
   "classe" : "tag-purple",
   "geradoEm" : "15/11/2026 18:38",
   "link" : "/relatorios/sensibilidade.pdf"
+}, {
+  "id" : "1fda4f05-eb75-47ca-81fe-bf1d4ace4aca",
+  "titulo" : "Comparativo de alternativas",
+  "descricao" : "Simulação (Base) com 136 alternativas elegíveis",
+  "cliente" : "Ricardo Almeida",
+  "categoria" : "Simulação",
+  "classe" : "tag-blue",
+  "geradoEm" : "15/11/2026 18:46",
+  "link" : "/relatorios/comparativo.pdf"
+}, {
+  "id" : "36b13675-22fe-4aea-a046-a5ce23c380d6",
+  "titulo" : "Comparativo de alternativas",
+  "descricao" : "Simulação (Base) com 135 alternativas elegíveis",
+  "cliente" : "Ricardo Almeida",
+  "categoria" : "Simulação",
+  "classe" : "tag-blue",
+  "geradoEm" : "15/11/2026 18:47",
+  "link" : "/relatorios/comparativo.pdf"
+}, {
+  "id" : "356c3e35-dd73-415b-8e6d-296371a44e76",
+  "titulo" : "Comparativo de alternativas",
+  "descricao" : "Simulação (Otimista) com 79 alternativas elegíveis",
+  "cliente" : "Ricardo Almeida",
+  "categoria" : "Simulação",
+  "classe" : "tag-blue",
+  "geradoEm" : "15/11/2026 19:20",
+  "link" : "/relatorios/comparativo.pdf"
+}, {
+  "id" : "f992f105-112a-4212-b7e2-cd4f26c16648",
+  "titulo" : "Eficiência tributária",
+  "descricao" : "Comparativo de veículos com e sem reinvestimento da restituição",
+  "cliente" : "Ricardo Almeida",
+  "categoria" : "Tributação",
+  "classe" : "tag-green",
+  "geradoEm" : "15/11/2026 19:20",
+  "link" : "/relatorios/tributacao.pdf"
+}, {
+  "id" : "1627ad86-6c43-42bf-863d-d168c21765cf",
+  "titulo" : "Comparativo de alternativas",
+  "descricao" : "Documento exportado em PDF",
+  "cliente" : "Ricardo Almeida",
+  "categoria" : "Simulação",
+  "classe" : "tag-blue",
+  "geradoEm" : "15/11/2026 19:20",
+  "link" : "/relatorios/comparativo.pdf"
+}, {
+  "id" : "585976a9-7599-4de0-8ea3-9b82a1ba340f",
+  "titulo" : "Eficiência tributária",
+  "descricao" : "Comparativo de veículos com e sem reinvestimento da restituição",
+  "cliente" : "Ricardo Almeida",
+  "categoria" : "Tributação",
+  "classe" : "tag-green",
+  "geradoEm" : "15/11/2026 19:20",
+  "link" : "/relatorios/tributacao.pdf"
+}, {
+  "id" : "1a6a0eaf-df85-43f5-a0e2-a842ccbb22fc",
+  "titulo" : "Sensibilidade dos cenários",
+  "descricao" : "Liderança por cenário e perturbações de +20% nos pesos",
+  "cliente" : "Ricardo Almeida",
+  "categoria" : "Sensibilidade",
+  "classe" : "tag-purple",
+  "geradoEm" : "15/11/2026 19:20",
+  "link" : "/relatorios/sensibilidade.pdf"
+}, {
+  "id" : "0cbc95b4-8e6e-4c8e-9907-95df1c7c1fcc",
+  "titulo" : "Comparativo de alternativas",
+  "descricao" : "Simulação (Otimista) com 80 alternativas elegíveis",
+  "cliente" : "Ricardo Almeida",
+  "categoria" : "Simulação",
+  "classe" : "tag-blue",
+  "geradoEm" : "15/11/2026 19:22",
+  "link" : "/relatorios/comparativo.pdf"
+}, {
+  "id" : "c7170cf3-256a-45eb-b3cd-281f2f1b179b",
+  "titulo" : "Eficiência tributária",
+  "descricao" : "Comparativo de veículos com e sem reinvestimento da restituição",
+  "cliente" : "Ricardo Almeida",
+  "categoria" : "Tributação",
+  "classe" : "tag-green",
+  "geradoEm" : "15/11/2026 19:22",
+  "link" : "/relatorios/tributacao.pdf"
+}, {
+  "id" : "e7df1786-3d71-4d44-81b3-9fa9ef064e02",
+  "titulo" : "Comparativo de alternativas",
+  "descricao" : "Documento exportado em PDF",
+  "cliente" : "Ricardo Almeida",
+  "categoria" : "Simulação",
+  "classe" : "tag-blue",
+  "geradoEm" : "15/11/2026 19:22",
+  "link" : "/relatorios/comparativo.pdf"
+}, {
+  "id" : "90c199d0-7cf0-40cb-a16f-b584ca5c6de6",
+  "titulo" : "Eficiência tributária",
+  "descricao" : "Comparativo de veículos com e sem reinvestimento da restituição",
+  "cliente" : "Ricardo Almeida",
+  "categoria" : "Tributação",
+  "classe" : "tag-green",
+  "geradoEm" : "15/11/2026 19:22",
+  "link" : "/relatorios/tributacao.pdf"
+}, {
+  "id" : "b7a15907-f848-4a0d-9989-340fde130708",
+  "titulo" : "Sensibilidade dos cenários",
+  "descricao" : "Liderança por cenário e perturbações de +20% nos pesos",
+  "cliente" : "Ricardo Almeida",
+  "categoria" : "Sensibilidade",
+  "classe" : "tag-purple",
+  "geradoEm" : "15/11/2026 19:22",
+  "link" : "/relatorios/sensibilidade.pdf"
 } ]

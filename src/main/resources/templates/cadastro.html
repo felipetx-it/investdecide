@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Criar conta · InvestDecide</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link th:href="@{/css/app.css}" rel="stylesheet">
+</head>
+<body class="login-page">
+<div class="login-layout">
+    <section class="login-story">
+        <a class="brand brand-light" th:href="@{/login}">
+            <span class="brand-mark"><i class="bi bi-graph-up-arrow"></i></span>
+            <span class="brand-copy"><strong>invest<span>decide</span></strong><small>INTELLIGENCE SUITE</small></span>
+        </a>
+        <div class="story-main">
+            <div class="eyebrow"><span></span> ESPAÇO INDIVIDUAL PERSISTIDO EM SQL</div>
+            <h1>Cada assessor com seu <em>histórico próprio.</em></h1>
+            <p>Suas simulações, produtos bancários cadastrados, cenários econômicos e relatórios ficam isolados em banco relacional por conta de usuário.</p>
+            <div class="story-points">
+                <div><span class="story-check"><i class="bi bi-database-check"></i></span><span><strong>Persistência relacional H2</strong><small>Simulações e carteiras salvas entre sessões.</small></span></div>
+                <div><span class="story-check"><i class="bi bi-shield-lock"></i></span><span><strong>Separação por usuário</strong><small>Cada e-mail possui seu próprio catálogo manual e histórico.</small></span></div>
+            </div>
+        </div>
+        <div class="story-footer"><span>© 2026 InvestDecide</span><span>Sistema de Apoio à Decisão</span></div>
+        <div class="story-orb orb-one"></div><div class="story-orb orb-two"></div>
+    </section>
+    <section class="login-panel">
+        <div class="login-card">
+            <div class="mobile-brand brand">
+                <span class="brand-mark"><i class="bi bi-graph-up-arrow"></i></span><span class="brand-copy"><strong>invest<span>decide</span></strong></span>
+            </div>
+            <div class="login-heading">
+                <div class="login-mini-icon"><i class="bi bi-person-plus"></i></div>
+                <h2>Criar nova conta</h2>
+                <p>Cadastre-se para manter simulações, cenários e CDB/LCI/LCA isolados na sua conta.</p>
+            </div>
+
+            <div th:if="${erro}" class="inline-alert erro" style="margin-bottom:14px">
+                <i class="bi bi-exclamation-triangle"></i><span th:text="${erro}">Erro</span>
+            </div>
+
+            <form th:action="@{/cadastro}" method="post" class="login-form">
+                <label for="nome">Nome completo</label>
+                <div class="field-wrap"><i class="bi bi-person"></i><input type="text" id="nome" name="nome" th:value="${nome}" placeholder="Ex.: Ana Paula Souza" required autofocus></div>
+
+                <label for="cargo">Cargo / função</label>
+                <div class="field-wrap"><i class="bi bi-briefcase"></i><input type="text" id="cargo" name="cargo" th:value="${cargo != null ? cargo : 'Consultor de investimentos'}" placeholder="Assessor de investimentos"></div>
+
+                <label for="email">E-mail corporativo</label>
+                <div class="field-wrap"><i class="bi bi-envelope"></i><input type="email" id="email" name="email" th:value="${email}" placeholder="nome@empresa.com.br" required></div>
+
+                <label for="senha">Senha (mínimo 6 caracteres)</label>
+                <div class="field-wrap"><i class="bi bi-lock"></i><input type="password" id="senha" name="senha" minlength="6" placeholder="Crie uma senha segura" required><button type="button" class="password-toggle" onclick="togglePassword()" aria-label="Mostrar ou ocultar senha"><i class="bi bi-eye"></i></button></div>
+
+                <button class="btn-primary-app login-submit" type="submit">Criar conta <i class="bi bi-arrow-right"></i></button>
+            </form>
+
+            <div class="register-link-box">
+                Já possui acesso? <a th:href="@{/login}">Voltar ao login</a>
+            </div>
+        </div>
+    </section>
+</div>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

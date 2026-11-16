@@ -40,6 +40,9 @@
             <div th:if="${param.saida}" class="inline-alert ok" style="margin-bottom:14px">
                 <i class="bi bi-check-circle"></i><span>Sessão encerrada com sucesso.</span>
             </div>
+            <div th:if="${param.cadastrado}" class="inline-alert ok" style="margin-bottom:14px">
+                <i class="bi bi-check-circle"></i><span>Conta criada no banco relacional. Entre com seu e-mail e senha.</span>
+            </div>
 
             <form th:action="@{/login}" method="post" class="login-form">
                 <label for="email">E-mail</label>
@@ -49,6 +52,10 @@
                 <div class="remember-row"><label><input type="checkbox" checked> <span>Manter conectado</span></label><span class="secure-note"><i class="bi bi-shield-check"></i> Acesso restrito</span></div>
                 <button class="btn-primary-app login-submit" type="submit">Entrar <i class="bi bi-arrow-right"></i></button>
             </form>
+
+            <div class="register-link-box">
+                Novo assessor ou analista? <a th:href="@{/cadastro}">Criar conta multiusuário</a>
+            </div>
 
         </div>
     </section>

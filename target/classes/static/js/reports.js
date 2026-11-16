@@ -21,4 +21,5 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   search?.addEventListener('input', applyFilters);
   filter?.addEventListener('change', applyFilters);
+  applyFilters();
 });

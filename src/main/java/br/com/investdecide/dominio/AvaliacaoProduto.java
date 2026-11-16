@@ -33,6 +33,9 @@ public class AvaliacaoProduto {
     public String getRemuneracao() { return produto.getRemuneracao(); }
     public int getRisco() { return produto.getRisco(); }
     public int getLiquidezDias() { return produto.getLiquidezDias(); }
+    public String getLiquidezTexto() { return produto.getLiquidezTexto(); }
+    public String getLiquidezFonte() { return produto.getLiquidezFonte(); }
+    public boolean isLiquidezEstimada() { return "estimada".equals(produto.getLiquidezFonte()); }
 
     public Produto getProduto() { return produto; }
     public void setProduto(Produto produto) { this.produto = produto; }

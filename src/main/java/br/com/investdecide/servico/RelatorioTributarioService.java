@@ -9,8 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Relatório de eficiência tributária: compara a mesma rentabilidade bruta em quatro veículos
- * e mostra o efeito de reinvestir (ou não) a restituição gerada pelo PGBL.
+ * Relatório de eficiência tributária: compara a mesma rentabilidade bruta entre CDB (sem come-cotas),
+ * Fundo RF/Multimercado LP (com come-cotas semestral), veículos isentos (LCI/LCA/FI-Infra),
+ * PGBL (com e sem reinvestimento da restituição) e VGBL.
  */
 @Service
 public class RelatorioTributarioService {
@@ -43,6 +44,9 @@ public class RelatorioTributarioService {
         public double getGanhoReinvestimento() { return ganhoReinvestimento; }
         public String getConclusao() { return conclusao; }
         public String getExplicacaoReinvestimento() { return explicacaoReinvestimento; }
+        public double getBeneficioPgbl() {
+            return linhas.stream().filter(l -> "PGBL".equals(l.nome())).mapToDouble(LinhaTributaria::beneficio).findFirst().orElse(0);
+        }
     }
 
     public Relatorio comparar(Cliente cliente, double taxaAnual, int meses) {
@@ -52,17 +56,23 @@ public class RelatorioTributarioService {
 
         List<LinhaTributaria> linhas = new ArrayList<>();
 
-        Produto cdb = produto("CDB 100% CDI", TipoProduto.CDB, false);
+        Produto cdb = produto("CDB 100% CDI (sem come-cotas)", TipoProduto.CDB, false);
         var tribCdb = tributacao.calcular(cdb, cliente, aporte, bruto, meses);
-        linhas.add(new LinhaTributaria(cdb.getNome(), "Tabela regressiva", bruto,
+        linhas.add(new LinhaTributaria(cdb.getNome(), "Tabela regressiva (no vencimento)", bruto,
                 tribCdb.imposto(), 0, tribCdb.valorLiquido(), tribCdb.valorLiquido(),
-                "IR sobre o ganho; alíquota cai com o prazo."));
+                "IR somente no vencimento sobre o ganho; preserva a capitalização composta."));
 
-        Produto lci = produto("LCI/LCA isenta", TipoProduto.LCI, true);
+        Produto fundoLp = produto("Fundo RF LP (com come-cotas)", TipoProduto.FUNDO_RF, false);
+        var tribFundo = tributacao.calcular(fundoLp, cliente, aporte, bruto, meses);
+        linhas.add(new LinhaTributaria(fundoLp.getNome(), "Regressiva + come-cotas 15%", bruto,
+                tribFundo.imposto(), 0, tribFundo.valorLiquido(), tribFundo.valorLiquido(),
+                "Sofre retenção semestral de 15% a cada 6 meses, reduzindo a base capitalizada frente ao CDB."));
+
+        Produto lci = produto("LCI/LCA / FI-Infra (isento)", TipoProduto.LCI, true);
         var tribLci = tributacao.calcular(lci, cliente, aporte, bruto, meses);
         linhas.add(new LinhaTributaria(lci.getNome(), "Isento de IR", bruto,
                 0, 0, tribLci.valorLiquido(), tribLci.valorLiquido(),
-                "Isenção compensa parte do spread menor."));
+                "Isenção total para pessoa física compensa parte do spread menor."));
 
         Produto pgbl = produto("PGBL", TipoProduto.PREVIDENCIA_PGBL, false);
         var tribPgbl = tributacao.calcular(pgbl, cliente, aporte, bruto, meses);

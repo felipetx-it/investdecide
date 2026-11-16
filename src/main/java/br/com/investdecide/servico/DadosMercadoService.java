@@ -14,6 +14,12 @@ import java.util.Map;
  * Base de dados real do sistema: catálogo de fundos distribuídos pela XP, retornos mensais
  * e fatores macro (CDI, IPCA e dólar), gerados por {@code scripts/cvm_xp.py}.
  *
+ * <p>A liquidez de resgate vem de {@code liquidez_fundos.csv} gerado por
+ * {@code scripts/xp_liquidez.py}, combinando o portal de fundos da XP e o Extrato da CVM
+ * ({@code extrato_fi.csv}, essencial para previdência). Quando o fundo não aparece em nenhuma
+ * das duas fontes, o prazo fica desconhecido ({@code liquidezDias = -1}) e o catálogo aplica
+ * a estimativa por classe ANBIMA.</p>
+ *
  * <p>Os arquivos ficam em {@code data/processed}. Se ainda não existirem, o sistema sobe com
  * catálogo vazio e exibe o aviso na tela inicial.</p>
  */
@@ -22,7 +28,12 @@ public class DadosMercadoService {
 
     public record FundoReal(String cnpj, String nome, String tipo, String classeAnbima, String tribLp,
                             double plMedio, double volMedia, double retornoMedio, int meses,
-                            String gestor, String administrador) {
+                            String gestor, String administrador,
+                            int liquidezDias, String cotizacaoResgate, String liquidacaoResgate,
+                            String liquidezFonte) {
+    }
+
+    private record LiquidezXp(int dias, String cotizacao, String liquidacao, String fonte) {
     }
 
     private final Path pasta;
@@ -30,6 +41,7 @@ public class DadosMercadoService {
     private final List<double[]> fatores = new ArrayList<>();
     private final Map<String, double[]> retornos = new LinkedHashMap<>();
     private final Map<String, FundoReal> catalogo = new LinkedHashMap<>();
+    private final Map<String, LiquidezXp> liquidez = new LinkedHashMap<>();
     private String mensagem = "Base não carregada.";
 
     public DadosMercadoService(@Value("${investdecide.dados:data}") String pastaDados) {
@@ -40,6 +52,7 @@ public class DadosMercadoService {
     private void carregar() {
         try {
             carregarFatores();
+            carregarLiquidez();
             carregarCatalogo();
             carregarRetornos();
             mensagem = String.format("%d fundos e %d meses de histórico", catalogo.size(), meses.size());
@@ -70,6 +83,25 @@ public class DadosMercadoService {
         }
     }
 
+    private void carregarLiquidez() throws IOException {
+        Path arquivo = pasta.resolve("liquidez_fundos.csv");
+        if (!java.nio.file.Files.exists(arquivo)) {
+            return;
+        }
+        for (Map<String, String> registro : Csv.ler(arquivo)) {
+            String cnpj = registro.get("cnpj");
+            if (cnpj == null || cnpj.isBlank()) {
+                continue;
+            }
+            String fonte = registro.getOrDefault("fonte", "XP");
+            liquidez.put(cnpj.trim(), new LiquidezXp(
+                    (int) numero(registro.get("liquidez_dias")),
+                    registro.getOrDefault("cotizacao_resgate", ""),
+                    registro.getOrDefault("liquidacao_resgate", ""),
+                    fonte == null || fonte.isBlank() ? "XP" : fonte.trim()));
+        }
+    }
+
     private void carregarCatalogo() throws IOException {
         for (Map<String, String> registro : Csv.ler(pasta.resolve("catalogo_fundos.csv"))) {
             String cnpj = registro.get("cnpj");
@@ -78,6 +110,7 @@ public class DadosMercadoService {
             }
             String nome = registro.getOrDefault("nome_xp", registro.getOrDefault("nome_cvm", cnpj))
                     .replace("...", "").trim();
+            LiquidezXp prazo = liquidez.get(cnpj.trim());
             catalogo.put(cnpj, new FundoReal(
                     cnpj,
                     nome,
@@ -89,7 +122,11 @@ public class DadosMercadoService {
                     numero(registro.get("retorno_medio")),
                     (int) numero(registro.get("meses")),
                     registro.getOrDefault("gestor", ""),
-                    registro.getOrDefault("administrador", "")));
+                    registro.getOrDefault("administrador", ""),
+                    prazo == null ? -1 : prazo.dias(),
+                    prazo == null ? "" : prazo.cotizacao(),
+                    prazo == null ? "" : prazo.liquidacao(),
+                    prazo == null ? "estimada" : prazo.fonte()));
         }
     }
 

@@ -55,7 +55,12 @@
                             <td><span class="badge-soft badge-navy" th:text="${item.grupo}">Grupo</span></td>
                             <td class="num" th:text="|${#numbers.formatDecimal(item.retornoLiquido,1,'POINT',2,'COMMA')}%|">0%</td>
                             <td th:text="${item.risco}">2</td>
-                            <td th:text="${item.liquidezDias == 0 ? 'D+0' : 'D+' + item.liquidezDias}">D+0</td>
+                            <td th:title="${item.liquidezTexto}">
+                                <span th:text="${item.liquidezDias == 0 ? 'D+0' : 'D+' + item.liquidezDias}">D+0</span>
+                                <span class="liq-badge liq-xp" th:if="${item.liquidezFonte == 'XP'}">XP</span>
+                                <span class="liq-badge liq-cvm" th:if="${item.liquidezFonte == 'CVM'}">CVM</span>
+                                <span class="liq-badge liq-est" th:if="${item.liquidezEstimada}">est.</span>
+                            </td>
                             <td th:text="|${#numbers.formatDecimal(item.cargaTributaria,1,'POINT',1,'COMMA')}%|">0%</td>
                             <td class="num" th:text="${#numbers.formatDecimal(item.score,1,'POINT',1,'COMMA')}">0</td>
                             <td class="num" th:text="|R$ ${#numbers.formatDecimal(item.valorFinal,1,'POINT',2,'COMMA')}|">R$ 0</td>
@@ -79,7 +84,12 @@
                             <td><strong th:text="${item.nome}">Produto</strong><div class="premise" th:text="${item.remuneracao}">Remuneração</div></td>
                             <td class="num" th:text="|${#numbers.formatDecimal(item.retornoLiquido,1,'POINT',2,'COMMA')}%|">0%</td>
                             <td th:text="${item.risco}">2</td>
-                            <td th:text="${item.liquidezDias == 0 ? 'D+0' : 'D+' + item.liquidezDias}">D+0</td>
+                            <td th:title="${item.liquidezTexto}">
+                                <span th:text="${item.liquidezDias == 0 ? 'D+0' : 'D+' + item.liquidezDias}">D+0</span>
+                                <span class="liq-badge liq-xp" th:if="${item.liquidezFonte == 'XP'}">XP</span>
+                                <span class="liq-badge liq-cvm" th:if="${item.liquidezFonte == 'CVM'}">CVM</span>
+                                <span class="liq-badge liq-est" th:if="${item.liquidezEstimada}">est.</span>
+                            </td>
                             <td class="num" th:text="${#numbers.formatDecimal(item.score,1,'POINT',1,'COMMA')}">0</td>
                         </tr>
                         </tbody>

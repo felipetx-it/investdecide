@@ -70,20 +70,31 @@
                     </div>
                     <div>
                         <span>Benefício fiscal estimado no aporte</span>
-                        <strong th:text="|R$ ${#numbers.formatDecimal(relatorio.linhas[2].beneficio,1,'POINT',2,'COMMA')}|">R$ 0</strong>
+                        <strong th:text="|R$ ${#numbers.formatDecimal(relatorio.beneficioPgbl,1,'POINT',2,'COMMA')}|">R$ 0</strong>
                         <div class="premise">Restituição estimada considerando a alíquota marginal e o limite de 12% da renda bruta.</div>
                     </div>
                 </div>
                 <div class="premise" th:text="${relatorio.conclusao}">Conclusão</div>
             </section>
 
+            <section class="chart-card" style="margin-bottom:16px">
+                <div class="section-header">
+                    <div>
+                        <h2>Comparativo visual entre veículos tributários</h2>
+                        <p>Valor bruto, saldo líquido final (sem e com reinvestimento no PGBL) e custo tributário total em R$</p>
+                    </div>
+                </div>
+                <div class="chart-canvas-wrap tall"><canvas id="taxChart"></canvas></div>
+            </section>
+
             <section class="surface-card" style="padding:18px">
                 <div class="section-header"><div><h2>Premissas e limitações</h2><p>O que precisa estar explícito no relatório</p></div></div>
                 <div class="premise">
+                    <p><strong>Come-cotas semestral:</strong> fundos abertos de renda fixa e multimercado não isentos sofrem antecipação semestral de 15% a cada 6 meses, reduzindo a base capitalizada frente a CDBs no mesmo prazo.</p>
                     <p><strong>PGBL:</strong> dedução limitada a 12% da renda bruta tributável e restrita a quem declara no modelo completo. No resgate, o IR incide sobre principal + rendimento.</p>
                     <p><strong>VGBL:</strong> o IR incide apenas sobre o rendimento — vantagem para quem usa a declaração simplificada ou não tem espaço de dedução.</p>
                     <p><strong>Reinvestimento:</strong> a restituição é tratada como recurso adicional aplicado no mesmo veículo e no mesmo horizonte.</p>
-                    <p><strong>Limitações desta versão:</strong> come-cotas não modelado, IOF ignorado (horizonte mínimo de 12 meses) e tabela de IRPF parametrizada, sujeita a atualização anual.</p>
+                    <p><strong>Outras premissas:</strong> IOF ignorado (horizonte mínimo de 12 meses) e tabela de IRPF parametrizada, sujeita a atualização anual.</p>
                 </div>
             </section>
 
@@ -92,5 +103,37 @@
     </main>
 </div>
 <script th:src="@{/js/app.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script th:inline="javascript">
+window.__TAX_LINHAS = /*[[${relatorio.linhas}]]*/ [];
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  if (typeof Chart === 'undefined') return;
+  const linhas = window.__TAX_LINHAS || [];
+  const canvas = document.getElementById('taxChart');
+  if (!canvas || !linhas.length) return;
+  new Chart(canvas, {
+    type: 'bar',
+    data: {
+      labels: linhas.map(l => l.nome),
+      datasets: [
+        { label: 'Líquido s/ reinvestir (R$)', data: linhas.map(l => l.liquidoSem), backgroundColor: '#203c66', borderRadius: 6 },
+        { label: 'Líquido c/ reinvestimento (R$)', data: linhas.map(l => l.liquidoCom), backgroundColor: '#35b99a', borderRadius: 6 },
+        { label: 'Custo tributário / IR (R$)', data: linhas.map(l => l.imposto), backgroundColor: '#eaa361', borderRadius: 6 }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } } },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 9 } } },
+        y: { grid: { color: '#f0f3f7' }, ticks: { callback: v => 'R$ ' + Math.round(v / 1000) + 'k' } }
+      }
+    }
+  });
+});
+</script>
 </body>
 </html>

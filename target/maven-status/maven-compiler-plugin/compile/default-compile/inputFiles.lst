@@ -14,6 +14,7 @@ C:\Users\felip\Programacao\SAD\investdecide-prototipo\src\main\java\br\com\inves
 C:\Users\felip\Programacao\SAD\investdecide-prototipo\src\main\java\br\com\investdecide\dominio\TipoProduto.java
 C:\Users\felip\Programacao\SAD\investdecide-prototipo\src\main\java\br\com\investdecide\InvestDecideApplication.java
 C:\Users\felip\Programacao\SAD\investdecide-prototipo\src\main\java\br\com\investdecide\servico\AnaliticaService.java
+C:\Users\felip\Programacao\SAD\investdecide-prototipo\src\main\java\br\com\investdecide\servico\BancoDadosService.java
 C:\Users\felip\Programacao\SAD\investdecide-prototipo\src\main\java\br\com\investdecide\servico\CatalogoService.java
 C:\Users\felip\Programacao\SAD\investdecide-prototipo\src\main\java\br\com\investdecide\servico\CenarioService.java
 C:\Users\felip\Programacao\SAD\investdecide-prototipo\src\main\java\br\com\investdecide\servico\Csv.java
@@ -22,9 +23,13 @@ C:\Users\felip\Programacao\SAD\investdecide-prototipo\src\main\java\br\com\inves
 C:\Users\felip\Programacao\SAD\investdecide-prototipo\src\main\java\br\com\investdecide\servico\RelatorioPdfService.java
 C:\Users\felip\Programacao\SAD\investdecide-prototipo\src\main\java\br\com\investdecide\servico\RelatorioService.java
 C:\Users\felip\Programacao\SAD\investdecide-prototipo\src\main\java\br\com\investdecide\servico\RelatorioTributarioService.java
+C:\Users\felip\Programacao\SAD\investdecide-prototipo\src\main\java\br\com\investdecide\servico\SimulacaoSalvaService.java
 C:\Users\felip\Programacao\SAD\investdecide-prototipo\src\main\java\br\com\investdecide\servico\TributacaoService.java
+C:\Users\felip\Programacao\SAD\investdecide-prototipo\src\main\java\br\com\investdecide\servico\UsuarioService.java
 C:\Users\felip\Programacao\SAD\investdecide-prototipo\src\main\java\br\com\investdecide\web\CenarioController.java
+C:\Users\felip\Programacao\SAD\investdecide-prototipo\src\main\java\br\com\investdecide\web\ContaController.java
 C:\Users\felip\Programacao\SAD\investdecide-prototipo\src\main\java\br\com\investdecide\web\PagesController.java
 C:\Users\felip\Programacao\SAD\investdecide-prototipo\src\main\java\br\com\investdecide\web\ProdutoController.java
 C:\Users\felip\Programacao\SAD\investdecide-prototipo\src\main\java\br\com\investdecide\web\RelatorioController.java
 C:\Users\felip\Programacao\SAD\investdecide-prototipo\src\main\java\br\com\investdecide\web\SimulacaoController.java
+C:\Users\felip\Programacao\SAD\investdecide-prototipo\src\main\java\br\com\investdecide\web\UsuarioControllerAdvice.java

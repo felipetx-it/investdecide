@@ -23,6 +23,7 @@
                 </div>
                 <div class="heading-actions">
                     <a class="btn-ghost-app" th:href="@{/relatorios/comparativo.pdf}"><i class="bi bi-filetype-pdf"></i> Exportar PDF</a>
+                    <a class="btn-ghost-app" th:href="@{/relatorios/tributacao}"><i class="bi bi-receipt"></i> Relatório tributário</a>
                     <a class="btn-ghost-app" th:href="@{/relatorios/sensibilidade.pdf}"><i class="bi bi-bar-chart-line"></i> Sensibilidade</a>
                     <a class="btn-ghost-app" th:href="@{/simulacao}"><i class="bi bi-arrow-repeat"></i> Nova simulação</a>
                     <a class="btn-primary-app" th:href="@{/simulacao/ranking}"><i class="bi bi-list-ol"></i> Ranking completo</a>
@@ -56,20 +57,22 @@
                         <span class="badge-soft badge-navy" th:text="|3 de ${resultado.totalElegiveis} elegíveis|">3 de 3</span>
                     </div>
                     <div class="top3-grid">
-                        <article class="top3-card" th:each="item, iter : ${destaques}">
+                        <article class="top3-card" th:each="item, iter : ${destaques}" th:classappend="${iter.index == 0} ? ' top-lead' : ''">
                             <div class="pos"><span th:text="|${iter.index + 1}º|">1º</span>
                                 <span class="badge-soft" th:text="|${#numbers.formatDecimal(item.score,1,'POINT',1,'COMMA')} pts|">0</span></div>
                             <h3 th:text="${item.nome}">Produto</h3>
                             <p class="shortlist-type" th:text="|${item.tipoRotulo} · ${item.remuneracao}|">Tipo</p>
+                            <div class="score-progress"><span th:style="|width:${item.score}%|"></span></div>
                             <span class="val" th:text="|R$ ${#numbers.formatDecimal(item.valorFinal,1,'POINT',2,'COMMA')}|">R$ 0</span>
-                            <p class="shortlist-metrics" th:text="|Retorno líquido ${#numbers.formatDecimal(item.retornoLiquido,1,'POINT',2,'COMMA')}% a.a. · risco ${item.risco} · ${item.liquidezDias == 0 ? 'liquidez imediata' : 'resgate em D+' + item.liquidezDias}|">Métricas</p>
+                            <p class="shortlist-metrics" th:title="${item.liquidezTexto}">
+                                <span th:text="|Retorno líquido ${#numbers.formatDecimal(item.retornoLiquido,1,'POINT',2,'COMMA')}% a.a. · risco ${item.risco} · ${item.liquidezDias == 0 ? 'D+0' : 'D+' + item.liquidezDias}|">Métricas</span>
+                                <span class="liq-badge liq-xp" th:if="${item.liquidezFonte == 'XP'}" th:text="'XP'">XP</span>
+                                <span class="liq-badge liq-cvm" th:if="${item.liquidezFonte == 'CVM'}" th:text="'CVM'">CVM</span>
+                                <span class="liq-badge liq-est" th:if="${item.liquidezEstimada}" th:text="'Estimada'">Estimada</span>
+                            </p>
                             <p class="shortlist-why" th:text="${item.justificativa}">Justificativa</p>
                             <p class="shortlist-caveat" th:text="${item.ressalva}">Ressalva</p>
                         </article>
-                    </div>
-                    <div class="shortlist-note">
-                        <i class="bi bi-info-circle"></i>
-                        <span>O sistema apresenta um conjunto curto de alternativas em vez de apontar uma única escolha: a recomendação é construída com o profissional, que responde pela decisão final.</span>
                     </div>
                     <div class="shortlist-robustez">
                         <span><strong>Sensibilidade:</strong> <span th:text="${resultado.sensibilidade}">…</span></span>
@@ -77,9 +80,24 @@
                     </div>
                 </section>
 
+                <section class="charts-grid" style="margin-top:16px">
+                    <div class="chart-card">
+                        <div class="section-header">
+                            <div><h2>Top 8 pelo Índice Multicritério</h2><p>Pontuação composta (0–100) vs. retorno líquido anual (%)</p></div>
+                        </div>
+                        <div class="chart-canvas-wrap tall"><canvas id="resTop8Chart"></canvas></div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="section-header">
+                            <div><h2>Impacto dos Cenários Econômicos</h2><p>Valor líquido final (R$) e retorno da alternativa líder em cada cenário</p></div>
+                        </div>
+                        <div class="chart-canvas-wrap tall"><canvas id="resCenariosChart"></canvas></div>
+                    </div>
+                </section>
+
                 <section class="surface-card" style="padding:18px 20px;margin-bottom:16px">
                     <div class="section-header">
-                        <div><h2>Alternativas por grupo</h2><p>Ordenação inicial alfabética dentro de cada grupo — use os botões para reordenar</p></div>
+                        <div><h2>Alternativas por grupo</h2></div>
                         <a class="text-link" th:href="@{/simulacao/ranking}">Ver todas as posições <i class="bi bi-arrow-right"></i></a>
                     </div>
                     <div class="premise" th:text="${resultado.premissas}">Premissas</div>
@@ -116,7 +134,12 @@
                                 </td>
                                 <td class="num" th:text="|${#numbers.formatDecimal(item.retornoLiquido,1,'POINT',2,'COMMA')}%|">0%</td>
                                 <td><span class="badge-soft" th:classappend="${item.risco >= 4 ? 'badge-red' : (item.risco >= 3 ? 'badge-amber' : 'badge-green')}" th:text="${item.risco}">2</span></td>
-                                <td th:text="${item.liquidezDias == 0 ? 'D+0' : 'D+' + item.liquidezDias}">D+0</td>
+                                <td th:title="${item.liquidezTexto}">
+                                    <span th:text="${item.liquidezDias == 0 ? 'D+0' : 'D+' + item.liquidezDias}">D+0</span>
+                                    <span class="liq-badge liq-xp" th:if="${item.liquidezFonte == 'XP'}">XP</span>
+                                    <span class="liq-badge liq-cvm" th:if="${item.liquidezFonte == 'CVM'}">CVM</span>
+                                    <span class="liq-badge liq-est" th:if="${item.liquidezEstimada}">est.</span>
+                                </td>
                                 <td th:text="|${#numbers.formatDecimal(item.cargaTributaria,1,'POINT',1,'COMMA')}%|">0%</td>
                                 <td class="num" th:text="${#numbers.formatDecimal(item.score,1,'POINT',1,'COMMA')}">0</td>
                                 <td class="num" th:text="|R$ ${#numbers.formatDecimal(item.valorFinal,1,'POINT',2,'COMMA')}|">R$ 0</td>
@@ -127,7 +150,6 @@
                 </section>
 
                 <div class="heading-actions" style="justify-content:flex-end">
-                    <a class="btn-ghost-app" th:href="@{/relatorios/tributacao}"><i class="bi bi-receipt"></i> Relatório tributário</a>
                     <a class="btn-primary-app" th:href="@{/simulacao/ranking}"><i class="bi bi-list-ol"></i> Ranking completo por grupo</a>
                 </div>
             </div>
@@ -138,5 +160,80 @@
 </div>
 <script th:src="@{/js/app.js}"></script>
 <script th:src="@{/js/resultado.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script th:inline="javascript">
+window.__RES_TOP8 = /*[[${chartTop8}]]*/ [];
+window.__RES_CENARIOS = /*[[${chartCenarios}]]*/ [];
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  if (typeof Chart === 'undefined') return;
+  const top8 = window.__RES_TOP8 || [];
+  const cens = window.__RES_CENARIOS || [];
+
+  const cTop = document.getElementById('resTop8Chart');
+  if (cTop && top8.length) {
+    new Chart(cTop, {
+      type: 'bar',
+      data: {
+        labels: top8.map(i => i.nome),
+        datasets: [
+          { label: 'Índice SAW (0–100)', data: top8.map(i => i.score), backgroundColor: '#203c66', borderRadius: 6 },
+          { label: 'Retorno líquido (% a.a.)', data: top8.map(i => i.retorno), backgroundColor: '#35b99a', borderRadius: 6 }
+        ]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } } },
+        scales: {
+          x: { grid: { color: '#f0f3f7' } },
+          y: { grid: { display: false }, ticks: { font: { size: 9 } } }
+        }
+      }
+    });
+  }
+
+  const cCen = document.getElementById('resCenariosChart');
+  if (cCen && cens.length) {
+    new Chart(cCen, {
+      type: 'bar',
+      data: {
+        labels: cens.map(c => c.cenario),
+        datasets: [{
+          label: 'Valor líquido final do líder (R$)',
+          data: cens.map(c => c.valor),
+          backgroundColor: ['#203c66', '#35b99a', '#eaa361', '#8771cf'],
+          borderRadius: 8
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: ctx => {
+                const row = cens[ctx.dataIndex];
+                return row.lider + ': R$ ' + row.valor.toLocaleString('pt-BR', { minimumFractionDigits: 2 })
+                  + ' (' + (row.retorno || 0).toFixed(2) + '% a.a.)';
+              }
+            }
+          }
+        },
+        scales: {
+          x: { grid: { display: false } },
+          y: {
+            grid: { color: '#f0f3f7' },
+            ticks: { callback: v => 'R$ ' + Math.round(v / 1000) + 'k' }
+          }
+        }
+      }
+    });
+  }
+});
+</script>
 </body>
 </html>

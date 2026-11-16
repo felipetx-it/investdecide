@@ -27,6 +27,10 @@ public class Produto {
     private Integer vencimentoMeses;
     /** Prazo de resgate em dias corridos (0 = liquidez imediata). */
     private int liquidezDias = 0;
+    /** Origem do prazo de resgate: "XP" (portal), "CVM" (extrato), "estimada" (classe ANBIMA) ou vazio (manual). */
+    private String liquidezFonte = "";
+    /** Texto original do portal da XP (cotização e liquidação), para conferência. */
+    private String liquidezDetalhe = "";
     /** Carência em meses antes de permitir resgate. */
     private int carenciaMeses = 0;
 
@@ -111,6 +115,29 @@ public class Produto {
 
     public int getLiquidezDias() { return liquidezDias; }
     public void setLiquidezDias(int liquidezDias) { this.liquidezDias = liquidezDias; }
+
+    public String getLiquidezFonte() { return liquidezFonte; }
+    public void setLiquidezFonte(String liquidezFonte) { this.liquidezFonte = liquidezFonte; }
+
+    public String getLiquidezDetalhe() { return liquidezDetalhe; }
+    public void setLiquidezDetalhe(String liquidezDetalhe) { this.liquidezDetalhe = liquidezDetalhe; }
+
+    /** Texto de apoio do prazo: "D+32 · Fonte: XP · D+30 (Dias Corridos) · D+1 (Dias Úteis)". */
+    public String getLiquidezTexto() {
+        String prazo = liquidezDias == 0 ? "D+0" : "D+" + liquidezDias;
+        if ("estimada".equals(liquidezFonte)) {
+            return prazo + " · estimativa por classe ANBIMA";
+        }
+        String prefixo = (liquidezFonte != null && !liquidezFonte.isBlank()) ? "Fonte: " + liquidezFonte : "";
+        String detalhe = liquidezDetalhe != null ? liquidezDetalhe.trim() : "";
+        if (!prefixo.isBlank() && !detalhe.isBlank()) {
+            return prazo + " · " + prefixo + " · " + detalhe;
+        }
+        if (!detalhe.isBlank()) {
+            return prazo + " · " + detalhe;
+        }
+        return prefixo.isBlank() ? prazo : prazo + " · " + prefixo;
+    }
 
     public int getCarenciaMeses() { return carenciaMeses; }
     public void setCarenciaMeses(int carenciaMeses) { this.carenciaMeses = carenciaMeses; }

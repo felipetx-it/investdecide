@@ -26,12 +26,6 @@
                 </div>
             </div>
 
-            <div class="demo-banner">
-                <div class="banner-icon"><i class="bi bi-info-lg"></i></div>
-                <div><strong>Base real da CVM</strong><span>Fundos distribuídos pela XP, retornos mensais, CDI, IPCA e dólar vindos das bases públicas; o índice, o agrupamento e o imposto são calculados pelo sistema.</span></div>
-                <button onclick="this.parentElement.remove()" aria-label="Fechar aviso"><i class="bi bi-x-lg"></i></button>
-            </div>
-
             <div class="summary-strip">
                 <div class="summary-item"><span>Alternativas</span><strong th:text="${resultado.totalAlternativas}">0</strong><small>na prateleira</small></div>
                 <div class="summary-item"><span>Elegíveis</span><strong th:text="${resultado.totalElegiveis}">0</strong><small>após restrições</small></div>
@@ -69,6 +63,21 @@
                 </section>
             </div>
 
+            <section class="charts-grid" style="margin-top:16px">
+                <div class="chart-card">
+                    <div class="section-header">
+                        <div><h2>Mapa Risco × Retorno Líquido</h2><p>Alternativas elegíveis coloridas por grupo K-Means++</p></div>
+                    </div>
+                    <div class="chart-canvas-wrap"><canvas id="dashScatterChart"></canvas></div>
+                </div>
+                <div class="chart-card">
+                    <div class="section-header">
+                        <div><h2>Desempenho Médio por Grupo</h2><p>Retorno líquido anual (%) e carga tributária efetiva (%)</p></div>
+                    </div>
+                    <div class="chart-canvas-wrap"><canvas id="dashGroupChart"></canvas></div>
+                </div>
+            </section>
+
             <section class="cluster-block" style="margin-top:16px">
                 <div class="cluster-head">
                     <div><h3>Grupos de alternativas</h3><p>Agrupamento por similaridade de retorno, risco, liquidez e tributação</p></div>
@@ -90,10 +99,113 @@
                 </div>
             </section>
 
+            <section class="surface-card saved-sim-card">
+                <div class="section-header">
+                    <div>
+                        <h2>Minhas simulações salvas</h2>
+                        <p th:text="|Histórico persistido no banco H2 para ${usuarioAtual != null ? usuarioAtual.email : 'sua conta'}|">Histórico SQL</p>
+                    </div>
+                    <a class="text-link" th:href="@{/simulacao}">Nova simulação <i class="bi bi-plus-lg"></i></a>
+                </div>
+                <div th:if="${#lists.isEmpty(simulacoesSalvas)}" class="premise" style="margin-top:0">
+                    Nenhuma simulação salva nesta conta ainda. Execute uma simulação para registrá-la no banco relacional.
+                </div>
+                <div class="saved-sim-list" th:if="${not #lists.isEmpty(simulacoesSalvas)}">
+                    <div class="saved-sim-row" th:each="sim : ${simulacoesSalvas}">
+                        <div class="saved-sim-info">
+                            <strong th:text="|${sim.clienteNome} · Cenário ${sim.cenario}|">Cliente</strong>
+                            <small th:text="|Recomendada: ${sim.recomendadaNome} (${#numbers.formatDecimal(sim.recomendadaScore,1,'POINT',1,'COMMA')} pts · R$ ${#numbers.formatDecimal(sim.recomendadaValorFinal,1,'POINT',2,'COMMA')}) · ${sim.criadoEm}|">Resumo</small>
+                        </div>
+                        <div class="saved-sim-actions">
+                            <a class="btn-mini-open" th:href="@{/simulacao/salva/{id}(id=${sim.id})}"><i class="bi bi-folder2-open"></i> Reabrir</a>
+                            <form th:action="@{/simulacao/salva/{id}/excluir(id=${sim.id})}" method="post" style="margin:0">
+                                <button type="submit" class="btn-mini-del"><i class="bi bi-trash"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <footer class="page-footer"><span>InvestDecide <span>·</span></span><span></span></footer>
         </div>
     </main>
 </div>
 <script th:src="@{/js/app.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script th:inline="javascript">
+window.__DASH_PONTOS = /*[[${chartPontos}]]*/ [];
+window.__DASH_GRUPOS = /*[[${chartGrupos}]]*/ [];
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  if (typeof Chart === 'undefined') return;
+  const pontos = window.__DASH_PONTOS || [];
+  const grupos = window.__DASH_GRUPOS || [];
+  const cores = ['#203c66', '#35b99a', '#8771cf', '#eaa361'];
+
+  const scatterCanvas = document.getElementById('dashScatterChart');
+  if (scatterCanvas && pontos.length) {
+    const porGrupo = {};
+    pontos.forEach(p => {
+      porGrupo[p.grupo] = porGrupo[p.grupo] || [];
+      porGrupo[p.grupo].push({ x: p.x, y: p.y, nome: p.nome, score: p.score });
+    });
+    const datasets = Object.keys(porGrupo).map((g, i) => ({
+      label: g,
+      data: porGrupo[g],
+      backgroundColor: cores[i % cores.length] + 'bb',
+      borderColor: cores[i % cores.length],
+      pointRadius: 5,
+      pointHoverRadius: 7
+    }));
+    new Chart(scatterCanvas, {
+      type: 'scatter',
+      data: { datasets },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } },
+          tooltip: {
+            callbacks: {
+              label: ctx => {
+                const d = ctx.raw;
+                return d.nome + ': Vol ' + d.x.toFixed(2) + '% | Ret Líq ' + d.y.toFixed(2) + '% | Índice ' + d.score;
+              }
+            }
+          }
+        },
+        scales: {
+          x: { title: { display: true, text: 'Volatilidade anual (%)', font: { size: 10 } }, grid: { color: '#f0f3f7' } },
+          y: { title: { display: true, text: 'Retorno líquido (% a.a.)', font: { size: 10 } }, grid: { color: '#f0f3f7' } }
+        }
+      }
+    });
+  }
+
+  const groupCanvas = document.getElementById('dashGroupChart');
+  if (groupCanvas && grupos.length) {
+    new Chart(groupCanvas, {
+      type: 'bar',
+      data: {
+        labels: grupos.map(g => g.nome + ' (' + g.qtd + ')'),
+        datasets: [
+          { label: 'Retorno líquido médio (% a.a.)', data: grupos.map(g => g.retorno), backgroundColor: '#203c66', borderRadius: 6 },
+          { label: 'Carga tributária média (%)', data: grupos.map(g => g.carga), backgroundColor: '#35b99a', borderRadius: 6 }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } } },
+        scales: {
+          x: { grid: { display: false }, ticks: { font: { size: 9 } } },
+          y: { grid: { color: '#f0f3f7' }, ticks: { callback: v => v + '%' } }
+        }
+      }
+    });
+  }
+});
+</script>
 </body>
 </html>

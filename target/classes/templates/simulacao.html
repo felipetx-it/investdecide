@@ -23,12 +23,6 @@
                 <span class="step-indicator"><span>1</span> Contexto <i class="bi bi-arrow-right"></i> <span>2</span> Índice e ranking</span>
             </div>
 
-            <div class="demo-banner">
-                <div class="banner-icon"><i class="bi bi-beaker"></i></div>
-                <div><strong>Base real da CVM</strong><span>Retornos mensais, volatilidade e tributação vêm do cadastro e dos informes diários; o motor calcula retorno líquido, índice e agrupamento.</span></div>
-                <button onclick="this.parentElement.remove()" aria-label="Fechar aviso"><i class="bi bi-x-lg"></i></button>
-            </div>
-
             <div th:if="${erro}" class="inline-alert erro"><i class="bi bi-exclamation-triangle"></i><span th:text="${erro}">Erro</span></div>
 
             <form th:action="@{/simulacao}" method="post">
@@ -134,6 +128,20 @@
                                     <span class="field-hint">Padrão: 40 / 25 / 20 / 15.</span>
                                 </div>
                             </div>
+                            <div id="weightsLiveBar" class="weights-live-wrap">
+                                <div class="weights-live-stack">
+                                    <span class="w-seg w-seg-ret" style="width:40%"></span>
+                                    <span class="w-seg w-seg-ris" style="width:25%"></span>
+                                    <span class="w-seg w-seg-tri" style="width:20%"></span>
+                                    <span class="w-seg w-seg-liq" style="width:15%"></span>
+                                </div>
+                                <div class="weights-live-legend">
+                                    <span><i style="background:#203c66"></i> Retorno <strong class="w-pct">40%</strong></span>
+                                    <span><i style="background:#35b99a"></i> Risco <strong class="w-pct">25%</strong></span>
+                                    <span><i style="background:#8771cf"></i> Tributo <strong class="w-pct">20%</strong></span>
+                                    <span><i style="background:#eaa361"></i> Liquidez <strong class="w-pct">15%</strong></span>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="form-section">
@@ -184,7 +192,23 @@
                                 <div>Dólar futuro: <strong th:text="|${#numbers.formatDecimal(indicadores.dolarFuturo,1,'POINT',1,'COMMA')}%|">0%</strong></div>
                                 <div>Ibovespa esperado: <strong th:text="|${#numbers.formatDecimal(indicadores.ibovespaEsperado,1,'POINT',1,'COMMA')}%|">0%</strong></div>
                             </div>
-                            <div class="premise" style="margin-top:10px">Produtos de previdência têm o benefício fiscal calculado sobre a renda informada, limitado a 12% da renda bruta.</div>
+                            <div class="premise" style="margin-top:10px">Fundos de RF e multimercado não isentos simulam retenção semestral de come-cotas (15%); previdência escolhe entre PGBL e VGBL pelo valor líquido.</div>
+                        </section>
+
+                        <section class="surface-card" style="padding:18px;margin-top:14px">
+                            <div class="section-header"><div><h2>Simulações salvas nesta conta</h2><p>Persistidas em banco H2 SQL</p></div></div>
+                            <div th:if="${#lists.isEmpty(simulacoesSalvas)}" class="premise" style="margin-top:0">Nenhuma simulação anterior registrada para este usuário.</div>
+                            <div class="saved-sim-list" th:if="${not #lists.isEmpty(simulacoesSalvas)}">
+                                <div class="saved-sim-row" th:each="sim : ${simulacoesSalvas}">
+                                    <div class="saved-sim-info">
+                                        <strong th:text="|${sim.clienteNome} (${sim.cenario})|">Cliente</strong>
+                                        <small th:text="|${sim.recomendadaNome} · ${sim.criadoEm}|">Resumo</small>
+                                    </div>
+                                    <div class="saved-sim-actions">
+                                        <a class="btn-mini-open" th:href="@{/simulacao/salva/{id}(id=${sim.id})}"><i class="bi bi-arrow-up-right"></i> Abrir</a>
+                                    </div>
+                                </div>
+                            </div>
                         </section>
                     </aside>
                 </div>

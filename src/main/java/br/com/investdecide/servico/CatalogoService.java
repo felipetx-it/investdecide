@@ -3,8 +3,10 @@ package br.com.investdecide.servico;
 import br.com.investdecide.dominio.Indexador;
 import br.com.investdecide.dominio.Produto;
 import br.com.investdecide.dominio.TipoProduto;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -19,27 +21,30 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * Catálogo de fundos distribuídos pela XP, montado a partir da base real da CVM
- * (ver {@code scripts/cvm_xp.py}).
+ * Catálogo de fundos distribuídos pela XP (base CVM + liquidez XP/CVM) combinado com os
+ * produtos de renda fixa bancária (CDB, LCI e LCA) cadastrados por cada usuário em banco H2.
  *
  * <p>Classificação de risco: derivada da volatilidade anualizada dos últimos meses
- * (≤3% → 1; ≤8% → 2; ≤15% → 3; ≤25% → 4; acima → 5). Como a CVM não informa diretamente a
- * liquidez nem a taxa de administração no cadastro RCVM 175, a liquidez é inferida por
- * classe ANBIMA e características do nome do fundo (D+1 a D+30).</p>
+ * (≤3% → 1; ≤8% → 2; ≤15% → 3; ≤25% → 4; acima → 5). A liquidez de resgate vem do portal de
+ * fundos da XP e do Extrato da CVM ({@code scripts/xp_liquidez.py}); só quando o fundo não
+ * aparece em nenhuma das fontes ela é inferida por classe ANBIMA (D+1 a D+30).</p>
  */
 @Service
 public class CatalogoService {
 
     private final List<Produto> fundos = new ArrayList<>();
-    private final List<Produto> manuais = new ArrayList<>();
     private final ObjectMapper mapper;
     private final Path arquivo;
+    private final BancoDadosService banco;
+    private final JdbcTemplate jdbc;
 
     /** Universo de análise: os maiores fundos por patrimônio, para manter a tela utilizável. */
-    public CatalogoService(DadosMercadoService dados, ObjectMapper mapper,
+    public CatalogoService(DadosMercadoService dados, ObjectMapper mapper, BancoDadosService banco,
                            @Value("${investdecide.dados:data}") String pastaDados,
                            @Value("${investdecide.universo:150}") int universo) {
         this.mapper = mapper;
+        this.banco = banco;
+        this.jdbc = banco.jdbc();
         this.arquivo = Path.of(pastaDados, "produtos-manuais.json");
 
         Set<String> nomes = new HashSet<>();
@@ -49,7 +54,7 @@ public class CatalogoService {
                 .forEach(fundo -> fundos.add(converter(fundo, nomes)));
         fundos.sort(Comparator.comparing(Produto::getNome));
 
-        carregarManuais();
+        migrarManuaisJsonSeNecessario();
     }
 
     private Produto converter(DadosMercadoService.FundoReal fundo, Set<String> nomes) {
@@ -61,7 +66,13 @@ public class CatalogoService {
         TipoProduto tipo = classificar(fundo);
         produto.setTipo(tipo);
         produto.setRisco(classificarRisco(fundo.volMedia()));
-        produto.setLiquidezDias(inferirLiquidez(fundo, tipo));
+        produto.setLiquidezDias(liquidezDias(fundo, tipo));
+        produto.setLiquidezFonte(fundo.liquidezDias() >= 0
+                ? (fundo.liquidezFonte() == null || fundo.liquidezFonte().isBlank() ? "XP" : fundo.liquidezFonte())
+                : "estimada");
+        produto.setLiquidezDetalhe(fundo.liquidezDias() >= 0
+                ? fundo.cotizacaoResgate() + " · " + fundo.liquidacaoResgate()
+                : "");
         produto.setIsentoIr(isFundoIncentivado(fundo, tipo));
         produto.setMinimo(1_000);
         produto.setVolMensal(fundo.volMedia() / Math.sqrt(12));
@@ -96,7 +107,14 @@ public class CatalogoService {
         return TipoProduto.FUNDO_RF;
     }
 
-    private static int inferirLiquidez(DadosMercadoService.FundoReal fundo, TipoProduto tipo) {
+    /**
+     * Prazo de resgate em dias corridos. Usa a cotização + liquidação informadas pela XP quando
+     * o fundo está no portal; caso contrário, mantém a estimativa por classe ANBIMA.
+     */
+    private static int liquidezDias(DadosMercadoService.FundoReal fundo, TipoProduto tipo) {
+        if (fundo.liquidezDias() >= 0) {
+            return fundo.liquidezDias();
+        }
         if (tipo.isPrevidencia()) {
             return 30;
         }
@@ -140,13 +158,20 @@ public class CatalogoService {
 
     public List<Produto> listar() {
         List<Produto> todos = new ArrayList<>(fundos);
-        todos.addAll(manuais);
+        todos.addAll(manuais());
         todos.sort(Comparator.comparing(Produto::getNome));
         return todos;
     }
 
     public List<Produto> manuais() {
-        return List.copyOf(manuais);
+        String email = banco.usuarioAtual();
+        return jdbc.query(
+                "SELECT dados_json FROM produtos_manuais WHERE LOWER(usuario_email) = LOWER(?) ORDER BY criado_em DESC",
+                (rs, rowNum) -> deserializarProduto(rs.getString("dados_json")),
+                email)
+                .stream()
+                .filter(p -> p != null)
+                .toList();
     }
 
     public Optional<Produto> buscar(String id) {
@@ -154,10 +179,10 @@ public class CatalogoService {
     }
 
     public int tamanho() {
-        return fundos.size() + manuais.size();
+        return fundos.size() + manuais().size();
     }
 
-    /** Cadastro manual de CDB, LCI e LCA (persistido em JSON). */
+    /** Cadastro manual de CDB, LCI e LCA (persistido em banco H2 por usuário). */
     public Produto salvarManual(Produto produto) {
         if (produto.getNome() == null || produto.getNome().isBlank()) {
             throw new IllegalArgumentException("Informe o nome do produto.");
@@ -177,18 +202,22 @@ public class CatalogoService {
         if (produto.getTipo() == TipoProduto.CDB) {
             produto.setIndexador(produto.getIndexador() == null ? Indexador.CDI : produto.getIndexador());
         }
+        String email = banco.usuarioAtual();
         if (produto.getId() == null || produto.getId().isBlank()) {
             produto.setId("manual-" + UUID.randomUUID());
-            manuais.add(produto);
+            jdbc.update(
+                    "INSERT INTO produtos_manuais (id, usuario_email, dados_json) VALUES (?, ?, ?)",
+                    produto.getId(), email, serializarProduto(produto));
         } else {
             Produto existente = buscar(produto.getId())
                     .orElseThrow(() -> new IllegalArgumentException("Produto não encontrado."));
             if (!existente.isManual()) {
                 throw new IllegalArgumentException("Fundos da prateleira não podem ser editados.");
             }
-            manuais.set(manuais.indexOf(existente), produto);
+            jdbc.update(
+                    "UPDATE produtos_manuais SET dados_json = ? WHERE id = ? AND LOWER(usuario_email) = LOWER(?)",
+                    serializarProduto(produto), produto.getId(), email);
         }
-        salvar();
         return produto;
     }
 
@@ -197,31 +226,46 @@ public class CatalogoService {
         if (!produto.isManual()) {
             throw new IllegalArgumentException("Apenas produtos cadastrados manualmente podem ser excluídos.");
         }
-        manuais.remove(produto);
-        salvar();
+        jdbc.update("DELETE FROM produtos_manuais WHERE id = ? AND LOWER(usuario_email) = LOWER(?)",
+                id, banco.usuarioAtual());
     }
 
-    private void carregarManuais() {
-        if (!Files.exists(arquivo)) {
+    private void migrarManuaisJsonSeNecessario() {
+        Integer existentes = jdbc.queryForObject("SELECT COUNT(*) FROM produtos_manuais", Integer.class);
+        if ((existentes != null && existentes > 0) || !Files.exists(arquivo)) {
             return;
         }
         try {
             Produto[] registros = mapper.readValue(arquivo.toFile(), Produto[].class);
             for (Produto produto : registros) {
                 produto.setManual(true);
-                manuais.add(produto);
+                if (produto.getId() == null || produto.getId().isBlank()) {
+                    produto.setId("manual-" + UUID.randomUUID());
+                }
+                jdbc.update(
+                        "MERGE INTO produtos_manuais (id, usuario_email, dados_json) KEY (id) VALUES (?, ?, ?)",
+                        produto.getId(), BancoDadosService.USUARIO_PADRAO, serializarProduto(produto));
             }
         } catch (IOException e) {
-            System.err.println("Não foi possível carregar produtos manuais: " + e.getMessage());
+            System.err.println("Não foi possível migrar produtos manuais: " + e.getMessage());
         }
     }
 
-    private void salvar() {
+    private String serializarProduto(Produto p) {
         try {
-            Files.createDirectories(arquivo.getParent());
-            mapper.writerWithDefaultPrettyPrinter().writeValue(arquivo.toFile(), manuais);
-        } catch (IOException e) {
-            System.err.println("Não foi possível salvar produtos manuais: " + e.getMessage());
+            return mapper.writeValueAsString(p);
+        } catch (JsonProcessingException e) {
+            throw new IllegalStateException("Erro ao serializar produto: " + e.getMessage(), e);
+        }
+    }
+
+    private Produto deserializarProduto(String json) {
+        try {
+            Produto p = mapper.readValue(json, Produto.class);
+            p.setManual(true);
+            return p;
+        } catch (JsonProcessingException e) {
+            return null;
         }
     }
 }

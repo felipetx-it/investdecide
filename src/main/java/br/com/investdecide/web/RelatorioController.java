@@ -57,12 +57,14 @@ public class RelatorioController {
         Cliente cliente = clienteDaSessao(session);
         double taxaAnual = taxa != null ? taxa : Math.round(cenarios.base().getCdi() * 98) / 100.0;
         int horizonte = meses != null ? meses : cliente.getHorizonteMeses();
+        var rel = tributario.comparar(cliente, taxaAnual, horizonte);
 
         historico.registrar("Eficiência tributária",
-                "Comparativo de veículos com e sem reinvestimento da restituição",
-                cliente.getNome(), "Tributação", "/relatorios/tributacao.pdf");
+                String.format(java.util.Locale.forLanguageTag("pt-BR"),
+                        "Comparativo (%.2f%% a.a. · %d meses)", taxaAnual, horizonte),
+                cliente.getNome(), "Tributação", "investdecide-tributacao.pdf", pdf.tributacao(rel));
 
-        model.addAttribute("relatorio", tributario.comparar(cliente, taxaAnual, horizonte));
+        model.addAttribute("relatorio", rel);
         model.addAttribute("cliente", cliente);
         model.addAttribute("taxa", taxaAnual);
         model.addAttribute("meses", horizonte);
@@ -76,9 +78,13 @@ public class RelatorioController {
         if (resultado == null) {
             return ResponseEntity.status(HttpStatus.SEE_OTHER).location(URI.create("/simulacao")).build();
         }
-        historico.registrar("Comparativo de alternativas", "Documento exportado em PDF",
-                resultado.getCliente().getNome(), "Simulação", "/relatorios/comparativo.pdf");
-        return arquivo(pdf.comparativo(resultado), "investdecide-comparativo.pdf");
+        byte[] bytes = pdf.comparativo(resultado);
+        historico.registrar("Comparativo de alternativas",
+                "Simulação (" + resultado.getCenario().getNome() + ") · "
+                        + String.format(java.util.Locale.forLanguageTag("pt-BR"), "R$ %,.2f", resultado.getCliente().getAporte())
+                        + " · " + resultado.getTotalElegiveis() + " elegíveis",
+                resultado.getCliente().getNome(), "Simulação", "investdecide-comparativo.pdf", bytes, true);
+        return arquivo(bytes, "investdecide-comparativo.pdf");
     }
 
     /** Exporta o comparativo tributário em PDF. */
@@ -89,11 +95,12 @@ public class RelatorioController {
         Cliente cliente = clienteDaSessao(session);
         double taxaAnual = taxa != null ? taxa : Math.round(cenarios.base().getCdi() * 98) / 100.0;
         int horizonte = meses != null ? meses : cliente.getHorizonteMeses();
+        byte[] bytes = pdf.tributacao(tributario.comparar(cliente, taxaAnual, horizonte));
         historico.registrar("Eficiência tributária",
-                "Comparativo de veículos com e sem reinvestimento da restituição",
-                cliente.getNome(), "Tributação", "/relatorios/tributacao.pdf");
-        return arquivo(pdf.tributacao(tributario.comparar(cliente, taxaAnual, horizonte)),
-                "investdecide-tributacao.pdf");
+                String.format(java.util.Locale.forLanguageTag("pt-BR"),
+                        "Comparativo (%.2f%% a.a. · %d meses)", taxaAnual, horizonte),
+                cliente.getNome(), "Tributação", "investdecide-tributacao.pdf", bytes, true);
+        return arquivo(bytes, "investdecide-tributacao.pdf");
     }
 
     /** Relatório de sensibilidade: cenários econômicos e perturbações de pesos. */
@@ -110,10 +117,22 @@ public class RelatorioController {
         if (!porCenario.isEmpty() && porCenario.get(0).getRanking().size() > 1) {
             perturbacoes = decisao.perturbarPesos(new ArrayList<>(porCenario.get(0).getRanking()), pesos);
         }
+        byte[] bytes = pdf.sensibilidade(porCenario, perturbacoes);
         historico.registrar("Sensibilidade dos cenários",
-                "Liderança por cenário e perturbações de +20% nos pesos",
-                cliente.getNome(), "Sensibilidade", "/relatorios/sensibilidade.pdf");
-        return arquivo(pdf.sensibilidade(porCenario, perturbacoes), "investdecide-sensibilidade.pdf");
+                String.format(java.util.Locale.forLanguageTag("pt-BR"),
+                        "Cenários e pesos (R$ %,.2f · %d meses)", cliente.getAporte(), cliente.getHorizonteMeses()),
+                cliente.getNome(), "Sensibilidade", "investdecide-sensibilidade.pdf", bytes, true);
+        return arquivo(bytes, "investdecide-sensibilidade.pdf");
+    }
+
+    /** Abre o snapshot imutável em PDF salvo no momento da criação daquele relatório histórico. */
+    @GetMapping("/relatorios/arquivo/{id}")
+    public ResponseEntity<?> abrirSnapshot(@org.springframework.web.bind.annotation.PathVariable String id) {
+        return historico.buscarArquivo(id)
+                .<ResponseEntity<?>>map(arq -> arquivo(
+                        arq.conteudo(),
+                        arq.nomeArquivo() != null && !arq.nomeArquivo().isBlank() ? arq.nomeArquivo() : "investdecide-relatorio.pdf"))
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.SEE_OTHER).location(URI.create("/relatorios")).build());
     }
 
     /**

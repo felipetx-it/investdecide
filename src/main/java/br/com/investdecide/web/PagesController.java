@@ -9,6 +9,7 @@ import br.com.investdecide.servico.CenarioService;
 import br.com.investdecide.servico.DadosMercadoService;
 import br.com.investdecide.servico.RelatorioService;
 import br.com.investdecide.servico.DecisaoService;
+import br.com.investdecide.servico.SimulacaoSalvaService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,14 +28,17 @@ public class PagesController {
     private final CenarioService cenarios;
     private final DadosMercadoService base;
     private final RelatorioService relatorios;
+    private final SimulacaoSalvaService simulacoesSalvas;
 
     public PagesController(CatalogoService catalogo, DecisaoService decisao, CenarioService cenarios,
-                           DadosMercadoService base, RelatorioService relatorios) {
+                           DadosMercadoService base, RelatorioService relatorios,
+                           SimulacaoSalvaService simulacoesSalvas) {
         this.catalogo = catalogo;
         this.decisao = decisao;
         this.cenarios = cenarios;
         this.base = base;
         this.relatorios = relatorios;
+        this.simulacoesSalvas = simulacoesSalvas;
     }
 
     @GetMapping("/")
@@ -70,7 +74,24 @@ public class PagesController {
         model.addAttribute("base", base);
         model.addAttribute("indicadores", cenarios.getIndicadores());
         model.addAttribute("destaques", resultado.getRanking().stream().limit(3).toList());
+        model.addAttribute("top10", resultado.getRanking().stream().limit(10).toList());
         model.addAttribute("grupos", resultado.getGrupos());
+        model.addAttribute("simulacoesSalvas", simulacoesSalvas.listar(6));
+        model.addAttribute("chartPontos", resultado.getRanking().stream()
+                .map(a -> Map.<String, Object>of(
+                        "nome", a.getNome(),
+                        "x", Math.round(a.getVolatilidade() * 100.0) / 100.0,
+                        "y", Math.round(a.getRetornoLiquido() * 100.0) / 100.0,
+                        "grupo", a.getGrupo(),
+                        "score", Math.round(a.getScore() * 10.0) / 10.0))
+                .toList());
+        model.addAttribute("chartGrupos", resultado.getGrupos().stream()
+                .map(g -> Map.<String, Object>of(
+                        "nome", g.getNome(),
+                        "retorno", Math.round(g.getRetornoMedio() * 100.0) / 100.0,
+                        "carga", Math.round(g.getCargaMedia() * 100.0) / 100.0,
+                        "qtd", g.getQuantidade()))
+                .toList());
         model.addAttribute("alertas", List.of(
                 Map.of("tipo", "warning", "icone", "bi-exclamation-triangle",
                         "titulo", "Alternativa restrita pelo perfil",
@@ -78,10 +99,12 @@ public class PagesController {
                                 + " alternativas foram eliminadas pelos filtros de elegibilidade deste cliente."),
                 Map.of("tipo", "info", "icone", "bi-diagram-3",
                         "titulo", "Agrupamento recalculado",
-                        "texto", resultado.getGrupos().size() + " grupos identificados entre as alternativas elegíveis."),
-                Map.of("tipo", "neutral", "icone", "bi-shield-check",
-                        "titulo", "Premissas versionadas",
-                        "texto", "Cenário base montado com os indicadores de " + cenarios.getIndicadores().getDataReferencia() + ".")
+                        "texto", resultado.getGrupos().size() + " grupos identificados (silhueta "
+                                + String.format(new java.util.Locale("pt", "BR"), "%.2f", resultado.getSilhueta()) + ")."),
+                Map.of("tipo", "neutral", "icone", "bi-database-check",
+                        "titulo", "Liquidez XP + CVM e banco H2",
+                        "texto", "Base de " + cenarios.getIndicadores().getDataReferencia()
+                                + " · come-cotas semestral ativo · " + simulacoesSalvas.total() + " simulação(ões) salva(s).")
         ));
         return "dashboard";
     }

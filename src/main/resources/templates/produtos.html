@@ -106,7 +106,7 @@
             </div>
 
             <section class="surface-card" style="padding:18px;margin-top:16px">
-                <div class="section-header"><div><h2>Produtos cadastrados manualmente</h2><p>Persistidos em <code>data/produtos-manuais.json</code></p></div></div>
+                <div class="section-header"><div><h2>Produtos cadastrados manualmente</h2><p th:text="|Persistidos no banco relacional H2 (conta: ${usuarioAtual != null ? usuarioAtual.email : 'padrão'})|">Persistidos no banco H2</p></div></div>
                 <div th:if="${#lists.isEmpty(manuais)}" class="premise">Nenhum CDB, LCI ou LCA cadastrado ainda.</div>
                 <div class="table-responsive" th:if="${not #lists.isEmpty(manuais)}">
                     <table class="table app-table table-compact align-middle mb-0">
@@ -117,7 +117,7 @@
                             <td th:text="${p.rotuloTipo}">Tipo</td>
                             <td th:text="${p.remuneracao}">Remuneração</td>
                             <td th:text="|${p.vencimentoMeses} meses|">0</td>
-                            <td th:text="${p.liquidezDias == 0 ? 'D+0' : 'D+' + p.liquidezDias}">D+0</td>
+                            <td th:title="${p.liquidezTexto}" th:text="${p.liquidezDias == 0 ? 'D+0' : 'D+' + p.liquidezDias}">D+0</td>
                             <td th:text="${p.risco}">2</td>
                             <td>
                                 <form th:action="@{/produtos/{id}/excluir(id=${p.id})}" method="post" style="margin:0">

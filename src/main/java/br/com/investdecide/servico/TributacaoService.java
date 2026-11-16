@@ -8,10 +8,11 @@ import org.springframework.stereotype.Service;
 /**
  * Regras tributárias aplicadas à comparação de alternativas.
  *
- * <p>É uma simplificação parametrizada: considera a tabela regressiva
- * de fundos/CDB, a isenção de LCI/LCA, os regimes progressivo e regressivo da previdência e o
- * limite de dedução do PGBL (12% da renda bruta tributável). Come-cotas e IOF não são
- * modelados — o horizonte mínimo da simulação é de 12 meses.</p>
+ * <p>Considera a tabela regressiva de CDB e fundos (com simulação semestral do come-cotas de
+ * 15% para fundos de renda fixa e multimercado não isentos), a isenção de LCI/LCA e FI-Infra,
+ * a alíquota única de 15% para fundos de ações, os regimes progressivo e regressivo da
+ * previdência e o limite de dedução do PGBL (12% da renda bruta tributável). IOF não é modelado
+ * porque o horizonte mínimo da simulação é de 12 meses.</p>
  */
 @Service
 public class TributacaoService {
@@ -83,11 +84,64 @@ public class TributacaoService {
         }
 
         double aliquota = aliquotaFundo(meses);
-        double imposto = ganho * aliquota / 100;
-        double carga = ganho > 0 ? imposto / ganho * 100 : aliquota;
-        return new ResultadoTributario(valorBruto, imposto, 0, valorBruto - imposto, carga,
-                "Tabela regressiva · " + String.format("%.1f%%", aliquota),
-                "IR calculado sobre o ganho; come-cotas não modelado nesta versão.");
+        boolean incideComeCotas = (tipo == TipoProduto.FUNDO_RF || tipo == TipoProduto.FUNDO_MULTI)
+                && !produto.isIsentoIr();
+
+        if (!incideComeCotas) {
+            double imposto = ganho * aliquota / 100;
+            double carga = ganho > 0 ? imposto / ganho * 100 : aliquota;
+            return new ResultadoTributario(valorBruto, imposto, 0, valorBruto - imposto, carga,
+                    "Tabela regressiva · " + String.format("%.1f%% (sem come-cotas)", aliquota),
+                    "IR apurado exclusivamente no resgate/vencimento sobre o ganho.");
+        }
+
+        return calcularComComeCotas(aporte, valorBruto, Math.max(1, meses), aliquota);
+    }
+
+    /**
+     * Simula a antecipação semestral de IR (come-cotas de 15% sobre o rendimento do semestre),
+     * reduzindo o saldo capitalizado a cada 6 meses, mais o ajuste residual no resgate final.
+     */
+    private ResultadoTributario calcularComComeCotas(double aporte, double valorBruto, int meses, double aliquotaFinalPct) {
+        if (valorBruto <= aporte || aporte <= 0) {
+            return new ResultadoTributario(valorBruto, 0, 0, valorBruto, aliquotaFinalPct,
+                    "Tabela regressiva · " + String.format("%.1f%% + come-cotas", aliquotaFinalPct),
+                    "Sem ganho tributável positivo; preservada a alíquota nominal da tabela regressiva.");
+        }
+
+        int semestres = meses / 6;
+        int mesesResiduais = meses % 6;
+        double taxaMensal = Math.pow(valorBruto / aporte, 1.0 / meses) - 1.0;
+        double tauFinal = aliquotaFinalPct / 100.0;
+        double tauComeCotas = Math.min(aliquotaFinalPct, 15.0) / 100.0;
+
+        double saldo = aporte;
+        double ganhoTributadoCc = 0.0;
+        for (int s = 0; s < semestres; s++) {
+            double antes = saldo * Math.pow(1.0 + taxaMensal, 6);
+            double ganhoSemestre = Math.max(0.0, antes - saldo);
+            double retencao = ganhoSemestre * tauComeCotas;
+            saldo = antes - retencao;
+            ganhoTributadoCc += ganhoSemestre;
+        }
+
+        double antesResgate = saldo * Math.pow(1.0 + taxaMensal, mesesResiduais);
+        double ganhoResidual = Math.max(0.0, antesResgate - saldo);
+        double irComplementar = Math.max(0.0, tauFinal - tauComeCotas) * ganhoTributadoCc;
+        double irResgate = ganhoResidual * tauFinal + irComplementar;
+
+        double valorLiquido = antesResgate - irResgate;
+        double ganhoBrutoTotal = valorBruto - aporte;
+        double custoTributarioEfetivo = Math.max(0.0, valorBruto - valorLiquido);
+        double cargaEfetiva = ganhoBrutoTotal > 0 ? custoTributarioEfetivo / ganhoBrutoTotal * 100.0 : aliquotaFinalPct;
+
+        String obs = String.format(new java.util.Locale("pt", "BR"),
+                "Simuladas %d antecipações semestrais de come-cotas (15%%), além do ajuste no resgate "
+                        + "(impacto econômico total de %.2f%% sobre o ganho bruto).",
+                semestres, cargaEfetiva);
+        return new ResultadoTributario(valorBruto, custoTributarioEfetivo, 0, valorLiquido, cargaEfetiva,
+                "Tabela regressiva · " + String.format("%.1f%% + come-cotas", aliquotaFinalPct),
+                obs);
     }
 
     /** Alíquota regressiva de fundos e CDB conforme o prazo (em meses). */

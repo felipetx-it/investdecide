@@ -24,14 +24,19 @@ import br.com.investdecide.servico.DadosMercadoService;
 import br.com.investdecide.servico.DecisaoService;
 import br.com.investdecide.servico.DecisaoService.Perturbacao;
 import br.com.investdecide.servico.RelatorioPdfService;
+import br.com.investdecide.servico.RelatorioService.Registro;
 import br.com.investdecide.servico.RelatorioTributarioService;
 import br.com.investdecide.servico.RelatorioTributarioService.LinhaTributaria;
 import br.com.investdecide.servico.RelatorioTributarioService.Relatorio;
+import br.com.investdecide.servico.SimulacaoSalvaService;
+import br.com.investdecide.servico.SimulacaoSalvaService.ResumoSimulacao;
 import br.com.investdecide.servico.TributacaoService;
 import br.com.investdecide.servico.TributacaoService.ResultadoTributario;
+import br.com.investdecide.servico.UsuarioService;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -57,6 +62,8 @@ class InvestDecideValidacaoTest {
     @Autowired private CenarioService cenarioService;
     @Autowired private DecisaoService decisaoService;
     @Autowired private RelatorioPdfService relatorioPdfService;
+    @Autowired private UsuarioService usuarioService;
+    @Autowired private SimulacaoSalvaService simulacaoSalvaService;
     @Autowired private MockMvc mockMvc;
 
     private Cliente criarRicardoAlmeida() {
@@ -82,6 +89,10 @@ class InvestDecideValidacaoTest {
     }
 
     private MockHttpSession autenticar() throws Exception {
+        return autenticarComo("consultor@investdecide.com.br", "Invest@2026");
+    }
+
+    private MockHttpSession autenticarComo(String email, String senha) throws Exception {
         MvcResult getLogin = mockMvc.perform(get("/login"))
             .andExpect(status().isOk())
             .andReturn();
@@ -90,8 +101,8 @@ class InvestDecideValidacaoTest {
 
         MockHttpServletRequestBuilder loginPost = post("/login")
             .session(session)
-            .param("email", "consultor@investdecide.com.br")
-            .param("senha", "Invest@2026");
+            .param("email", email)
+            .param("senha", senha);
         if (token != null) {
             loginPost.param("_csrf", token);
         }
@@ -101,7 +112,7 @@ class InvestDecideValidacaoTest {
             .andReturn();
         String redirect = postResult.getResponse().getRedirectedUrl();
         assertNotNull(redirect);
-        assertFalse(redirect.contains("error"), "Login falhou ao autenticar usuario de teste: " + redirect);
+        assertFalse(redirect.contains("error"), "Login falhou ao autenticar usuario de teste (" + email + "): " + redirect);
         return (MockHttpSession) postResult.getRequest().getSession(false);
     }
 
@@ -225,13 +236,20 @@ class InvestDecideValidacaoTest {
     void validarRotasWebEPdf() throws Exception {
         MockHttpSession session = autenticar();
 
-        mockMvc.perform(get("/dashboard").session(session))
-            .andExpect(status().isOk());
+        MvcResult dashGet = mockMvc.perform(get("/dashboard").session(session))
+            .andExpect(status().isOk())
+            .andReturn();
+        String dashHtml = dashGet.getResponse().getContentAsString(StandardCharsets.UTF_8);
+        assertFalse(dashHtml.contains("Base real da CVM"), "Caixa Base real da CVM deve ser removida do dashboard");
+        assertFalse(dashHtml.contains("Banco H2 SQL"), "Chip Banco H2 SQL deve ser removido da topbar");
+        assertFalse(dashHtml.contains("bi-bell"), "Icone de notificacao da topbar deve ser removido");
 
         MvcResult simGet = mockMvc.perform(get("/simulacao").session(session))
             .andExpect(status().isOk())
             .andReturn();
-        String csrfSim = extrairCsrf(simGet.getResponse().getContentAsString());
+        String simHtml = simGet.getResponse().getContentAsString(StandardCharsets.UTF_8);
+        assertFalse(simHtml.contains("Base real da CVM"), "Caixa Base real da CVM deve ser removida da tela de simulacao");
+        String csrfSim = extrairCsrf(simHtml);
 
         MockHttpServletRequestBuilder simPost = post("/simulacao")
             .session(session)
@@ -266,6 +284,15 @@ class InvestDecideValidacaoTest {
             .andExpect(status().isOk())
             .andExpect(model().attribute("cenarioSelecionado", "Personalizado"))
             .andReturn();
+        String resHtml = persRes.getResponse().getContentAsString(StandardCharsets.UTF_8);
+        assertFalse(resHtml.contains("O sistema apresenta um conjunto curto de alternativas"),
+            "Caixa de shortlist note deve ser removida do resultado");
+        assertFalse(resHtml.contains("Ordenação inicial alfabética"),
+            "Subtitulo de ordenacao inicial deve ser removido de Alternativas por grupo");
+        assertFalse(resHtml.contains("Índice Multicritério SAW"),
+            "Sigla SAW deve ser removida do titulo Top 8");
+        assertTrue(resHtml.contains("/relatorios/tributacao"),
+            "Botao de relatorio tributario deve constar no topo do resultado");
         ResultadoDecisao resPers = (ResultadoDecisao) persRes.getRequest().getSession(false).getAttribute("resultado");
         assertNotNull(resPers);
         assertEquals("Personalizado", resPers.getCenario().getNome());
@@ -273,12 +300,17 @@ class InvestDecideValidacaoTest {
         mockMvc.perform(get("/simulacao/ranking").session(session))
             .andExpect(status().isOk());
 
-        mockMvc.perform(get("/cenarios").session(session))
-            .andExpect(status().isOk());
+        MvcResult cenGet = mockMvc.perform(get("/cenarios").session(session))
+            .andExpect(status().isOk())
+            .andReturn();
+        String cenHtml = cenGet.getResponse().getContentAsString(StandardCharsets.UTF_8);
+        assertFalse(cenHtml.contains("Por que choques e não valores fixos?"),
+            "Caixa explicativa de choques deve ser removida de Cenarios");
 
         mockMvc.perform(get("/relatorios/tributacao").session(session))
             .andExpect(status().isOk());
 
+        Files.createDirectories(Path.of("target"));
         for (String rotaPdf : List.of("/relatorios/comparativo.pdf", "/relatorios/tributacao.pdf", "/relatorios/sensibilidade.pdf")) {
             byte[] pdf = mockMvc.perform(get(rotaPdf).session(session))
                 .andExpect(status().isOk())
@@ -288,6 +320,218 @@ class InvestDecideValidacaoTest {
             assertTrue(pdf.length > 500, "PDF vazio em " + rotaPdf);
             String header = new String(pdf, 0, Math.min(4, pdf.length), StandardCharsets.US_ASCII);
             assertEquals("%PDF", header, "Cabecalho PDF invalido em " + rotaPdf);
+            String nomeArquivo = rotaPdf.substring(rotaPdf.lastIndexOf('/') + 1);
+            Files.write(Path.of("target", "preview_" + nomeArquivo), pdf);
+        }
+    }
+
+    @Test
+    void validarLiquidezComeCotasEMultiusuarioBanco() throws Exception {
+        // 1) Cobertura de liquidez real (XP + CVM) no universo ativo
+        List<Produto> produtos = catalogoService.listar();
+        long mercado = produtos.stream().filter(p -> !p.isManual()).count();
+        long fonteXp = produtos.stream().filter(p -> "XP".equals(p.getLiquidezFonte())).count();
+        long fonteCvm = produtos.stream().filter(p -> "CVM".equals(p.getLiquidezFonte())).count();
+        assertTrue(mercado >= 150, "Universo de mercado deve ter 150 fundos: " + mercado);
+        assertTrue((fonteXp + fonteCvm) >= 140,
+            "Pelo menos 140 dos 150 fundos devem possuir liquidez real (XP + CVM), encontrado: " + (fonteXp + fonteCvm));
+        long prevCvm = produtos.stream()
+            .filter(p -> p.getTipo().isPrevidencia() && "CVM".equals(p.getLiquidezFonte()))
+            .count();
+        assertTrue(prevCvm >= 30, "Fundos de previdencia devem ser cobertos via CVM extrato_fi: " + prevCvm);
+
+        // 2) Come-cotas semestral (Fundo RF LP vs CDB em 36m com retorno positivo)
+        Cliente cliente = criarRicardoAlmeida();
+        Produto cdb = new Produto();
+        cdb.setId("TEST_CDB");
+        cdb.setNome("CDB Teste");
+        cdb.setTipo(TipoProduto.CDB);
+
+        Produto fundoRf = new Produto();
+        fundoRf.setId("TEST_FUNDO_RF");
+        fundoRf.setNome("Fundo RF Teste");
+        fundoRf.setTipo(TipoProduto.FUNDO_RF);
+        fundoRf.setIsentoIr(false);
+
+        double bruto = 204907.89;
+        ResultadoTributario resCdb = tributacaoService.calcular(cdb, cliente, 150000.0, bruto, 36);
+        ResultadoTributario resFundo = tributacaoService.calcular(fundoRf, cliente, 150000.0, bruto, 36);
+        assertTrue(resFundo.valorLiquido() < resCdb.valorLiquido(),
+            "Come-cotas semestral deve reduzir valor liquido do Fundo RF frente ao CDB de mesmo retorno bruto");
+        assertTrue(resFundo.imposto() > resCdb.imposto(),
+            "Come-cotas semestral deve gerar imposto efetivo maior que CDB com recolhimento apenas no vencimento");
+
+        Relatorio relTrib = relatorioTributarioService.comparar(cliente, 10.96, 36);
+        assertEquals(5, relTrib.getLinhas().size(), "Relatorio tributario deve comparar os 5 veiculos");
+        assertTrue(relTrib.getLinhas().stream().anyMatch(l -> l.getNome().contains("CDB")));
+        assertTrue(relTrib.getLinhas().stream().anyMatch(l -> l.getNome().contains("come-cotas")));
+
+        // 3) Persistencia relacional multiusuario em banco H2 e isolamento entre contas
+        String emailTeste = "teste.auditoria@investdecide.com.br";
+        usuarioService.excluirPorEmail(emailTeste);
+        try {
+            MvcResult cadGet = mockMvc.perform(get("/cadastro"))
+                .andExpect(status().isOk())
+                .andReturn();
+            String csrfCad = extrairCsrf(cadGet.getResponse().getContentAsString());
+
+            MockHttpServletRequestBuilder cadPost = post("/cadastro")
+                .session((MockHttpSession) cadGet.getRequest().getSession(false))
+                .param("nome", "Ana Teste Auditoria")
+                .param("cargo", "Consultora")
+                .param("email", emailTeste)
+                .param("senha", "SenhaForte123");
+            if (csrfCad != null) {
+                cadPost.param("_csrf", csrfCad);
+            }
+            mockMvc.perform(cadPost)
+                .andExpect(status().is3xxRedirection());
+
+            MockHttpSession sessionTeste = autenticarComo(emailTeste, "SenhaForte123");
+
+            MvcResult simGet = mockMvc.perform(get("/simulacao").session(sessionTeste))
+                .andExpect(status().isOk())
+                .andReturn();
+            String csrfSim = extrairCsrf(simGet.getResponse().getContentAsString());
+            MockHttpServletRequestBuilder simPost = post("/simulacao")
+                .session(sessionTeste)
+                .param("nome", "Cliente Isolamento Teste")
+                .param("perfil", "MODERADO")
+                .param("aporte", "120000")
+                .param("horizonteMeses", "36")
+                .param("liquidezDias", "30")
+                .param("objetivo", "Teste multiusuario")
+                .param("rendaBruta", "180000")
+                .param("deducoes", "12000")
+                .param("modelo", "COMPLETA")
+                .param("regime", "REGRESSIVA")
+                .param("retorno", "40")
+                .param("risco", "25")
+                .param("tributacao", "20")
+                .param("liquidez", "15")
+                .param("cenario", "Base");
+            if (csrfSim != null) {
+                simPost.param("_csrf", csrfSim);
+            }
+            mockMvc.perform(simPost).andExpect(status().isOk());
+            mockMvc.perform(get("/relatorios/tributacao").session(sessionTeste)).andExpect(status().isOk());
+
+            MvcResult sim2Get = mockMvc.perform(get("/simulacao").session(sessionTeste))
+                .andExpect(status().isOk())
+                .andReturn();
+            String csrfSim2 = extrairCsrf(sim2Get.getResponse().getContentAsString());
+            MockHttpServletRequestBuilder sim2Post = post("/simulacao")
+                .session(sessionTeste)
+                .param("nome", "Segundo Cliente Snapshots")
+                .param("perfil", "MODERADO")
+                .param("aporte", "280000")
+                .param("horizonteMeses", "48")
+                .param("liquidezDias", "30")
+                .param("objetivo", "Teste historico imutavel")
+                .param("rendaBruta", "260000")
+                .param("deducoes", "18000")
+                .param("modelo", "COMPLETA")
+                .param("regime", "REGRESSIVA")
+                .param("retorno", "40")
+                .param("risco", "25")
+                .param("tributacao", "20")
+                .param("liquidez", "15")
+                .param("cenario", "Base");
+            if (csrfSim2 != null) {
+                sim2Post.param("_csrf", csrfSim2);
+            }
+            mockMvc.perform(sim2Post).andExpect(status().isOk());
+            mockMvc.perform(get("/relatorios/tributacao").session(sessionTeste)).andExpect(status().isOk());
+
+            MvcResult relRes = mockMvc.perform(get("/relatorios").session(sessionTeste))
+                .andExpect(status().isOk())
+                .andReturn();
+            @SuppressWarnings("unchecked")
+            List<Registro> relsTeste = (List<Registro>) relRes.getModelAndView().getModel().get("relatorios");
+            assertNotNull(relsTeste);
+            Registro comp1 = relsTeste.stream()
+                .filter(r -> "Simulação".equals(r.getCategoria()) && "Cliente Isolamento Teste".equals(r.getCliente()))
+                .findFirst().orElseThrow();
+            Registro comp2 = relsTeste.stream()
+                .filter(r -> "Simulação".equals(r.getCategoria()) && "Segundo Cliente Snapshots".equals(r.getCliente()))
+                .findFirst().orElseThrow();
+            Registro trib1 = relsTeste.stream()
+                .filter(r -> "Tributação".equals(r.getCategoria()) && "Cliente Isolamento Teste".equals(r.getCliente()))
+                .findFirst().orElseThrow();
+            Registro trib2 = relsTeste.stream()
+                .filter(r -> "Tributação".equals(r.getCategoria()) && "Segundo Cliente Snapshots".equals(r.getCliente()))
+                .findFirst().orElseThrow();
+
+            assertNotEquals(comp1.getLink(), comp2.getLink());
+            assertNotEquals(trib1.getLink(), trib2.getLink());
+
+            byte[] pdfComp1 = mockMvc.perform(get(comp1.getLink()).session(sessionTeste))
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsByteArray();
+            byte[] pdfComp2 = mockMvc.perform(get(comp2.getLink()).session(sessionTeste))
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsByteArray();
+            byte[] pdfTrib1 = mockMvc.perform(get(trib1.getLink()).session(sessionTeste))
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsByteArray();
+            byte[] pdfTrib2 = mockMvc.perform(get(trib2.getLink()).session(sessionTeste))
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsByteArray();
+
+            assertFalse(Arrays.equals(pdfComp1, pdfComp2),
+                "Nova simulacao nao pode sobrescrever o PDF comparativo historico anterior");
+            assertFalse(Arrays.equals(pdfTrib1, pdfTrib2),
+                "Nova simulacao nao pode sobrescrever o PDF tributario historico anterior");
+
+            // Verifica autenticacao da conta de teste criada
+            autenticarComo("teste@investdecide.com.br", "3u@Ygz9wmqwr8NYCmnPuG@d%h");
+
+            MvcResult dashTeste = mockMvc.perform(get("/dashboard").session(sessionTeste))
+                .andExpect(status().isOk())
+                .andReturn();
+            @SuppressWarnings("unchecked")
+            List<ResumoSimulacao> salvasTeste = (List<ResumoSimulacao>) dashTeste.getModelAndView().getModel().get("simulacoesSalvas");
+            assertNotNull(salvasTeste);
+            assertFalse(salvasTeste.isEmpty(), "Usuario recem-cadastrado deve ter sua simulacao persistida no banco H2");
+
+            String simId = salvasTeste.get(0).id();
+            mockMvc.perform(get("/simulacao/salva/" + simId).session(sessionTeste))
+                .andExpect(status().isOk());
+
+            MvcResult prodGet = mockMvc.perform(get("/produtos").session(sessionTeste))
+                .andExpect(status().isOk())
+                .andReturn();
+            String csrfProd = extrairCsrf(prodGet.getResponse().getContentAsString());
+            MockHttpServletRequestBuilder prodPost = post("/produtos")
+                .session(sessionTeste)
+                .param("nome", "CDB Exclusivo Teste Isolamento")
+                .param("tipo", "CDB")
+                .param("emissor", "Banco Teste")
+                .param("indexador", "CDI")
+                .param("percentualIndexador", "118")
+                .param("vencimentoMeses", "24")
+                .param("liquidezDias", "0")
+                .param("risco", "2")
+                .param("minimo", "1000");
+            if (csrfProd != null) {
+                prodPost.param("_csrf", csrfProd);
+            }
+            mockMvc.perform(prodPost).andExpect(status().is3xxRedirection());
+
+            MockHttpSession sessionConsultor = autenticar();
+            MvcResult dashConsultor = mockMvc.perform(get("/dashboard").session(sessionConsultor))
+                .andExpect(status().isOk())
+                .andReturn();
+            @SuppressWarnings("unchecked")
+            List<ResumoSimulacao> salvasConsultor = (List<ResumoSimulacao>) dashConsultor.getModelAndView().getModel().get("simulacoesSalvas");
+            assertTrue(salvasConsultor == null || salvasConsultor.stream().noneMatch(s -> simId.equals(s.id())),
+                "Simulacao de um usuario nao pode vazar para outro usuario");
+
+            MvcResult prodConsultor = mockMvc.perform(get("/produtos").session(sessionConsultor))
+                .andExpect(status().isOk())
+                .andReturn();
+            @SuppressWarnings("unchecked")
+            List<Produto> manuaisConsultor = (List<Produto>) prodConsultor.getModelAndView().getModel().get("manuais");
+            assertTrue(manuaisConsultor == null || manuaisConsultor.stream().noneMatch(p -> "CDB Exclusivo Teste Isolamento".equals(p.getNome())),
+                "Produto manual de um usuario nao pode aparecer para outro usuario");
+        } finally {
+            usuarioService.excluirPorEmail(emailTeste);
         }
     }
 
@@ -298,6 +542,8 @@ class InvestDecideValidacaoTest {
         String texto = Files.readString(readme, StandardCharsets.UTF_8);
         assertFalse(texto.contains("Invest@2026"), "README.md nao deve expor senha");
         assertFalse(texto.contains("consultor@investdecide.com.br"), "README.md nao deve expor usuario de login");
+        assertFalse(texto.contains("teste@investdecide.com.br"), "README.md nao deve expor usuario de teste");
+        assertFalse(texto.contains("3u@Ygz9wmqwr8NYCmnPuG@d%h"), "README.md nao deve expor senha de teste");
     }
 
     @Test
@@ -313,6 +559,11 @@ class InvestDecideValidacaoTest {
         sb.append("\n=== DADOS_ARTIGO_INICIO ===\n");
         sb.append(String.format("UNIVERSO: totalAlternativas=%d | totalElegiveis=%d | silhuetaGeral=%.4f | diferencaTop2=%.2f%n",
             base.getTotalAlternativas(), base.getTotalElegiveis(), base.getSilhueta(), base.getDiferencaParaSegunda()));
+        long xpCount = produtos.stream().filter(p -> "XP".equals(p.getLiquidezFonte())).count();
+        long cvmCount = produtos.stream().filter(p -> "CVM".equals(p.getLiquidezFonte())).count();
+        long estCount = produtos.stream().filter(p -> !"XP".equals(p.getLiquidezFonte()) && !"CVM".equals(p.getLiquidezFonte())).count();
+        sb.append(String.format("LIQUIDEZ_ATIVOS: total=%d | XP=%d | CVM=%d | estimada=%d%n",
+            produtos.size(), xpCount, cvmCount, estCount));
 
         sb.append("PREMISSAS: ").append(base.getPremissas()).append("\n");
         sb.append("SENSIBILIDADE_RESUMO: ").append(base.getSensibilidade()).append("\n");

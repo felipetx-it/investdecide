@@ -19,7 +19,9 @@ Observações:
     aproximado e fica registrado em catalogo_fundos.csv (coluna score_match);
   * a CVM não informa a taxa de administração no cadastro novo (RCVM 175) — o campo
     fica vazio para parte dos fundos, e o sistema trata como "não informado";
-  * liquidez não é informada pela CVM; o sistema assume D+30 para fundos e sinaliza.
+  * liquidez também não é informada pela CVM: rode scripts/xp_liquidez.py para trazer
+    cotização e liquidação de resgate do portal de fundos da XP. Sem esse arquivo, o
+    sistema estima D+1 a D+30 pela classe ANBIMA.
 """
 
 from __future__ import annotations
