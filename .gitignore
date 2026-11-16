@@ -17,3 +17,7 @@ scripts/_fixture/out2/
 .DS_Store
 Thumbs.db
 *.log
+
+# python
+__pycache__/
+*.pyc
