@@ -133,5 +133,5 @@ scripts/xp_liquidez.py  liquidez real de resgate via API da XP + CVM extrato_fi.
   o IOF regressivo (<30 dias) segue desconsiderado dado o horizonte mínimo de 12 meses.
 - **Taxa de administração:** o cadastro novo (RCVM 175) não traz a taxa para todos os fundos; a rentabilidade
   histórica da CVM, porém, já é divulgada líquida da taxa de administração.
-- **Histórico e banco embarcado:** a janela padrão de regressão adota 24 meses com regularização Ridge, e
+- **Histórico e banco embarcado:** aa janela padrão de regressão adota 24 meses com regularização Ridge, e
   a persistência utiliza banco H2 em arquivo local (pronta para migração de datasource para PostgreSQL em produção).
