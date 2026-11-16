@@ -19,6 +19,8 @@ public class AvaliacaoProduto {
     private int posicao;
     private String justificativa = "";
     private String ressalva = "";
+    private String destaqueTop3 = "";
+    private String motivoTop3 = "";
 
     public AvaliacaoProduto(Produto produto) {
         this.produto = produto;
@@ -81,4 +83,10 @@ public class AvaliacaoProduto {
 
     public String getRessalva() { return ressalva; }
     public void setRessalva(String ressalva) { this.ressalva = ressalva; }
+
+    public String getDestaqueTop3() { return destaqueTop3; }
+    public void setDestaqueTop3(String destaqueTop3) { this.destaqueTop3 = destaqueTop3; }
+
+    public String getMotivoTop3() { return motivoTop3; }
+    public void setMotivoTop3(String motivoTop3) { this.motivoTop3 = motivoTop3; }
 }

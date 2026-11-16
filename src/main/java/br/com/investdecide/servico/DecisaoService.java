@@ -13,8 +13,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 /**
  * Modelo de decisão do SAD.
@@ -229,6 +231,157 @@ public class DecisaoService {
             }
             avaliacao.setRessalva(ressalva.toString().trim());
         }
+        preencherDestaquesTop3(ranking);
+    }
+
+    private enum CriterioTop3 { LIQUIDEZ, RETORNO, RISCO_VOL, TRIBUTACAO, EQUILIBRIO }
+
+    private void preencherDestaquesTop3(List<AvaliacaoProduto> ranking) {
+        int n = Math.min(3, ranking.size());
+        if (n == 0) {
+            return;
+        }
+        List<AvaliacaoProduto> top = ranking.subList(0, n);
+        Locale ptBR = new Locale("pt", "BR");
+
+        int minLiq = top.stream().mapToInt(AvaliacaoProduto::getLiquidezDias).min().orElse(0);
+        int maxLiq = top.stream().mapToInt(AvaliacaoProduto::getLiquidezDias).max().orElse(0);
+        double maxRet = top.stream().mapToDouble(AvaliacaoProduto::getRetornoLiquido).max().orElse(0);
+        double minRet = top.stream().mapToDouble(AvaliacaoProduto::getRetornoLiquido).min().orElse(0);
+        int minRisco = top.stream().mapToInt(AvaliacaoProduto::getRisco).min().orElse(1);
+        int maxRisco = top.stream().mapToInt(AvaliacaoProduto::getRisco).max().orElse(1);
+        double minVolNoMenorRisco = top.stream()
+                .filter(a -> a.getRisco() == minRisco)
+                .mapToDouble(AvaliacaoProduto::getVolatilidade)
+                .min().orElse(0);
+        double maxVol = top.stream().mapToDouble(AvaliacaoProduto::getVolatilidade).max().orElse(0);
+        double minCarga = top.stream().mapToDouble(AvaliacaoProduto::getCargaTributaria).min().orElse(0);
+        double maxCarga = top.stream().mapToDouble(AvaliacaoProduto::getCargaTributaria).max().orElse(0);
+
+        CriterioTop3[] escolhidos = atribuirCriteriosDistintos(
+                top, minLiq, maxLiq, maxRet, minRet, minRisco, maxRisco, minVolNoMenorRisco, maxVol, minCarga, maxCarga);
+
+        Set<String> titulosUsados = new HashSet<>();
+        for (int i = 0; i < n; i++) {
+            AvaliacaoProduto a = top.get(i);
+            CriterioTop3 criterio = escolhidos[i];
+            switch (criterio) {
+                case LIQUIDEZ -> {
+                    boolean temMelhorRetorno = n == 1 || (a.getRetornoLiquido() >= maxRet - 1e-6 && maxRet - minRet >= 0.05);
+                    boolean outroComRetorno = false;
+                    for (int j = 0; j < n; j++) {
+                        if (j != i && escolhidos[j] == CriterioTop3.RETORNO) {
+                            outroComRetorno = true;
+                        }
+                    }
+                    if (temMelhorRetorno && !outroComRetorno && i == 0) {
+                        a.setDestaqueTop3("Melhor liquidez (" + prazoRotulo(a.getLiquidezDias()) + ") e maior retorno");
+                        a.setMotivoTop3(String.format(ptBR,
+                                "Combina %s ao maior retorno líquido projetado do Top 3 (%.2f%% a.a.).",
+                                prazoTexto(a.getLiquidezDias()), a.getRetornoLiquido()));
+                    } else {
+                        a.setDestaqueTop3("Melhor liquidez (" + prazoRotulo(a.getLiquidezDias()) + ")");
+                        a.setMotivoTop3(String.format(ptBR,
+                                "Menor prazo de resgate entre as líderes (%s), mantendo retorno líquido de %.2f%% a.a. e risco %d.",
+                                prazoTexto(a.getLiquidezDias()), a.getRetornoLiquido(), a.getRisco()));
+                    }
+                }
+                case RETORNO -> {
+                    a.setDestaqueTop3(String.format(ptBR, "Maior retorno líquido (%.2f%% a.a.)", a.getRetornoLiquido()));
+                    a.setMotivoTop3(String.format(ptBR,
+                            "Entrega o maior saldo líquido projetado do Top 3 (R$ %,.2f), com resgate em %s e risco %d.",
+                            a.getValorFinal(), prazoRotulo(a.getLiquidezDias()), a.getRisco()));
+                }
+                case RISCO_VOL -> {
+                    a.setDestaqueTop3(String.format(ptBR, "Menor risco e volatilidade (%.2f%% a.a.)", a.getVolatilidade()));
+                    a.setMotivoTop3(String.format(ptBR,
+                            "Alternativa mais estável do Top 3 (risco %d e volatilidade de %.2f%% a.a.), com retorno líquido de %.2f%% a.a.",
+                            a.getRisco(), a.getVolatilidade(), a.getRetornoLiquido()));
+                }
+                case TRIBUTACAO -> {
+                    a.setDestaqueTop3(a.getProduto().isIsentoIr()
+                            ? "Maior eficiência tributária (Isento de IR)"
+                            : String.format(ptBR, "Menor carga tributária (%.1f%%)", a.getCargaTributaria()));
+                    a.setMotivoTop3(String.format(ptBR,
+                            "Menor retenção tributária efetiva no horizonte (%.1f%%), aliada a resgate em %s e retorno líquido de %.2f%% a.a.",
+                            a.getCargaTributaria(), prazoRotulo(a.getLiquidezDias()), a.getRetornoLiquido()));
+                }
+                case EQUILIBRIO -> {
+                    String titulo = i == 0
+                            ? String.format(ptBR, "Melhor equilíbrio geral (%.1f/100)", a.getScore())
+                            : String.format(ptBR, "Equilíbrio entre retorno (%.2f%% a.a.) e %s",
+                                    a.getRetornoLiquido(), a.getRisco() <= 2 ? "baixo risco" : "risco " + a.getRisco());
+                    if (!titulosUsados.add(titulo)) {
+                        titulo = String.format(ptBR, "%dª melhor pontuação multicritério (%.1f/100)", i + 1, a.getScore());
+                    }
+                    a.setDestaqueTop3(titulo);
+                    a.setMotivoTop3(String.format(ptBR,
+                            "Sustenta posição no Top 3 pelo equilíbrio conjunto no índice SAW (%.1f/100): retorno líquido de %.2f%% a.a., risco %d (volatilidade %.2f%%) e resgate em %s.",
+                            a.getScore(), a.getRetornoLiquido(), a.getRisco(), a.getVolatilidade(), prazoRotulo(a.getLiquidezDias())));
+                }
+            }
+            titulosUsados.add(a.getDestaqueTop3());
+        }
+    }
+
+    private static CriterioTop3[] atribuirCriteriosDistintos(
+            List<AvaliacaoProduto> top, int minLiq, int maxLiq, double maxRet, double minRet,
+            int minRisco, int maxRisco, double minVol, double maxVol, double minCarga, double maxCarga) {
+        int n = top.size();
+        double[][] matriz = new double[n][4];
+        CriterioTop3[] principais = {CriterioTop3.LIQUIDEZ, CriterioTop3.RETORNO, CriterioTop3.RISCO_VOL, CriterioTop3.TRIBUTACAO};
+
+        for (int i = 0; i < n; i++) {
+            AvaliacaoProduto a = top.get(i);
+            boolean ehLiq = a.getLiquidezDias() == minLiq;
+            boolean ehRet = a.getRetornoLiquido() >= maxRet - 1e-6;
+            boolean ehRisco = a.getRisco() == minRisco && a.getVolatilidade() <= minVol + 1e-4;
+            boolean ehTrib = a.getCargaTributaria() <= minCarga + 1e-4
+                    && (maxCarga - minCarga >= 0.05 || a.getProduto().isIsentoIr());
+
+            matriz[i][0] = ehLiq ? (maxLiq > minLiq ? 30.0 : 8.0) : -1;
+            matriz[i][1] = ehRet ? (maxRet - minRet >= 0.01 ? 32.0 : 9.0) : -1;
+            matriz[i][2] = ehRisco ? ((maxRisco > minRisco || maxVol - minVol >= 0.01) ? 28.0 : 7.0) : -1;
+            matriz[i][3] = ehTrib ? 26.0 : -1;
+        }
+
+        // Busca a atribuição sem repetição que maximiza a especificidade dos destaques.
+        CriterioTop3[] melhor = new CriterioTop3[n];
+        double[] melhorPontuacao = {-1.0};
+        CriterioTop3[] atual = new CriterioTop3[n];
+        buscarMelhorAtribuicao(0, n, matriz, principais, new boolean[4], atual, 0.0, melhor, melhorPontuacao);
+        return melhor;
+    }
+
+    private static void buscarMelhorAtribuicao(int idx, int n, double[][] matriz, CriterioTop3[] principais,
+                                               boolean[] usados, CriterioTop3[] atual, double soma,
+                                               CriterioTop3[] melhor, double[] melhorPontuacao) {
+        if (idx == n) {
+            if (soma > melhorPontuacao[0]) {
+                melhorPontuacao[0] = soma;
+                System.arraycopy(atual, 0, melhor, 0, n);
+            }
+            return;
+        }
+        for (int c = 0; c < 4; c++) {
+            if (!usados[c] && matriz[idx][c] > 0) {
+                usados[c] = true;
+                atual[idx] = principais[c];
+                buscarMelhorAtribuicao(idx + 1, n, matriz, principais, usados, atual,
+                        soma + matriz[idx][c], melhor, melhorPontuacao);
+                usados[c] = false;
+            }
+        }
+        atual[idx] = CriterioTop3.EQUILIBRIO;
+        buscarMelhorAtribuicao(idx + 1, n, matriz, principais, usados, atual, soma + 1.0, melhor, melhorPontuacao);
+    }
+
+    private static String prazoRotulo(int dias) {
+        return dias <= 0 ? "D+0" : "D+" + dias;
+    }
+
+    private static String prazoTexto(int dias) {
+        return dias <= 0 ? "liquidez imediata (D+0)" : "resgate em D+" + dias;
     }
 
     private ResultadoTributario calcularTributoOtimo(Produto produto, Cliente cliente, double valorBruto,

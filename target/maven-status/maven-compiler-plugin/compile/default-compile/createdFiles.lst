@@ -21,6 +21,7 @@ br\com\investdecide\config\SecurityConfig.class
 br\com\investdecide\servico\DadosMercadoService$FundoReal.class
 br\com\investdecide\dominio\TipoProduto.class
 br\com\investdecide\servico\Csv.class
+br\com\investdecide\servico\DecisaoService$CriterioTop3.class
 br\com\investdecide\servico\RelatorioTributarioService.class
 br\com\investdecide\servico\SimulacaoSalvaService$ResumoSimulacao.class
 br\com\investdecide\web\SimulacaoController.class

@@ -203,12 +203,25 @@
 .hero-values span{display:block;font-size:8px;color:#a9bcd2;text-transform:uppercase;letter-spacing:.4px}
 .hero-values strong{display:block;font-size:12px;color:#fff;margin-top:3px;font-family:var(--display)}
 .hero-note{margin-top:14px;font-size:9px;line-height:1.55;color:#c8d6e6;background:rgba(255,255,255,.07);border-radius:8px;padding:9px 11px}
-.top3-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:16px}
-.top3-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px}
-.top3-card .pos{font-size:8px;font-weight:800;color:#8f9bab;letter-spacing:.6px;display:flex;justify-content:space-between}
-.top3-card h3{font-size:11px;margin:7px 0 3px;color:#2c3d55}
-.top3-card p{margin:0;font-size:8.5px;color:#8f9bab;line-height:1.5}
-.top3-card .val{font-family:var(--display);font-size:15px;color:#203c66;margin-top:9px;display:block}
+.top3-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:18px;align-items:stretch}
+.top3-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px 22px;display:flex;flex-direction:column}
+.top3-card .pos{font-size:11px;font-weight:800;letter-spacing:.5px;display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.top3-card .pos-rank{color:#203c66;background:#eef4fc;padding:4px 10px;border-radius:6px;letter-spacing:.5px}
+.top3-card.top-lead .pos-rank{background:#dff5ee;color:#146c56}
+.top3-card .pos-score{font-size:11.5px;padding:4px 10px;font-weight:700;color:#2c3d55}
+.top3-card h3{font-size:15.5px;font-weight:700;line-height:1.35;margin:10px 0 4px;color:#1d2d44}
+.top3-reason-box{margin:10px 0 12px;padding:11px 13px;border-radius:10px;background:#f3f7fd;border-left:4px solid #203c66}
+.top3-card.top-lead .top3-reason-box{background:#ebf9f4;border-left-color:#269c80}
+.top3-reason-title{display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:800;color:#1b3557;margin-bottom:4px}
+.top3-card.top-lead .top3-reason-title{color:#136a54}
+.top3-reason-box .top3-reason-text{font-size:11.5px;color:#334155;line-height:1.5;margin:0}
+.top3-val-block{margin-top:4px;padding:10px 12px;background:#f8fafc;border:1px solid #e9eef5;border-radius:10px}
+.top3-val-label{display:block;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:#64748b}
+.top3-card .val{font-family:var(--display);font-size:20px;font-weight:800;color:#203c66;margin-top:2px;display:block}
+.top3-metrics-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:10px 0;padding:9px 10px;border:1px solid #edf2f7;border-radius:9px;background:#fff}
+.top3-metric span{display:block;font-size:9.5px;color:#7b8798;text-transform:uppercase;letter-spacing:.3px}
+.top3-metric strong{display:flex;align-items:center;flex-wrap:wrap;gap:4px;font-size:12px;color:#1e2e43;margin-top:2px;font-weight:700}
+.top3-metric .liq-badge{margin-left:0}
 .cluster-block{background:#fff;border:1px solid var(--line);border-radius:12px;margin-bottom:14px;overflow:hidden}
 .cluster-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
 .cluster-head h3{margin:0;font-size:11px;color:#2c3d55}
@@ -253,18 +266,15 @@
 /* ==========================================================================
    Fase 3 — shortlist de alternativas e exportação em PDF
    ========================================================================== */
-.shortlist-card{padding:18px 20px 16px}
-.shortlist-card .section-header{margin-bottom:14px}
-.shortlist-type{font-size:8.5px;color:#8f9bab;margin:2px 0 0}
-.shortlist-metrics{font-size:8.5px;color:#4a5a70;margin:8px 0 0;line-height:1.5}
-.shortlist-why{font-size:8.5px;color:#7b8798;line-height:1.5;margin:6px 0 0;flex:1}
-.shortlist-caveat{font-size:8px;color:#a3803f;line-height:1.45;margin:6px 0 0}
-.shortlist-note{display:flex;gap:8px;margin-top:14px;padding:9px 11px;background:#f7f9fc;border:1px solid #edf1f6;border-radius:9px;font-size:8.5px;color:#6b7a8d;line-height:1.55}
+.shortlist-card{padding:20px 22px 18px}
+.shortlist-card .section-header{margin-bottom:16px}
+.shortlist-type{font-size:11.5px;color:#64748b;margin:0 0 6px}
+.shortlist-metrics{font-size:11px;color:#4a5a70;margin:8px 0 0;line-height:1.5}
+.shortlist-why{font-size:11px;color:#4a5a70;line-height:1.55;margin:6px 0 0;flex:1}
+.shortlist-caveat{font-size:10.5px;color:#9a6b26;line-height:1.5;margin:8px 0 0;padding-top:8px;border-top:1px dashed #e6ecf2}
+.shortlist-note{display:flex;gap:8px;margin-top:14px;padding:9px 11px;background:#f7f9fc;border:1px solid #edf1f6;border-radius:9px;font-size:10px;color:#6b7a8d;line-height:1.55}
 .shortlist-note i{color:#527ab8;margin-top:1px;flex-shrink:0}
-.shortlist-robustez{display:flex;flex-direction:column;gap:5px;margin-top:10px;font-size:8.5px;color:#8f9bab;line-height:1.5}
-.top3-grid{align-items:stretch}
-.top3-card{display:flex;flex-direction:column}
-.top3-card h3{font-size:11px}
+.shortlist-robustez{display:flex;flex-direction:column;gap:5px;margin-top:10px;font-size:10.5px;color:#64748b;line-height:1.5}
 @media print{
   .shortlist-card{break-inside:avoid}
   .shortlist-note{background:#f4f6f9}

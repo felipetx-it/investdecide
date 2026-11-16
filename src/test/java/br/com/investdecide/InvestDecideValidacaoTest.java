@@ -248,6 +248,8 @@ class InvestDecideValidacaoTest {
             "Caixa de alerta de liquidez/banco deve ser removida do dashboard");
         assertFalse(dashHtml.contains("come-cotas semestral ativo"),
             "Texto de alerta come-cotas/simulacoes deve ser removido do dashboard");
+        assertFalse(dashHtml.contains("Histórico persistido no banco H2"),
+            "Subtitulo Historico persistido no banco H2 deve ser removido de Minhas simulacoes salvas");
 
         MvcResult simGet = mockMvc.perform(get("/simulacao").session(session))
             .andExpect(status().isOk())
@@ -298,9 +300,27 @@ class InvestDecideValidacaoTest {
             "Sigla SAW deve ser removida do titulo Top 8");
         assertTrue(resHtml.contains("/relatorios/tributacao"),
             "Botao de relatorio tributario deve constar no topo do resultado");
+        assertTrue(resHtml.contains("Simulação para Ricardo Almeida"),
+            "Titulo do resultado deve exibir Simulacao para <cliente>");
+        assertFalse(resHtml.contains("Recomendação para Ricardo Almeida"),
+            "Titulo Recomendacao para <cliente> deve ser substituido por Simulacao para <cliente>");
         ResultadoDecisao resPers = (ResultadoDecisao) persRes.getRequest().getSession(false).getAttribute("resultado");
         assertNotNull(resPers);
         assertEquals("Personalizado", resPers.getCenario().getNome());
+        List<AvaliacaoProduto> top3Res = resPers.getRanking().subList(0, Math.min(3, resPers.getRanking().size()));
+        assertEquals(3, top3Res.size(), "Deve haver 3 alternativas no Top 3");
+        for (AvaliacaoProduto item : top3Res) {
+            assertNotNull(item.getDestaqueTop3());
+            assertFalse(item.getDestaqueTop3().isBlank(), "Destaque Top 3 nao pode ser vazio");
+            assertNotNull(item.getMotivoTop3());
+            assertFalse(item.getMotivoTop3().isBlank(), "Motivo Top 3 nao pode ser vazio");
+            assertTrue(resHtml.contains(item.getDestaqueTop3()),
+                "Tela de resultado deve exibir o destaque do Top 3: " + item.getDestaqueTop3());
+            assertTrue(resHtml.contains(item.getMotivoTop3()),
+                "Tela de resultado deve exibir o motivo do Top 3: " + item.getMotivoTop3());
+        }
+        assertEquals(3, top3Res.stream().map(AvaliacaoProduto::getDestaqueTop3).distinct().count(),
+            "Cada alternativa do Top 3 deve exibir motivo de destaque distinto");
 
         mockMvc.perform(get("/simulacao/ranking").session(session))
             .andExpect(status().isOk());

@@ -18,7 +18,7 @@
                 <div>
                     <div class="date-line"><a th:href="@{/dashboard}">Dashboard</a><i class="bi bi-chevron-right"></i>
                         <a th:href="@{/simulacao}">Simulação</a><i class="bi bi-chevron-right"></i> RESULTADO</div>
-                    <h1 th:text="|Recomendação para ${cliente.nome}|">Recomendação</h1>
+                    <h1 th:text="|Simulação para ${cliente.nome}|">Simulação</h1>
                     <p th:text="|Aporte de R$ ${#numbers.formatDecimal(cliente.aporte,1,'POINT',2,'COMMA')} · horizonte de ${cliente.horizonteMeses} meses · cenário ${resultado.cenario.nome}|">Resumo</p>
                 </div>
                 <div class="heading-actions">
@@ -58,18 +58,47 @@
                     </div>
                     <div class="top3-grid">
                         <article class="top3-card" th:each="item, iter : ${destaques}" th:classappend="${iter.index == 0} ? ' top-lead' : ''">
-                            <div class="pos"><span th:text="|${iter.index + 1}º|">1º</span>
-                                <span class="badge-soft" th:text="|${#numbers.formatDecimal(item.score,1,'POINT',1,'COMMA')} pts|">0</span></div>
+                            <div class="pos">
+                                <span class="pos-rank" th:text="|${iter.index + 1}ª OPÇÃO|">1ª OPÇÃO</span>
+                                <span class="badge-soft pos-score" th:text="|Índice ${#numbers.formatDecimal(item.score,1,'POINT',1,'COMMA')}/100|">0</span>
+                            </div>
                             <h3 th:text="${item.nome}">Produto</h3>
                             <p class="shortlist-type" th:text="|${item.tipoRotulo} · ${item.remuneracao}|">Tipo</p>
                             <div class="score-progress"><span th:style="|width:${item.score}%|"></span></div>
-                            <span class="val" th:text="|R$ ${#numbers.formatDecimal(item.valorFinal,1,'POINT',2,'COMMA')}|">R$ 0</span>
-                            <p class="shortlist-metrics" th:title="${item.liquidezTexto}">
-                                <span th:text="|Retorno líquido ${#numbers.formatDecimal(item.retornoLiquido,1,'POINT',2,'COMMA')}% a.a. · risco ${item.risco} · ${item.liquidezDias == 0 ? 'D+0' : 'D+' + item.liquidezDias}|">Métricas</span>
-                                <span class="liq-badge liq-xp" th:if="${item.liquidezFonte == 'XP'}" th:text="'XP'">XP</span>
-                                <span class="liq-badge liq-cvm" th:if="${item.liquidezFonte == 'CVM'}" th:text="'CVM'">CVM</span>
-                                <span class="liq-badge liq-est" th:if="${item.liquidezEstimada}" th:text="'Estimada'">Estimada</span>
-                            </p>
+
+                            <div class="top3-reason-box">
+                                <div class="top3-reason-title">
+                                    <i class="bi bi-award-fill"></i>
+                                    <span th:text="${item.destaqueTop3}">Destaque no Top 3</span>
+                                </div>
+                                <p class="top3-reason-text" th:text="${item.motivoTop3}">Motivo de destaque</p>
+                            </div>
+
+                            <div class="top3-val-block">
+                                <span class="top3-val-label">Saldo líquido projetado</span>
+                                <span class="val" th:text="|R$ ${#numbers.formatDecimal(item.valorFinal,1,'POINT',2,'COMMA')}|">R$ 0</span>
+                            </div>
+
+                            <div class="top3-metrics-row" th:title="${item.liquidezTexto}">
+                                <div class="top3-metric">
+                                    <span>Retorno líq.</span>
+                                    <strong th:text="|${#numbers.formatDecimal(item.retornoLiquido,1,'POINT',2,'COMMA')}% a.a.|">0%</strong>
+                                </div>
+                                <div class="top3-metric">
+                                    <span>Risco</span>
+                                    <strong th:text="|Nível ${item.risco}|">1</strong>
+                                </div>
+                                <div class="top3-metric">
+                                    <span>Liquidez</span>
+                                    <strong>
+                                        <span th:text="${item.liquidezDias == 0 ? 'D+0' : 'D+' + item.liquidezDias}">D+0</span>
+                                        <span class="liq-badge liq-xp" th:if="${item.liquidezFonte == 'XP'}">XP</span>
+                                        <span class="liq-badge liq-cvm" th:if="${item.liquidezFonte == 'CVM'}">CVM</span>
+                                        <span class="liq-badge liq-est" th:if="${item.liquidezEstimada}">Est.</span>
+                                    </strong>
+                                </div>
+                            </div>
+
                             <p class="shortlist-why" th:text="${item.justificativa}">Justificativa</p>
                             <p class="shortlist-caveat" th:text="${item.ressalva}">Ressalva</p>
                         </article>
