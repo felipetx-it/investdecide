@@ -25,6 +25,19 @@ mvn spring-boot:run
 
 Acesse `http://localhost:8080` 
 
+> **Primeira execução a partir de um clone limpo:** o banco H2 é criado vazio e as contas de
+> demonstração só existem quando a senha é informada. Para entrar, crie uma conta em
+> `/cadastro` ou defina as variáveis antes de subir o sistema:
+>
+> ```powershell
+> $env:INVESTDECIDE_SEED_CONSULTOR_SENHA="defina-uma-senha"
+> $env:INVESTDECIDE_SEED_ANALISTA_SENHA="defina-uma-senha"
+> mvn spring-boot:run
+> ```
+>
+> As contas de seed são criadas apenas se ainda não existirem; se o banco já tiver a conta,
+> a senha informada é ignorada.
+
 ## Autenticação e persistência multiusuário
 
 - Login por e-mail e senha em `/login` e criação de novas contas em `/cadastro` (Spring Security, BCrypt, sessão + CSRF).

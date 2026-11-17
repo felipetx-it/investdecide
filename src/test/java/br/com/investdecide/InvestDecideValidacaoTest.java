@@ -52,9 +52,9 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 
 @SpringBootTest(properties = {
         "spring.datasource.url=jdbc:h2:mem:investdecide-test;DB_CLOSE_DELAY=-1",
-        "investdecide.seed.consultor.senha=Invest@2026",
-        "investdecide.seed.analista.senha=Analista@2026",
-        "investdecide.seed.teste.senha=3u@Ygz9wmqwr8NYCmnPuG@d%h"
+        "investdecide.seed.consultor.senha=TesteLocal#Consultor1",
+        "investdecide.seed.analista.senha=TesteLocal#Analista2",
+        "investdecide.seed.teste.senha=TesteLocal#Avaliador3"
 })
 @AutoConfigureMockMvc
 class InvestDecideValidacaoTest {
@@ -94,7 +94,7 @@ class InvestDecideValidacaoTest {
     }
 
     private MockHttpSession autenticar() throws Exception {
-        return autenticarComo("consultor@investdecide.com.br", "Invest@2026");
+        return autenticarComo("consultor@investdecide.com.br", "TesteLocal#Consultor1");
     }
 
     private MockHttpSession autenticarComo(String email, String senha) throws Exception {
@@ -565,7 +565,7 @@ class InvestDecideValidacaoTest {
                 "Nova simulacao nao pode sobrescrever o PDF tributario historico anterior");
 
             // Verifica conta virgem teste@investdecide.com.br (sem simulacoes, relatorios, produtos nem cliente em foco)
-            MockHttpSession sessionVirgem = autenticarComo(emailVirgem, "3u@Ygz9wmqwr8NYCmnPuG@d%h");
+            MockHttpSession sessionVirgem = autenticarComo(emailVirgem, "TesteLocal#Avaliador3");
             MvcResult dashVirgem = mockMvc.perform(get("/dashboard").session(sessionVirgem))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -673,10 +673,10 @@ class InvestDecideValidacaoTest {
         Path readme = Path.of("README.md");
         assertTrue(Files.exists(readme), "README.md deve existir na raiz de investdecide-prototipo");
         String texto = Files.readString(readme, StandardCharsets.UTF_8);
-        assertFalse(texto.contains("Invest@2026"), "README.md nao deve expor senha");
+        assertFalse(texto.contains("TesteLocal#Consultor1"), "README.md nao deve expor senha");
         assertFalse(texto.contains("consultor@investdecide.com.br"), "README.md nao deve expor usuario de login");
         assertFalse(texto.contains("teste@investdecide.com.br"), "README.md nao deve expor usuario de teste");
-        assertFalse(texto.contains("3u@Ygz9wmqwr8NYCmnPuG@d%h"), "README.md nao deve expor senha de teste");
+        assertFalse(texto.contains("TesteLocal#Avaliador3"), "README.md nao deve expor senha de teste");
     }
 
     @Test

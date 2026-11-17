@@ -10,6 +10,7 @@ WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 COPY data/processed ./data/processed
 COPY data/cenarios.json ./data/cenarios.json
+COPY data/produtos-manuais.json ./data/produtos-manuais.json
 RUN mkdir -p /app/data/db
 ENV PORT=8080
 EXPOSE 8080

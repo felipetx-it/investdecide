@@ -1,6 +1,0 @@
-<header th:fragment="topbar(pageTitle, pageSubtitle)" class="topbar">
-    <div class="crumbs"><span>InvestDecide</span><i class="bi bi-chevron-right"></i><strong th:text="${pageTitle}">Página</strong></div>
-    <div class="topbar-right">
-        <div class="top-avatar" th:text="${usuarioAtual != null ? usuarioAtual.iniciais : 'MC'}" th:title="${usuarioAtual != null ? usuarioAtual.email : ''}">MC</div>
-    </div>
-</header>
