@@ -10,10 +10,19 @@ alternativas** com justificativa, ressalvas e teste de robustez.
 
 ## Como executar
 
-Pré-requisitos: JDK 17+, Maven 3.6+ e Python 3.10+ (apenas para atualizar a base).
+Pré-requisitos: JDK 17+, Maven 3.6+ e (opcional) Python 3.10+ apenas se desejar atualizar a base em `data/processed`.
+
+Os arquivos tratados da base (CVM, BCB e liquidez XP) já acompanham o repositório em `data/processed/`, permitindo subir o sistema diretamente com Maven:
 
 ```bash
-# 1. base de dados (CVM + BCB). Rode uma vez; os arquivos ficam em data/processed
+# execução direta com a base já versionada em data/processed
+mvn spring-boot:run
+```
+
+Caso queira reprocessar ou atualizar a base a partir das fontes públicas:
+
+```bash
+# 1. base de dados (CVM + BCB); os arquivos ficam em data/processed
 python scripts/cvm_xp.py --lista caminho/para/fundos-xp.txt --meses 12
 
 # 2. liquidez de resgate no portal de fundos da XP (grava liquidez_fundos.csv)
@@ -23,7 +32,7 @@ python scripts/xp_liquidez.py
 mvn spring-boot:run
 ```
 
-Acesse `http://localhost:8080` 
+Acesse `http://localhost:8080`
 
 > **Primeira execução a partir de um clone limpo:** o banco H2 é criado vazio e as contas de
 > demonstração só existem quando a senha é informada. Para entrar, crie uma conta em
@@ -100,7 +109,7 @@ Saídas em `data/processed/`: `catalogo_fundos.csv`, `fundos_mensal.csv`, `fundo
 | Rota | Tela |
 |---|---|
 | `/login` e `/cadastro` | Autenticação e criação de conta multiusuário |
-| `/dashboard` | Panorama do cliente padrão, simulações salvas, grupos e gráficos |
+| `/dashboard` | Panorama da última simulação executada ou reaberta, simulações salvas, grupos e gráficos |
 | `/simulacao` e `/simulacao/salva/{id}` | Formulário do cliente, reabertura de simulações e execução do cálculo |
 | `POST /simulacao` | Calcula e persiste o resultado por cenário |
 | `/simulacao/ranking` | Ranking completo, com ordenação e grupos |
@@ -116,9 +125,11 @@ Saídas em `data/processed/`: `catalogo_fundos.csv`, `fundos_mensal.csv`, `fundo
 ## Relatórios em PDF
 
 Gerados no servidor com **OpenPDF** (`com.github.librepdf:openpdf:1.3.30`) em layout executivo voltado ao
-envio para clientes finais: cabeçalho institucional, cartões de KPI, tabelas com destaque para a shortlist,
-**4 gráficos vetoriais nativos** (Top 8 SAW, comparativo tributário com come-cotas, premissas macroeconômicas
-por cenário e impacto patrimonial no horizonte), cabeçalho repetido na quebra de página e rodapé numerado.
+envio para clientes finais e persistidos como retratos imutáveis na tabela `relatorios_gerados`: cabeçalho
+institucional, cartões de KPI, tabelas com destaque para a shortlist, **7 gráficos vetoriais nativos**
+(Top 8 SAW e projeção de saldo do Top 3 no comparativo; barras de comparação e evolução mensal com PGBL e
+reinvestimento no tributário; premissas macroeconômicas, barras de patrimônio por cenário e evolução mensal
+na sensibilidade), cabeçalho repetido na quebra de página e rodapé numerado.
 
 ## Estrutura
 
